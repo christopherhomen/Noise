@@ -2,7 +2,7 @@
 // CONFIGURACIÓN
 // ============================================
 const CONFIG = {
-    whatsappNumber: '573164212929', // Número de WhatsApp
+    whatsappNumber: '573164212929', // Número de WhatsApp (Colombia: 57 + 3164212929)
     animationDelay: 50, // Delay entre animaciones de cards (ms)
     loadingDuration: 1200, // Duración del loading (ms)
     parallaxSpeed: 0.5 // Velocidad del efecto parallax
@@ -301,9 +301,14 @@ function initWhatsAppButton() {
     
     // Actualizar el href con el número configurado
     const currentHref = whatsappBtn.getAttribute('href');
-    if (currentHref && CONFIG.whatsappNumber !== '1234567890') {
+    if (currentHref) {
+        // Reemplazar cualquier número en el href con el número configurado
         const newHref = currentHref.replace(/wa\.me\/\d+/, `wa.me/${CONFIG.whatsappNumber}`);
         whatsappBtn.setAttribute('href', newHref);
+    } else {
+        // Si no hay href, crear uno nuevo
+        const message = encodeURIComponent('Hola, me interesa conocer más sobre Noise');
+        whatsappBtn.setAttribute('href', `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`);
     }
     
     // Efecto de hover mejorado
