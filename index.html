@@ -31,7 +31,17 @@
             <div class="nav-links" id="navLinks">
                 <a href="#inicio" class="nav-link">Inicio</a>
                 <a href="#productos" class="nav-link">Productos</a>
+                <a href="#lookbook" class="nav-link">Lookbook</a>
                 <a href="#sobre" class="nav-link">Sobre Nosotros</a>
+            </div>
+            <div class="header-actions">
+                <button class="search-toggle" id="searchToggle" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="favorites-toggle" id="favoritesToggle" aria-label="Favoritos">
+                    <i class="far fa-heart"></i>
+                    <span class="favorites-count" id="favoritesCount">0</span>
+                </button>
             </div>
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
                 <span></span>
@@ -68,6 +78,17 @@
         </div>
     </section>
 
+    <!-- Search Bar -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar camisetas, frases, memes...">
+            <button class="search-close" id="searchClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
     <!-- Productos Section -->
     <section id="productos" class="products-section">
         <div class="container">
@@ -78,8 +99,46 @@
                 </p>
             </div>
             
+            <!-- Filtros -->
+            <div class="filters-container">
+                <button class="filter-btn active" data-filter="all">
+                    <span>Todas</span>
+                </button>
+                <button class="filter-btn" data-filter="memes">
+                    <span>Memes</span>
+                </button>
+                <button class="filter-btn" data-filter="empoderamiento">
+                    <span>Empoderamiento</span>
+                </button>
+                <button class="filter-btn" data-filter="pop">
+                    <span>Referencias Pop</span>
+                </button>
+                <button class="filter-btn" data-filter="graciosas">
+                    <span>Graciosas</span>
+                </button>
+            </div>
+            
             <div class="products-grid" id="productGrid">
                 <!-- Las camisetas se cargarán dinámicamente con JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lookbook Section -->
+    <section id="lookbook" class="lookbook-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">LOOKBOOK</h2>
+                <p class="section-subtitle">
+                    Inspírate con nuestros looks. Únete a la comunidad Noise.
+                </p>
+            </div>
+            <div class="lookbook-grid" id="lookbookGrid">
+                <!-- Se llenará con JavaScript o puedes añadir imágenes manualmente -->
+                <div class="lookbook-placeholder">
+                    <i class="fas fa-camera"></i>
+                    <p>Próximamente: Fotos de la comunidad Noise</p>
+                </div>
             </div>
         </div>
     </section>
@@ -116,6 +175,50 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal de Vista Rápida -->
+    <div class="quick-view-modal" id="quickViewModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="modalBody">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Favoritos Sidebar -->
+    <div class="favorites-sidebar" id="favoritesSidebar">
+        <div class="sidebar-header">
+            <h3>Mis Favoritos</h3>
+            <button class="sidebar-close" id="sidebarClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content" id="favoritesContent">
+            <p class="empty-favorites">No tienes favoritos aún</p>
+        </div>
+    </div>
+
+    <!-- Newsletter Popup -->
+    <div class="newsletter-popup" id="newsletterPopup">
+        <div class="popup-content">
+            <button class="popup-close" id="popupClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="popup-body">
+                <h3>¡Únete a Noise!</h3>
+                <p>Obtén <strong>10% de descuento</strong> en tu primera compra</p>
+                <form id="newsletterForm" class="newsletter-form">
+                    <input type="email" placeholder="Tu email" required>
+                    <button type="submit">Suscribirme</button>
+                </form>
+                <p class="popup-note">Al suscribirte aceptas recibir ofertas exclusivas</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Botón de WhatsApp -->
     <a href="https://wa.me/573164212929?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20Noise" 

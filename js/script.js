@@ -69,6 +69,29 @@ const tshirtQuotes = [
     "Stay Loud"
 ];
 
+// Categorías de productos
+const productCategories = [
+    'empoderamiento', 'pop', 'empoderamiento', 'empoderamiento', 'graciosas',
+    'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
+    'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
+    'graciosas', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
+    'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
+    'graciosas'
+];
+
+// Badges de productos (algunos productos tendrán badges especiales)
+const productBadges = [
+    null, 'new', null, 'bestseller', null,
+    null, null, 'limited', null, null,
+    null, null, null, null, null,
+    null, null, null, null, null,
+    null, null, null, null, null,
+    null
+];
+
+// Sistema de favoritos
+let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
+
 // ============================================
 // FUNCIONES DE PRODUCTOS
 // ============================================
@@ -91,10 +114,37 @@ function createTshirtCard(imagePath, index) {
     // Contenedor principal
     const card = document.createElement('div');
     card.className = 'tshirt-card';
+    card.dataset.category = productCategories[index] || 'empoderamiento';
+    card.dataset.index = index;
     
     // Contenedor de imagen
     const imageContainer = document.createElement('div');
     imageContainer.className = 'tshirt-image-container';
+    
+    // Badge del producto
+    if (productBadges[index]) {
+        const badge = document.createElement('div');
+        badge.className = `product-badge ${productBadges[index]}`;
+        badge.textContent = productBadges[index] === 'new' ? 'Nuevo' : 
+                           productBadges[index] === 'bestseller' ? 'Más Vendido' : 
+                           productBadges[index] === 'limited' ? 'Limitado' : '';
+        imageContainer.appendChild(badge);
+    }
+    
+    // Botón de favoritos
+    const favoriteBtn = document.createElement('button');
+    favoriteBtn.className = 'favorite-btn';
+    favoriteBtn.setAttribute('aria-label', 'Agregar a favoritos');
+    favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+    if (favorites.includes(index)) {
+        favoriteBtn.classList.add('active');
+        favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+    }
+    favoriteBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleFavorite(index);
+    };
+    imageContainer.appendChild(favoriteBtn);
     
     const img = document.createElement('img');
     img.src = imagePath;
@@ -132,6 +182,16 @@ function createTshirtCard(imagePath, index) {
     overlayContent.appendChild(price);
     overlay.appendChild(overlayContent);
     
+    // Botón de vista rápida
+    const quickViewBtn = document.createElement('button');
+    quickViewBtn.className = 'quick-view-btn';
+    quickViewBtn.textContent = 'Vista Rápida';
+    quickViewBtn.onclick = (e) => {
+        e.stopPropagation();
+        openQuickView(index);
+    };
+    imageContainer.appendChild(quickViewBtn);
+    
     imageContainer.appendChild(img);
     imageContainer.appendChild(overlay);
     
@@ -153,6 +213,9 @@ function openWhatsApp(productName) {
     const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
 }
+
+// Hacer función global
+window.openWhatsApp = openWhatsApp;
 
 // ============================================
 // NAVEGACIÓN Y SCROLL
@@ -355,6 +418,362 @@ function updateWhatsAppNumber(phoneNumber) {
 }
 
 // ============================================
+// SISTEMA DE FAVORITOS
+// ============================================
+function toggleFavorite(index) {
+    const favoriteIndex = favorites.indexOf(index);
+    if (favoriteIndex > -1) {
+        favorites.splice(favoriteIndex, 1);
+    } else {
+        favorites.push(index);
+    }
+    localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
+    updateFavoritesUI();
+    updateFavoriteButton(index);
+}
+
+function updateFavoriteButton(index) {
+    const card = document.querySelector(`[data-index="${index}"]`);
+    if (!card) return;
+    const favoriteBtn = card.querySelector('.favorite-btn');
+    if (!favoriteBtn) return;
+    
+    if (favorites.includes(index)) {
+        favoriteBtn.classList.add('active');
+        favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+    } else {
+        favoriteBtn.classList.remove('active');
+        favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+    }
+}
+
+function updateFavoritesUI() {
+    const favoritesCount = document.getElementById('favoritesCount');
+    if (favoritesCount) {
+        favoritesCount.textContent = favorites.length;
+        favoritesCount.style.display = favorites.length > 0 ? 'flex' : 'none';
+    }
+    renderFavoritesSidebar();
+}
+
+function renderFavoritesSidebar() {
+    const favoritesContent = document.getElementById('favoritesContent');
+    if (!favoritesContent) return;
+    
+    if (favorites.length === 0) {
+        favoritesContent.innerHTML = '<p class="empty-favorites">No tienes favoritos aún</p>';
+        return;
+    }
+    
+    favoritesContent.innerHTML = favorites.map(index => {
+        const title = tshirtQuotes[index] || `Noise T-Shirt ${index + 1}`;
+        const imagePath = tshirtImages[index];
+        return `
+            <div class="favorite-item">
+                <div class="favorite-item-image">
+                    <img src="${imagePath}" alt="${title}">
+                </div>
+                <div class="favorite-item-info">
+                    <h4>${title}</h4>
+                    <button class="favorite-item-remove" onclick="removeFromFavorites(${index})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function removeFromFavorites(index) {
+    const favoriteIndex = favorites.indexOf(index);
+    if (favoriteIndex > -1) {
+        favorites.splice(favoriteIndex, 1);
+        localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
+        updateFavoritesUI();
+        updateFavoriteButton(index);
+    }
+}
+
+// Hacer función global para uso en HTML
+window.removeFromFavorites = removeFromFavorites;
+
+// ============================================
+// SISTEMA DE FILTROS
+// ============================================
+function initFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remover active de todos
+            filterButtons.forEach(b => b.classList.remove('active'));
+            // Añadir active al clickeado
+            btn.classList.add('active');
+            
+            const filter = btn.dataset.filter;
+            filterProducts(filter);
+        });
+    });
+}
+
+function filterProducts(category) {
+    const cards = document.querySelectorAll('.tshirt-card');
+    cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+            card.style.display = '';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 10);
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 300);
+        }
+    });
+}
+
+// ============================================
+// SISTEMA DE BÚSQUEDA
+// ============================================
+function initSearch() {
+    const searchToggle = document.getElementById('searchToggle');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchClose = document.getElementById('searchClose');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (!searchToggle || !searchOverlay) return;
+    
+    searchToggle.addEventListener('click', () => {
+        searchOverlay.classList.add('active');
+        setTimeout(() => searchInput?.focus(), 100);
+    });
+    
+    searchClose?.addEventListener('click', () => {
+        searchOverlay.classList.remove('active');
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+    });
+    
+    searchOverlay.addEventListener('click', (e) => {
+        if (e.target === searchOverlay) {
+            searchOverlay.classList.remove('active');
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+        }
+    });
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            performSearch(query);
+        });
+        
+        // Cerrar con ESC
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchOverlay.classList.remove('active');
+                searchInput.value = '';
+                searchResults.innerHTML = '';
+            }
+        });
+    }
+}
+
+function performSearch(query) {
+    const searchResults = document.getElementById('searchResults');
+    if (!searchResults) return;
+    
+    const results = [];
+    tshirtQuotes.forEach((quote, index) => {
+        if (quote.toLowerCase().includes(query)) {
+            results.push({ index, title: quote, image: tshirtImages[index] });
+        }
+    });
+    
+    if (results.length === 0) {
+        searchResults.innerHTML = '<p style="text-align: center; color: var(--text-gray); padding: 2rem;">No se encontraron resultados</p>';
+        return;
+    }
+    
+    searchResults.innerHTML = results.map(result => `
+        <div class="search-result-item" onclick="openQuickView(${result.index}); document.getElementById('searchOverlay').classList.remove('active');">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <img src="${result.image}" alt="${result.title}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                <div>
+                    <h4 style="margin-bottom: 0.25rem;">${result.title}</h4>
+                    <p style="color: var(--text-gray); font-size: 0.9rem;">Ver detalles</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============================================
+// VISTA RÁPIDA (QUICK VIEW)
+// ============================================
+function openQuickView(index) {
+    const modal = document.getElementById('quickViewModal');
+    const modalBody = document.getElementById('modalBody');
+    if (!modal || !modalBody) return;
+    
+    const title = tshirtQuotes[index] || `Noise T-Shirt ${index + 1}`;
+    const imagePath = tshirtImages[index];
+    const category = productCategories[index] || 'empoderamiento';
+    
+    modalBody.innerHTML = `
+        <div class="modal-image">
+            <img src="${imagePath}" alt="${title}">
+        </div>
+        <div class="modal-info">
+            <h2>${title}</h2>
+            <p class="modal-price">Consultar precio</p>
+            <div class="modal-sizes">
+                <h3>Talla</h3>
+                <div class="size-options">
+                    <button class="size-btn" data-size="S">S</button>
+                    <button class="size-btn" data-size="M">M</button>
+                    <button class="size-btn selected" data-size="L">L</button>
+                    <button class="size-btn" data-size="XL">XL</button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-action-btn primary" onclick="openWhatsApp('${title.replace(/'/g, "\\'")}'); closeQuickView();">
+                    Consultar por WhatsApp
+                </button>
+                <button class="modal-action-btn secondary" onclick="toggleFavorite(${index});">
+                    <i class="${favorites.includes(index) ? 'fas' : 'far'} fa-heart"></i> ${favorites.includes(index) ? 'En Favoritos' : 'Agregar a Favoritos'}
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Inicializar selector de tallas
+    const sizeButtons = modalBody.querySelectorAll('.size-btn');
+    sizeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            sizeButtons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        });
+    });
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Actualizar botón de favoritos después de renderizar
+    setTimeout(() => {
+        const favoriteBtn = modalBody.querySelector('.modal-action-btn.secondary');
+        if (favoriteBtn) {
+            favoriteBtn.addEventListener('click', () => {
+                toggleFavorite(index);
+                // Actualizar el botón
+                const isFavorite = favorites.includes(index);
+                favoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}`;
+            });
+        }
+    }, 100);
+}
+
+function closeQuickView() {
+    const modal = document.getElementById('quickViewModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Hacer funciones globales
+window.openQuickView = openQuickView;
+window.closeQuickView = closeQuickView;
+window.toggleFavorite = toggleFavorite;
+
+// ============================================
+// NEWSLETTER POPUP
+// ============================================
+function initNewsletterPopup() {
+    // Mostrar popup después de 3 segundos si no se ha cerrado antes
+    const popupShown = localStorage.getItem('newsletterPopupShown');
+    if (!popupShown) {
+        setTimeout(() => {
+            const popup = document.getElementById('newsletterPopup');
+            if (popup) {
+                popup.classList.add('active');
+            }
+        }, 3000);
+    }
+    
+    const popup = document.getElementById('newsletterPopup');
+    const popupClose = document.getElementById('popupClose');
+    const newsletterForm = document.getElementById('newsletterForm');
+    
+    if (popupClose) {
+        popupClose.addEventListener('click', () => {
+            popup.classList.remove('active');
+            localStorage.setItem('newsletterPopupShown', 'true');
+        });
+    }
+    
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            // Aquí puedes añadir lógica para enviar el email a tu servicio
+            alert(`¡Gracias por suscribirte! Te enviaremos ofertas exclusivas a ${email}`);
+            popup.classList.remove('active');
+            localStorage.setItem('newsletterPopupShown', 'true');
+            newsletterForm.reset();
+        });
+    }
+    
+    // Cerrar al hacer clic fuera
+    if (popup) {
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup || e.target.classList.contains('newsletter-popup')) {
+                popup.classList.remove('active');
+                localStorage.setItem('newsletterPopupShown', 'true');
+            }
+        });
+    }
+}
+
+// ============================================
+// FAVORITES SIDEBAR
+// ============================================
+function initFavoritesSidebar() {
+    const favoritesToggle = document.getElementById('favoritesToggle');
+    const favoritesSidebar = document.getElementById('favoritesSidebar');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    if (!favoritesToggle || !favoritesSidebar) return;
+    
+    favoritesToggle.addEventListener('click', () => {
+        favoritesSidebar.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+    
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', () => {
+            favoritesSidebar.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    // Cerrar al hacer clic fuera
+    favoritesSidebar.addEventListener('click', (e) => {
+        if (e.target === favoritesSidebar) {
+            favoritesSidebar.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// ============================================
 // MENÚ MÓVIL
 // ============================================
 function initMobileMenu() {
@@ -413,6 +832,13 @@ function init() {
     initHeaderScroll();
     initMobileMenu();
     
+    // Inicializar nuevas funcionalidades
+    initFilters();
+    initSearch();
+    initFavoritesSidebar();
+    initNewsletterPopup();
+    updateFavoritesUI();
+    
     // Inicializar efectos
     initParallax();
     createParticles();
@@ -430,6 +856,33 @@ function init() {
     
     // Manejo de errores
     handleImageErrors();
+    
+    // Cerrar modales con ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeQuickView();
+            const searchOverlay = document.getElementById('searchOverlay');
+            if (searchOverlay?.classList.contains('active')) {
+                searchOverlay.classList.remove('active');
+            }
+            const favoritesSidebar = document.getElementById('favoritesSidebar');
+            if (favoritesSidebar?.classList.contains('active')) {
+                favoritesSidebar.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    });
+    
+    // Cerrar modal al hacer clic en overlay
+    const modalOverlay = document.getElementById('modalOverlay');
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', closeQuickView);
+    }
+    
+    const modalClose = document.getElementById('modalClose');
+    if (modalClose) {
+        modalClose.addEventListener('click', closeQuickView);
+    }
     
     console.log('🚀 Noise website initialized successfully!');
 }
