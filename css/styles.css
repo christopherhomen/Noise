@@ -1,0 +1,1381 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@300;400;600;700&display=swap');
+
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-black: #000000;
+    --dark-bg: #0a0a0a;
+    --darker-bg: #050505;
+    --accent-white: #ffffff;
+    --accent-gray: #a0a0a0;
+    --text-gray: #888888;
+    --whatsapp-green: #25D366;
+    --whatsapp-dark: #128C7E;
+    --glow-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--primary-black);
+    color: var(--accent-white);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.font-bebas {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 0.05em;
+}
+
+.font-space {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-30px) rotate(5deg); 
+    }
+}
+
+@keyframes float-reverse {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(30px) rotate(-5deg); 
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(37, 211, 102, 0.4),
+                    0 0 40px rgba(37, 211, 102, 0.2);
+    }
+    50% { 
+        box-shadow: 0 0 30px rgba(37, 211, 102, 0.6),
+                    0 0 60px rgba(37, 211, 102, 0.4);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes spin {
+    to { 
+        transform: rotate(360deg); 
+    }
+}
+
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.animate-float {
+    animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+    animation: float-reverse 10s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-in {
+    animation: slideInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.6s ease-out forwards;
+}
+
+/* ============================================
+   LOADING OVERLAY
+   ============================================ */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loading-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-white);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 24px;
+    letter-spacing: 0.2em;
+    color: var(--accent-white);
+    opacity: 0.8;
+}
+
+/* ============================================
+   HEADER & NAVIGATION
+   ============================================ */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
+}
+
+header.scrolled {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.95) 100%);
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    position: relative;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 10;
+    padding: 0.5rem 0;
+}
+
+.logo-container::before {
+    content: '';
+    position: absolute;
+    inset: -8px -12px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.logo-container:hover::before {
+    opacity: 1;
+}
+
+.logo-container:hover {
+    transform: scale(1.03);
+}
+
+.logo-container img,
+.logo-img {
+    height: 65px;
+    width: auto;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) 
+            drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.logo-container:hover .logo-img {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)) 
+            drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.logo-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2rem;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 3.5rem;
+    position: relative;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    position: relative;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-white), transparent);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.nav-links a:hover {
+    color: var(--accent-white);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.nav-links a:hover::before {
+    width: 100%;
+}
+
+.nav-links a:hover::after {
+    width: 80%;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+    z-index: 1;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 15s ease infinite;
+}
+
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    opacity: 0.3;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--accent-white);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+.hero-glow-1 {
+    top: 10%;
+    left: 10%;
+    animation: float 12s ease-in-out infinite;
+}
+
+.hero-glow-2 {
+    bottom: 10%;
+    right: 10%;
+    animation: float-reverse 15s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 1200px;
+    padding: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.9;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #888888 50%, #ffffff 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 5s ease infinite, slideInUp 1s ease-out;
+    text-shadow: 0 0 80px rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+    font-weight: 300;
+    animation: slideInUp 1s ease-out 0.2s both;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-description {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-gray);
+    margin-bottom: 3rem;
+    font-weight: 300;
+    animation: slideInUp 1s ease-out 0.4s both;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    background: var(--accent-white);
+    color: var(--primary-black);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: slideInUp 1s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.cta-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   PRODUCTS SECTION
+   ============================================ */
+.products-section {
+    padding: 8rem 0;
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.02));
+    margin-top: -1px; /* Asegura que no haya gap */
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.1em;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tshirt-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: translateY(30px);
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+.tshirt-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tshirt-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tshirt-card:hover::before {
+    opacity: 1;
+}
+
+.tshirt-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tshirt-image-container {
+    position: relative;
+    overflow: hidden;
+    background: var(--darker-bg);
+    height: 420px;
+}
+
+.tshirt-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tshirt-card:hover .tshirt-image {
+    transform: scale(1.15);
+}
+
+.tshirt-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem;
+}
+
+.tshirt-card:hover .tshirt-overlay {
+    opacity: 1;
+}
+
+.tshirt-info {
+    width: 100%;
+}
+
+.tshirt-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--accent-white);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tshirt-price {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.tshirt-button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent-white);
+    color: var(--primary-black);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.tshirt-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.tshirt-button:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.tshirt-button:hover {
+    background: var(--accent-gray);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   ABOUT SECTION
+   ============================================ */
+.about-section {
+    padding: 8rem 0;
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), transparent);
+}
+
+.about-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.about-text {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    line-height: 2;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.about-text:last-of-type {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+    padding: 4rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 10;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.footer-logo img {
+    height: 45px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
+.footer-logo-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    color: var(--accent-white);
+}
+
+.footer-text {
+    color: var(--text-gray);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.footer-tagline {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    font-weight: 300;
+}
+
+/* ============================================
+   WHATSAPP BUTTON
+   ============================================ */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--whatsapp-green) 0%, var(--whatsapp-dark) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+    text-decoration: none;
+}
+
+.whatsapp-btn::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid var(--whatsapp-green);
+    opacity: 0;
+    animation: pulse-ring 2s ease-out infinite;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 15px 50px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-btn:hover::before {
+    opacity: 1;
+}
+
+.whatsapp-btn i {
+    font-size: 38px;
+    color: white;
+    z-index: 1;
+    position: relative;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-black);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    border: 2px solid var(--primary-black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   MOBILE MENU TOGGLE
+   ============================================ */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    position: relative;
+}
+
+.mobile-menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background: var(--accent-white);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Large Desktop (1400px and up) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+}
+
+/* Desktop (1024px - 1399px) */
+@media (max-width: 1399px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+}
+
+/* Tablet Landscape (768px - 1023px) */
+@media (max-width: 1023px) {
+    .hero-title {
+        font-size: clamp(3.5rem, 10vw, 7rem);
+    }
+    
+    .section-title {
+        font-size: clamp(2.5rem, 7vw, 5rem);
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .tshirt-image-container {
+        height: 380px;
+    }
+    
+    .hero-content {
+        padding: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    }
+    
+    .hero-description {
+        font-size: clamp(0.95rem, 2vw, 1.2rem);
+    }
+}
+
+/* Tablet Portrait (600px - 767px) */
+@media (max-width: 767px) {
+    nav {
+        padding: 1rem 1.5rem;
+        position: relative;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 5rem 2rem 2rem;
+        gap: 2rem;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    /* Overlay para el menú móvil */
+    .nav-links.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .nav-links .nav-link {
+        font-size: 1.2rem;
+        width: 100%;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-links .nav-link::after {
+        display: none;
+    }
+    
+    nav {
+        padding: 1.2rem 1.5rem;
+    }
+    
+    .logo-container img {
+        height: 50px;
+    }
+    
+    .nav-links {
+        gap: 2rem;
+    }
+    
+    .hero-section {
+        padding-top: 80px;
+        min-height: 90vh;
+    }
+    
+    .hero-title {
+        font-size: clamp(3rem, 12vw, 6rem);
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: clamp(1rem, 3vw, 1.6rem);
+        margin-bottom: 0.75rem;
+    }
+    
+    .hero-description {
+        font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+        margin-bottom: 2rem;
+    }
+    
+    .cta-button {
+        padding: 1rem 2.5rem;
+        font-size: 1rem;
+    }
+    
+    .products-section {
+        padding: 5rem 0;
+    }
+    
+    .section-header {
+        margin-bottom: 3rem;
+    }
+    
+    .section-title {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        padding: 0 1rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .tshirt-image-container {
+        height: 350px;
+    }
+    
+    .tshirt-title {
+        font-size: 1.3rem;
+    }
+    
+    .about-section {
+        padding: 5rem 0;
+    }
+    
+    .about-content {
+        padding: 0 1.5rem;
+    }
+    
+    .about-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+    
+    footer {
+        padding: 3rem 0;
+    }
+    
+    .footer-logo img {
+        height: 40px;
+    }
+    
+    .whatsapp-btn {
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .whatsapp-btn i {
+        font-size: 32px;
+    }
+    
+    .hero-glow {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+/* Mobile Landscape (480px - 599px) */
+@media (max-width: 599px) {
+    .hero-title {
+        font-size: clamp(2.5rem, 10vw, 5rem);
+    }
+    
+    .section-title {
+        font-size: clamp(2rem, 7vw, 3.5rem);
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.25rem;
+    }
+    
+    .tshirt-image-container {
+        height: 320px;
+    }
+}
+
+/* Mobile Portrait (320px - 479px) */
+@media (max-width: 479px) {
+    nav {
+        padding: 1rem 1rem;
+    }
+    
+    .logo-container img {
+        height: 45px;
+    }
+    
+    .nav-links {
+        width: 100%;
+        right: -100%;
+        gap: 1.5rem;
+    }
+    
+    .hero-section {
+        padding-top: 60px;
+        min-height: 85vh;
+    }
+    
+    .hero-title {
+        font-size: clamp(2.5rem, 12vw, 4.5rem);
+        margin-bottom: 1rem;
+        letter-spacing: 0.05em;
+    }
+    
+    .hero-subtitle {
+        font-size: clamp(0.95rem, 3.5vw, 1.4rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-description {
+        font-size: clamp(0.85rem, 2.5vw, 1rem);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    .cta-button {
+        padding: 0.9rem 2rem;
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+    }
+    
+    .products-section {
+        padding: 4rem 0;
+    }
+    
+    .section-header {
+        margin-bottom: 2.5rem;
+    }
+    
+    .section-title {
+        font-size: clamp(2rem, 9vw, 3rem);
+        margin-bottom: 0.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+        padding: 0 0.5rem;
+        line-height: 1.7;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding: 0 0.75rem;
+    }
+    
+    .tshirt-card {
+        border-radius: 15px;
+    }
+    
+    .tshirt-image-container {
+        height: 400px;
+    }
+    
+    .tshirt-title {
+        font-size: 1.2rem;
+    }
+    
+    .tshirt-price {
+        font-size: 0.9rem;
+    }
+    
+    .tshirt-button {
+        padding: 0.9rem;
+        font-size: 0.85rem;
+    }
+    
+    .about-section {
+        padding: 4rem 0;
+    }
+    
+    .about-content {
+        padding: 0 1rem;
+    }
+    
+    .about-text {
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 1.25rem;
+    }
+    
+    footer {
+        padding: 2.5rem 0;
+    }
+    
+    .footer-logo {
+        margin-bottom: 1.5rem;
+    }
+    
+    .footer-logo img {
+        height: 35px;
+    }
+    
+    .footer-text {
+        font-size: 0.85rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .footer-tagline {
+        font-size: 0.75rem;
+    }
+    
+    .whatsapp-btn {
+        width: 55px;
+        height: 55px;
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .whatsapp-btn i {
+        font-size: 28px;
+    }
+    
+    .hero-glow {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .hero-particles {
+        opacity: 0.2;
+    }
+    
+    .container {
+        padding: 0 0.75rem;
+    }
+    
+    .loading-text {
+        font-size: 20px;
+    }
+    
+    .spinner {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Extra Small Mobile (max-width: 320px) */
+@media (max-width: 320px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .tshirt-image-container {
+        height: 350px;
+    }
+    
+    .whatsapp-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .whatsapp-btn i {
+        font-size: 24px;
+    }
+}
+
+/* Landscape Orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        min-height: auto;
+        padding: 6rem 0 4rem;
+    }
+    
+    .hero-title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
+        margin-bottom: 0.25rem;
+    }
+    
+    .hero-description {
+        font-size: clamp(0.8rem, 1.8vw, 1rem);
+        margin-bottom: 1rem;
+    }
+    
+    .cta-button {
+        padding: 0.75rem 2rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .tshirt-card:hover {
+        transform: none;
+    }
+    
+    .tshirt-card:active {
+        transform: scale(0.98);
+    }
+    
+    .cta-button:hover {
+        transform: none;
+    }
+    
+    .cta-button:active {
+        transform: scale(0.95);
+    }
+    
+    .whatsapp-btn:hover {
+        transform: none;
+    }
+    
+    .whatsapp-btn:active {
+        transform: scale(0.9);
+    }
+    
+    /* Increase touch target sizes */
+    .nav-links .nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .tshirt-button {
+        min-height: 44px;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+

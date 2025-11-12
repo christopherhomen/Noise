@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Noise - Ropa urbana con actitud. Memes que vibran, frases que empoderan, referencias que conectan. Tu actitud, tu estilo.">
+    <title>Noise - Ropa Urbana con Actitud</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">NOISE</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <img src="assets/logo/logo_white.png" alt="Noise Logo" class="logo-img">
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#productos" class="nav-link">Productos</a>
+                <a href="#sobre" class="nav-link">Sobre Nosotros</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-bg"></div>
+        
+        <!-- Partículas animadas -->
+        <div class="hero-particles"></div>
+        
+        <!-- Efectos de glow -->
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title animate-slide-in">
+                NOISE
+            </h1>
+            <p class="hero-subtitle animate-slide-in" style="animation-delay: 0.2s;">
+                Ropa urbana con actitud. Diseños que representan quién eres.
+            </p>
+            <p class="hero-description animate-slide-in" style="animation-delay: 0.4s;">
+                Seas quien seas, seas de la comunidad LGBTQ+ o no, aquí encontrarás tu estilo.
+            </p>
+            <a href="#productos" class="cta-button animate-slide-in" style="animation-delay: 0.6s;">
+                Ver Colección
+            </a>
+        </div>
+    </section>
+
+    <!-- Productos Section -->
+    <section id="productos" class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">NUESTRAS CAMISETAS</h2>
+                <p class="section-subtitle">
+                    Memes que vibran, frases que empoderan, referencias que conectan. Tu actitud, tu estilo.
+                </p>
+            </div>
+            
+            <div class="products-grid" id="productGrid">
+                <!-- Las camisetas se cargarán dinámicamente con JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Nosotros Section -->
+    <section id="sobre" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">SOBRE NOISE</h2>
+                <p class="about-text">
+                    Noise es más que una marca de ropa. Es un movimiento que celebra la individualidad, 
+                    la autenticidad y la libertad de ser quien quieras ser.
+                </p>
+                <p class="about-text">
+                    Nuestros diseños están inspirados en la cultura pop, el empoderamiento personal y 
+                    la inclusión. Cada camiseta cuenta una historia, cada diseño representa una actitud.
+                </p>
+                <p class="about-text">
+                    Únete al ruido. Únete a Noise.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/logo/logo_white.png" alt="Noise Logo">
+                </div>
+                <p class="footer-text">© 2025 Noise. Todos los derechos reservados.</p>
+                <p class="footer-tagline">Ropa urbana con actitud</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/573164212929?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20Noise" 
+       target="_blank" 
+       class="whatsapp-btn animate-pulse-glow"
+       title="Contáctanos por WhatsApp"
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
