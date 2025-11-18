@@ -681,7 +681,7 @@ function openQuickView(index) {
                 <button class="modal-action-btn primary" onclick="openWhatsApp('${title.replace(/'/g, "\\'")}'); closeQuickView();">
                     Consultar por WhatsApp
                 </button>
-                <button class="modal-action-btn secondary" onclick="toggleFavorite(${index});">
+                <button class="modal-action-btn secondary" id="modalFavoriteBtn">
                     <i class="${favorites.includes(index) ? 'fas' : 'far'} fa-heart"></i> ${favorites.includes(index) ? 'En Favoritos' : 'Agregar a Favoritos'}
                 </button>
             </div>
@@ -697,21 +697,31 @@ function openQuickView(index) {
         });
     });
     
+    // Configurar botón de favoritos
+    const favoriteBtn = modalBody.querySelector('#modalFavoriteBtn');
+    if (favoriteBtn) {
+        // Remover cualquier listener anterior
+        const newFavoriteBtn = favoriteBtn.cloneNode(true);
+        favoriteBtn.parentNode.replaceChild(newFavoriteBtn, favoriteBtn);
+        
+        // Agregar nuevo listener
+        newFavoriteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Toggle favorite
+            toggleFavorite(index);
+            
+            // Actualizar el botón del modal después de que favorites se actualice
+            setTimeout(() => {
+                const isFavorite = favorites.includes(index);
+                newFavoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}`;
+            }, 0);
+        });
+    }
+    
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    
-    // Actualizar botón de favoritos después de renderizar
-    setTimeout(() => {
-        const favoriteBtn = modalBody.querySelector('.modal-action-btn.secondary');
-        if (favoriteBtn) {
-            favoriteBtn.addEventListener('click', () => {
-                toggleFavorite(index);
-                // Actualizar el botón
-                const isFavorite = favorites.includes(index);
-                favoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}`;
-            });
-        }
-    }, 100);
 }
 
 function closeQuickView() {
