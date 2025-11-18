@@ -954,6 +954,7 @@ function initLookbook() {
         lookbookItem.className = 'lookbook-item';
         lookbookItem.style.opacity = '0';
         lookbookItem.style.transform = 'translateY(30px)';
+        lookbookItem.style.cursor = 'pointer';
         
         const img = document.createElement('img');
         img.src = imagePath;
@@ -966,6 +967,11 @@ function initLookbook() {
             lookbookItem.style.display = 'none';
         };
         
+        // Agregar evento click para abrir modal
+        lookbookItem.addEventListener('click', () => {
+            openLookbookModal(imagePath, index);
+        });
+        
         lookbookItem.appendChild(img);
         lookbookGrid.appendChild(lookbookItem);
         
@@ -976,6 +982,55 @@ function initLookbook() {
             lookbookItem.style.transform = 'translateY(0)';
         }, index * 100);
     });
+}
+
+// Función para abrir modal del lookbook
+function openLookbookModal(imagePath, index) {
+    // Crear o obtener el modal
+    let modal = document.getElementById('lookbookModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'lookbookModal';
+        modal.className = 'lookbook-modal';
+        document.body.appendChild(modal);
+    }
+    
+    modal.innerHTML = `
+        <div class="lookbook-modal-overlay"></div>
+        <div class="lookbook-modal-content">
+            <button class="lookbook-modal-close" aria-label="Cerrar">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lookbook-modal-image-container">
+                <img src="${imagePath}" alt="Lookbook Noise ${index + 1}" class="lookbook-modal-image">
+            </div>
+        </div>
+    `;
+    
+    // Mostrar modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Cerrar al hacer clic en overlay o botón cerrar
+    const overlay = modal.querySelector('.lookbook-modal-overlay');
+    const closeBtn = modal.querySelector('.lookbook-modal-close');
+    
+    const closeModal = () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+    
+    overlay.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Cerrar con ESC
+    const handleEsc = (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+            document.removeEventListener('keydown', handleEsc);
+        }
+    };
+    document.addEventListener('keydown', handleEsc);
 }
 
 // ============================================
