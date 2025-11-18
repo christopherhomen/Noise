@@ -847,7 +847,8 @@ footer::after {
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.3);
     opacity: 0;
-    animation: pulse-ring 2s ease-out infinite;
+    /* Animación solo cuando hay hover - mejor rendimiento */
+    animation: none;
 }
 
 .scroll-top-btn:hover {
@@ -859,6 +860,8 @@ footer::after {
 
 .scroll-top-btn:hover::before {
     opacity: 1;
+    /* Solo activar animación en hover para mejor rendimiento */
+    animation: pulse-ring 2s ease-out infinite;
 }
 
 .scroll-top-btn i {
