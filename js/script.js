@@ -890,12 +890,25 @@ function initScrollToTop() {
         }
     });
     
-    // Funcionalidad de scroll suave al hacer clic
+    // Funcionalidad de scroll suave a la sección de productos
     scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        const productosSection = document.getElementById('productos');
+        if (productosSection) {
+            const headerOffset = 80;
+            const elementPosition = productosSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        } else {
+            // Fallback: scroll al inicio si no encuentra la sección
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
     });
 }
 
