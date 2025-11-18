@@ -660,6 +660,22 @@ function openQuickView(index) {
     const imagePath = product.image;
     const category = product.category;
     
+    // Determinar si es un producto que no requiere tallas (como tote bags)
+    const noSizes = category === 'tote-bags';
+    
+    // Generar HTML del selector de tallas solo si es necesario
+    const sizesHTML = noSizes ? '' : `
+        <div class="modal-sizes">
+            <h3>Talla</h3>
+            <div class="size-options">
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn selected" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
+            </div>
+        </div>
+    `;
+    
     modalBody.innerHTML = `
         <div class="modal-image">
             <img src="${imagePath}" alt="${title}">
@@ -668,15 +684,7 @@ function openQuickView(index) {
             <h2>${title}</h2>
             <p class="modal-description" style="color: var(--text-gray); margin: 1rem 0; line-height: 1.6;">${description}</p>
             <p class="modal-price">Consultar precio</p>
-            <div class="modal-sizes">
-                <h3>Talla</h3>
-                <div class="size-options">
-                    <button class="size-btn" data-size="S">S</button>
-                    <button class="size-btn" data-size="M">M</button>
-                    <button class="size-btn selected" data-size="L">L</button>
-                    <button class="size-btn" data-size="XL">XL</button>
-                </div>
-            </div>
+            ${sizesHTML}
             <div class="modal-actions">
                 <button class="modal-action-btn primary" onclick="openWhatsApp('${title.replace(/'/g, "\\'")}'); closeQuickView();">
                     Consultar por WhatsApp
@@ -688,14 +696,16 @@ function openQuickView(index) {
         </div>
     `;
     
-    // Inicializar selector de tallas
-    const sizeButtons = modalBody.querySelectorAll('.size-btn');
-    sizeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            sizeButtons.forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
+    // Inicializar selector de tallas solo si existe
+    if (!noSizes) {
+        const sizeButtons = modalBody.querySelectorAll('.size-btn');
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeButtons.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
         });
-    });
+    }
     
     // Configurar botón de favoritos
     const favoriteBtn = modalBody.querySelector('#modalFavoriteBtn');
