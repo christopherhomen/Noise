@@ -706,15 +706,60 @@ nav {
    FOOTER
    ============================================ */
 footer {
-    padding: 4rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.5);
+    padding: 6rem 0 4rem;
     position: relative;
     z-index: 10;
+    overflow: hidden;
+    background: var(--primary-black);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/img/Noise/Noise_4.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    z-index: 0;
+    animation: subtleZoom 20s ease-in-out infinite alternate;
+}
+
+footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.85) 50%,
+        rgba(0, 0, 0, 0.9) 100%
+    );
+    z-index: 1;
+}
+
+@keyframes subtleZoom {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
 }
 
 .footer-content {
     text-align: center;
+    position: relative;
+    z-index: 2;
+    padding: 2rem 0;
 }
 
 .footer-logo {
@@ -722,13 +767,22 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
 }
 
 .footer-logo img {
-    height: 45px;
+    height: 60px;
     width: auto;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-logo:hover img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.6));
 }
 
 .footer-logo-text {
@@ -739,15 +793,24 @@ footer {
 }
 
 .footer-text {
-    color: var(--text-gray);
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
 }
 
 .footer-tagline {
-    color: var(--text-gray);
-    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
     font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
 }
 
 /* ============================================
@@ -2077,11 +2140,28 @@ footer {
     }
     
     footer {
-        padding: 3rem 0;
+        padding: 4rem 0 3rem;
+    }
+    
+    footer::before {
+        opacity: 0.3;
+    }
+    
+    footer::after {
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.75) 0%,
+            rgba(0, 0, 0, 0.85) 50%,
+            rgba(0, 0, 0, 0.9) 100%
+        );
+    }
+    
+    .footer-logo {
+        margin-bottom: 2rem;
     }
     
     .footer-logo img {
-        height: 40px;
+        height: 50px;
     }
     
     .scroll-top-btn {
