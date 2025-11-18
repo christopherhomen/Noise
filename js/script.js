@@ -19,6 +19,11 @@ const tshirtQuotes = window.tshirtQuotes || [];
 const productCategories = window.productCategories || [];
 const productBadges = window.productBadges || [];
 
+// Verificar que los productos se cargaron correctamente
+if (products.length === 0 && tshirtImages.length === 0) {
+    console.warn('⚠️ No se encontraron productos. Verificar que products.js se cargó correctamente.');
+}
+
 // Sistema de favoritos
 let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
 
@@ -27,17 +32,34 @@ let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
 // ============================================
 function loadTshirts() {
     const productGrid = document.getElementById('productGrid');
-    if (!productGrid) return;
+    if (!productGrid) {
+        console.warn('productGrid no encontrado');
+        return;
+    }
     
-    tshirtImages.forEach((imagePath, index) => {
-        const card = createTshirtCard(imagePath, index);
-        productGrid.appendChild(card);
-        
-        // Animación de aparición con delay
-        setTimeout(() => {
-            card.classList.add('visible');
-        }, index * CONFIG.animationDelay);
-    });
+    // Verificar que hay productos
+    if (!tshirtImages || tshirtImages.length === 0) {
+        console.warn('No hay productos para cargar. Verificar que products.js se cargó correctamente.');
+        return;
+    }
+    
+    try {
+        tshirtImages.forEach((imagePath, index) => {
+            try {
+                const card = createTshirtCard(imagePath, index);
+                productGrid.appendChild(card);
+                
+                // Animación de aparición con delay
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * CONFIG.animationDelay);
+            } catch (error) {
+                console.error(`Error creando card ${index}:`, error);
+            }
+        });
+    } catch (error) {
+        console.error('Error en loadTshirts():', error);
+    }
 }
 
 function createTshirtCard(imagePath, index) {
@@ -230,6 +252,15 @@ function hideLoading() {
         loadingOverlay.classList.add('hidden');
     }, CONFIG.loadingDuration);
 }
+
+// Timeout de seguridad: ocultar loading después de 5 segundos máximo
+setTimeout(() => {
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    if (loadingOverlay && !loadingOverlay.classList.contains('hidden')) {
+        console.warn('Timeout de seguridad: ocultando loading después de 5 segundos');
+        loadingOverlay.classList.add('hidden');
+    }
+}, 5000);
 
 function initScrollAnimations() {
     const observerOptions = {
@@ -777,27 +808,31 @@ function initMobileMenu() {
 // INICIALIZACIÓN
 // ============================================
 function init() {
-    // Cargar productos
-    loadTshirts();
-    
-    // Inicializar navegación
-    initSmoothScroll();
-    initHeaderScroll();
-    initMobileMenu();
-    
-    // Inicializar nuevas funcionalidades
-    initFilters();
-    initSearch();
-    initFavoritesSidebar();
-    initNewsletterPopup();
-    updateFavoritesUI();
-    
-    // Inicializar efectos
-    initParallax();
-    createParticles();
-    
-    // Ocultar loading
-    hideLoading();
+    try {
+        // Cargar productos
+        loadTshirts();
+        
+        // Inicializar navegación
+        initSmoothScroll();
+        initHeaderScroll();
+        initMobileMenu();
+        
+        // Inicializar nuevas funcionalidades
+        initFilters();
+        initSearch();
+        initFavoritesSidebar();
+        initNewsletterPopup();
+        updateFavoritesUI();
+        
+        // Inicializar efectos
+        initParallax();
+        createParticles();
+    } catch (error) {
+        console.error('Error en init():', error);
+    } finally {
+        // Siempre ocultar loading, incluso si hay errores
+        hideLoading();
+    }
     
     // Inicializar animaciones después de un delay
     setTimeout(() => {

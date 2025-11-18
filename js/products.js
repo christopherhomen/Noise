@@ -423,12 +423,27 @@ if (typeof window !== 'undefined') {
     // Función para actualizar filtros
     window.updateFilters = updateFilters;
     
-    // Actualizar filtros cuando el DOM esté listo
+    // Actualizar filtros cuando el DOM esté listo (con delay para asegurar que script.js ya cargó)
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateFilters);
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(updateFilters, 200);
+        });
     } else {
-        // DOM ya está listo
-        setTimeout(updateFilters, 100);
+        // DOM ya está listo, esperar un poco más para que script.js cargue
+        setTimeout(updateFilters, 300);
     }
 }
+
+// Manejo de errores global para evitar que bloqueen la carga
+window.addEventListener('error', function(e) {
+    console.error('Error en products.js:', e.error);
+    // Asegurar que el loading se oculte incluso si hay errores
+    setTimeout(() => {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        if (loadingOverlay) {
+            loadingOverlay.classList.add('hidden');
+        }
+    }, 2000);
+});
+
 
