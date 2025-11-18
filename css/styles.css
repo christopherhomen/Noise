@@ -1801,6 +1801,26 @@ footer {
     box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
 }
 
+/* Responsive para modal del lookbook */
+@media (max-width: 768px) {
+    .lookbook-modal-content {
+        max-width: 95vw;
+        padding: 1rem;
+    }
+    
+    .lookbook-modal-close {
+        top: -40px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .lookbook-modal-image {
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+}
+
 /* ============================================
    MOBILE MENU TOGGLE
    ============================================ */
