@@ -34,18 +34,17 @@ function getProductBadges() {
     return window.productBadges || [];
 }
 
-// Verificar que los productos se cargaron correctamente
-const products = getProducts();
-const tshirtImages = getTshirtImages();
-const tshirtQuotes = getTshirtQuotes();
-const productCategories = getProductCategories();
-const productBadges = getProductBadges();
-
-if (products.length === 0 && tshirtImages.length === 0) {
-    console.warn('⚠️ No se encontraron productos. Verificar que products.js se cargó correctamente.');
-} else {
-    console.log(`✅ Productos cargados: ${products.length} productos, ${tshirtImages.length} imágenes`);
-}
+// Verificar que los productos se cargaron correctamente (sin declarar constantes para evitar conflictos)
+(function checkProducts() {
+    const products = getProducts();
+    const tshirtImages = getTshirtImages();
+    
+    if (products.length === 0 && tshirtImages.length === 0) {
+        console.warn('⚠️ No se encontraron productos. Verificar que products.js se cargó correctamente.');
+    } else {
+        console.log(`✅ Productos cargados: ${products.length} productos, ${tshirtImages.length} imágenes`);
+    }
+})();
 
 // Sistema de favoritos
 let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
@@ -473,8 +472,10 @@ function renderFavoritesSidebar() {
     }
     
     favoritesContent.innerHTML = favorites.map(index => {
-        const title = tshirtQuotes[index] || `Noise T-Shirt ${index + 1}`;
-        const imagePath = tshirtImages[index];
+        const currentQuotes = getTshirtQuotes();
+        const currentImages = getTshirtImages();
+        const title = currentQuotes[index] || `Noise T-Shirt ${index + 1}`;
+        const imagePath = currentImages[index];
         return `
             <div class="favorite-item">
                 <div class="favorite-item-image">
@@ -609,8 +610,9 @@ function performSearch(query) {
     const searchResults = document.getElementById('searchResults');
     if (!searchResults) return;
     
+    const currentProducts = getProducts();
     const results = [];
-    products.forEach((product, index) => {
+    currentProducts.forEach((product, index) => {
         const titleMatch = product.title.toLowerCase().includes(query);
         const descMatch = product.description.toLowerCase().includes(query);
         if (titleMatch || descMatch) {
@@ -644,10 +646,12 @@ function openQuickView(index) {
     const modalBody = document.getElementById('modalBody');
     if (!modal || !modalBody) return;
     
-    const product = products[index] || {
+    const currentProducts = getProducts();
+    const currentImages = getTshirtImages();
+    const product = currentProducts[index] || {
         title: `Noise T-Shirt ${index + 1}`,
         description: 'Diseño único de Noise',
-        image: tshirtImages[index] || '',
+        image: currentImages[index] || '',
         category: 'empoderamiento'
     };
     
