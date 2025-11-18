@@ -454,7 +454,11 @@ if (typeof window !== 'undefined') {
 
 // Manejo de errores global para evitar que bloqueen la carga
 window.addEventListener('error', function(e) {
-    console.error('Error en products.js:', e.error);
+    if (e.error) {
+        console.error('Error en products.js:', e.error);
+    } else if (e.message) {
+        console.error('Error en products.js:', e.message);
+    }
     // Asegurar que el loading se oculte incluso si hay errores
     setTimeout(() => {
         const loadingOverlay = document.getElementById('loadingOverlay');
@@ -462,6 +466,6 @@ window.addEventListener('error', function(e) {
             loadingOverlay.classList.add('hidden');
         }
     }, 2000);
-});
+}, true);
 
 

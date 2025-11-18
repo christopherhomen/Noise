@@ -13,13 +13,34 @@ const CONFIG = {
 // ============================================
 // Los productos se cargan desde js/products.js
 // Asegurarse de que products.js se cargue antes de este archivo
-const products = window.products || [];
-const tshirtImages = window.tshirtImages || [];
-const tshirtQuotes = window.tshirtQuotes || [];
-const productCategories = window.productCategories || [];
-const productBadges = window.productBadges || [];
+// Usar directamente window.* para evitar conflictos de declaración
+function getProducts() {
+    return window.products || [];
+}
+
+function getTshirtImages() {
+    return window.tshirtImages || [];
+}
+
+function getTshirtQuotes() {
+    return window.tshirtQuotes || [];
+}
+
+function getProductCategories() {
+    return window.productCategories || [];
+}
+
+function getProductBadges() {
+    return window.productBadges || [];
+}
 
 // Verificar que los productos se cargaron correctamente
+const products = getProducts();
+const tshirtImages = getTshirtImages();
+const tshirtQuotes = getTshirtQuotes();
+const productCategories = getProductCategories();
+const productBadges = getProductBadges();
+
 if (products.length === 0 && tshirtImages.length === 0) {
     console.warn('⚠️ No se encontraron productos. Verificar que products.js se cargó correctamente.');
 } else {
@@ -40,21 +61,27 @@ function loadTshirts() {
         return;
     }
     
+    // Obtener productos actualizados desde window
+    const currentImages = getTshirtImages();
+    const currentQuotes = getTshirtQuotes();
+    const currentCategories = getProductCategories();
+    const currentBadges = getProductBadges();
+    
     // Verificar que hay productos
-    if (!tshirtImages || tshirtImages.length === 0) {
+    if (!currentImages || currentImages.length === 0) {
         console.error('❌ No hay productos para cargar. Verificar que products.js se cargó correctamente.');
         console.log('Productos disponibles:', window.products);
         console.log('Imágenes disponibles:', window.tshirtImages);
         return;
     }
     
-    console.log(`📦 Cargando ${tshirtImages.length} productos...`);
+    console.log(`📦 Cargando ${currentImages.length} productos...`);
     
     try {
         let cardsCreated = 0;
-        tshirtImages.forEach((imagePath, index) => {
+        currentImages.forEach((imagePath, index) => {
             try {
-                const card = createTshirtCard(imagePath, index);
+                const card = createTshirtCard(imagePath, index, currentQuotes[index], currentCategories[index], currentBadges[index]);
                 productGrid.appendChild(card);
                 cardsCreated++;
                 
@@ -72,11 +99,20 @@ function loadTshirts() {
     }
 }
 
-function createTshirtCard(imagePath, index) {
+function createTshirtCard(imagePath, index, title, category, badge) {
+    // Obtener valores actualizados si no se pasan como parámetros
+    const currentQuotes = getTshirtQuotes();
+    const currentCategories = getProductCategories();
+    const currentBadges = getProductBadges();
+    
+    const productTitle = title || currentQuotes[index] || `Noise T-Shirt ${index + 1}`;
+    const productCategory = category || currentCategories[index] || 'empoderamiento';
+    const productBadge = badge !== undefined ? badge : currentBadges[index];
+    
     // Contenedor principal
     const card = document.createElement('div');
     card.className = 'tshirt-card';
-    card.dataset.category = productCategories[index] || 'empoderamiento';
+    card.dataset.category = productCategory;
     card.dataset.index = index;
     
     // Contenedor de imagen
@@ -84,13 +120,13 @@ function createTshirtCard(imagePath, index) {
     imageContainer.className = 'tshirt-image-container';
     
     // Badge del producto
-    if (productBadges[index]) {
-        const badge = document.createElement('div');
-        badge.className = `product-badge ${productBadges[index]}`;
-        badge.textContent = productBadges[index] === 'new' ? 'Nuevo' : 
-                           productBadges[index] === 'bestseller' ? 'Más Vendido' : 
-                           productBadges[index] === 'limited' ? 'Limitado' : '';
-        imageContainer.appendChild(badge);
+    if (productBadge) {
+        const badgeEl = document.createElement('div');
+        badgeEl.className = `product-badge ${productBadge}`;
+        badgeEl.textContent = productBadge === 'new' ? 'Nuevo' : 
+                           productBadge === 'bestseller' ? 'Más Vendido' : 
+                           productBadge === 'limited' ? 'Limitado' : '';
+        imageContainer.appendChild(badgeEl);
     }
     
     // Botón de favoritos
@@ -132,15 +168,15 @@ function createTshirtCard(imagePath, index) {
     const overlayContent = document.createElement('div');
     overlayContent.className = 'tshirt-info';
     
-    const title = document.createElement('h3');
-    title.className = 'tshirt-title';
-    title.textContent = tshirtQuotes[index] || `Noise T-Shirt ${index + 1}`;
+    const titleEl = document.createElement('h3');
+    titleEl.className = 'tshirt-title';
+    titleEl.textContent = productTitle;
     
     const price = document.createElement('p');
     price.className = 'tshirt-price';
     price.textContent = 'Consultar precio';
     
-    overlayContent.appendChild(title);
+    overlayContent.appendChild(titleEl);
     overlayContent.appendChild(price);
     overlay.appendChild(overlayContent);
     
@@ -161,8 +197,8 @@ function createTshirtCard(imagePath, index) {
     const actionBtn = document.createElement('button');
     actionBtn.className = 'tshirt-button';
     actionBtn.textContent = 'Más Info';
-    actionBtn.setAttribute('aria-label', `Más información sobre ${tshirtQuotes[index]}`);
-    actionBtn.onclick = () => openWhatsApp(tshirtQuotes[index] || `Noise T-Shirt ${index + 1}`);
+    actionBtn.setAttribute('aria-label', `Más información sobre ${productTitle}`);
+    actionBtn.onclick = () => openWhatsApp(productTitle);
     
     card.appendChild(imageContainer);
     card.appendChild(actionBtn);
