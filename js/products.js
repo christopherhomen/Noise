@@ -314,7 +314,7 @@ function generateProducts() {
             category: category,
             badge: badge
         };
-    });
+    }).filter(product => product.category !== 'noise'); // Filtrar productos de categoría "noise"
 }
 
 // ============================================
@@ -365,20 +365,29 @@ function updateFilters() {
     const filtersContainer = document.querySelector('.filters-container');
     if (!filtersContainer) return;
     
-    const categories = getUniqueCategories(products);
+    const categories = getUniqueCategories(products).filter(cat => cat !== 'noise'); // Excluir categoría "noise"
     
     // Mantener el botón "Todas"
     const allButton = filtersContainer.querySelector('[data-filter="all"]');
     const existingButtons = filtersContainer.querySelectorAll('.filter-btn:not([data-filter="all"])');
-    existingButtons.forEach(btn => btn.remove());
+    existingButtons.forEach(btn => {
+        // No eliminar el botón de "noise" si existe (ya está oculto en HTML)
+        if (btn.getAttribute('data-filter') !== 'noise') {
+            btn.remove();
+        }
+    });
     
-    // Agregar botones de categorías
+    // Agregar botones de categorías (excluyendo "noise")
     categories.forEach(category => {
-        const button = document.createElement('button');
-        button.className = 'filter-btn';
-        button.setAttribute('data-filter', category);
-        button.innerHTML = `<span>${getCategoryDisplayName(category)}</span>`;
-        filtersContainer.appendChild(button);
+        // Verificar que no exista ya un botón para esta categoría
+        const existingBtn = filtersContainer.querySelector(`[data-filter="${category}"]`);
+        if (!existingBtn) {
+            const button = document.createElement('button');
+            button.className = 'filter-btn';
+            button.setAttribute('data-filter', category);
+            button.innerHTML = `<span>${getCategoryDisplayName(category)}</span>`;
+            filtersContainer.appendChild(button);
+        }
     });
     
     // Reinicializar los event listeners de filtros
