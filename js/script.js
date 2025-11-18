@@ -11,83 +11,13 @@ const CONFIG = {
 // ============================================
 // DATOS DE PRODUCTOS
 // ============================================
-const tshirtImages = [
-    'assets/img/EA811981-C504-4043-A0A9-37ED975442ED.jpg',
-    'assets/img/Photoroom_20251112_141341.jpg',
-    'assets/img/Photoroom_20251112_141430.jpg',
-    'assets/img/Photoroom_20251112_141648.jpg',
-    'assets/img/Photoroom_20251112_141711.jpg',
-    'assets/img/Photoroom_20251112_141825.jpg',
-    'assets/img/Photoroom_20251112_142153.jpg',
-    'assets/img/Photoroom_20251112_142242.jpg',
-    'assets/img/Photoroom_20251112_142303.jpg',
-    'assets/img/Photoroom_20251112_142330.jpg',
-    'assets/img/Photoroom_20251112_142354.jpg',
-    'assets/img/Photoroom_20251112_142414.jpg',
-    'assets/img/Photoroom_20251112_142441.jpg',
-    'assets/img/Photoroom_20251112_142502.jpg',
-    'assets/img/Photoroom_20251112_142521.jpg',
-    'assets/img/Photoroom_20251112_142544.jpg',
-    'assets/img/Photoroom_20251112_142605.jpg',
-    'assets/img/Photoroom_20251112_142625.jpg',
-    'assets/img/Photoroom_20251112_142647.jpg',
-    'assets/img/Photoroom_20251112_142711.jpg',
-    'assets/img/Photoroom_20251112_142840.jpg',
-    'assets/img/Photoroom_20251112_142909.jpg',
-    'assets/img/Photoroom_20251112_143137.jpg',
-    'assets/img/Photoroom_20251112_143157.jpg',
-    'assets/img/Photoroom_20251112_143205.jpg',
-    'assets/img/Photoroom_20251112_143219.png'
-];
-
-const tshirtQuotes = [
-    "Be Yourself",
-    "Stranger Things",
-    "You Are Enough",
-    "Live Your Truth",
-    "Stay Weird",
-    "Be Bold",
-    "Own Your Story",
-    "No Limits",
-    "Be Free",
-    "Stay Strong",
-    "Be Authentic",
-    "Dream Big",
-    "Stay True",
-    "Be Unique",
-    "Own It",
-    "Stay Wild",
-    "Be Fearless",
-    "Stay Real",
-    "Be Proud",
-    "Stay You",
-    "Be Different",
-    "Stay Strong",
-    "Be Brave",
-    "Stay Cool",
-    "Be Amazing",
-    "Stay Loud"
-];
-
-// Categorías de productos
-const productCategories = [
-    'empoderamiento', 'pop', 'empoderamiento', 'empoderamiento', 'graciosas',
-    'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
-    'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
-    'graciosas', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
-    'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento', 'empoderamiento',
-    'graciosas'
-];
-
-// Badges de productos (algunos productos tendrán badges especiales)
-const productBadges = [
-    null, 'new', null, 'bestseller', null,
-    null, null, 'limited', null, null,
-    null, null, null, null, null,
-    null, null, null, null, null,
-    null, null, null, null, null,
-    null
-];
+// Los productos se cargan desde js/products.js
+// Asegurarse de que products.js se cargue antes de este archivo
+const products = window.products || [];
+const tshirtImages = window.tshirtImages || [];
+const tshirtQuotes = window.tshirtQuotes || [];
+const productCategories = window.productCategories || [];
+const productBadges = window.productBadges || [];
 
 // Sistema de favoritos
 let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
@@ -501,11 +431,20 @@ window.removeFromFavorites = removeFromFavorites;
 // SISTEMA DE FILTROS
 // ============================================
 function initFilters() {
+    // Remover listeners anteriores para evitar duplicados
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
+        // Clonar el botón para remover todos los listeners
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+    });
+    
+    // Agregar listeners a los nuevos botones
+    const newFilterButtons = document.querySelectorAll('.filter-btn');
+    newFilterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             // Remover active de todos
-            filterButtons.forEach(b => b.classList.remove('active'));
+            newFilterButtons.forEach(b => b.classList.remove('active'));
             // Añadir active al clickeado
             btn.classList.add('active');
             
@@ -514,6 +453,9 @@ function initFilters() {
         });
     });
 }
+
+// Hacer función global para que products.js pueda usarla
+window.initFilters = initFilters;
 
 function filterProducts(category) {
     const cards = document.querySelectorAll('.tshirt-card');
@@ -591,9 +533,11 @@ function performSearch(query) {
     if (!searchResults) return;
     
     const results = [];
-    tshirtQuotes.forEach((quote, index) => {
-        if (quote.toLowerCase().includes(query)) {
-            results.push({ index, title: quote, image: tshirtImages[index] });
+    products.forEach((product, index) => {
+        const titleMatch = product.title.toLowerCase().includes(query);
+        const descMatch = product.description.toLowerCase().includes(query);
+        if (titleMatch || descMatch) {
+            results.push({ index, title: product.title, description: product.description, image: product.image });
         }
     });
     
@@ -608,7 +552,7 @@ function performSearch(query) {
                 <img src="${result.image}" alt="${result.title}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
                 <div>
                     <h4 style="margin-bottom: 0.25rem;">${result.title}</h4>
-                    <p style="color: var(--text-gray); font-size: 0.9rem;">Ver detalles</p>
+                    <p style="color: var(--text-gray); font-size: 0.9rem;">${result.description}</p>
                 </div>
             </div>
         </div>
@@ -623,9 +567,17 @@ function openQuickView(index) {
     const modalBody = document.getElementById('modalBody');
     if (!modal || !modalBody) return;
     
-    const title = tshirtQuotes[index] || `Noise T-Shirt ${index + 1}`;
-    const imagePath = tshirtImages[index];
-    const category = productCategories[index] || 'empoderamiento';
+    const product = products[index] || {
+        title: `Noise T-Shirt ${index + 1}`,
+        description: 'Diseño único de Noise',
+        image: tshirtImages[index] || '',
+        category: 'empoderamiento'
+    };
+    
+    const title = product.title;
+    const description = product.description;
+    const imagePath = product.image;
+    const category = product.category;
     
     modalBody.innerHTML = `
         <div class="modal-image">
@@ -633,6 +585,7 @@ function openQuickView(index) {
         </div>
         <div class="modal-info">
             <h2>${title}</h2>
+            <p class="modal-description" style="color: var(--text-gray); margin: 1rem 0; line-height: 1.6;">${description}</p>
             <p class="modal-price">Consultar precio</p>
             <div class="modal-sizes">
                 <h3>Talla</h3>
