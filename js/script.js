@@ -875,6 +875,31 @@ function initMobileMenu() {
 }
 
 // ============================================
+// SCROLL TO TOP BUTTON
+// ============================================
+function initScrollToTop() {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (!scrollTopBtn) return;
+    
+    // Mostrar/ocultar botón según la posición del scroll
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+        }
+    });
+    
+    // Funcionalidad de scroll suave al hacer clic
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ============================================
 // INICIALIZACIÓN
 // ============================================
 function init() {
@@ -926,11 +951,14 @@ function init() {
         initScrollAnimations();
     }, 500);
     
-    // Inicializar botón de WhatsApp
-    initWhatsAppButton();
-    
-    // Manejo de errores
-    handleImageErrors();
+        // Inicializar botón de WhatsApp
+        initWhatsAppButton();
+        
+        // Inicializar botón de scroll to top
+        initScrollToTop();
+        
+        // Manejo de errores
+        handleImageErrors();
     
     // Cerrar modales con ESC
     document.addEventListener('keydown', (e) => {
