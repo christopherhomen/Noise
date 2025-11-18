@@ -146,9 +146,14 @@ function createTshirtCard(imagePath, index, title, category, badge) {
     
     const img = document.createElement('img');
     img.src = imagePath;
-    img.alt = `Noise T-Shirt ${index + 1}`;
+    img.alt = productTitle;
     img.className = 'tshirt-image';
     img.loading = 'lazy';
+    img.decoding = 'async';
+    // Priorizar primeras 6 imágenes para carga más rápida
+    if (index < 6) {
+        img.fetchPriority = 'high';
+    }
     
     // Manejo de errores de imagen - ocultar toda la card si la imagen no está disponible
     img.onerror = function() {
