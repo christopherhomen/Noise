@@ -959,6 +959,9 @@ function init() {
         // Inicializar efectos
         initParallax();
         createParticles();
+        
+        // Inicializar lookbook
+        initLookbook();
     } catch (error) {
         console.error('❌ Error en init():', error);
     } finally {
