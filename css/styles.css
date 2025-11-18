@@ -2419,7 +2419,24 @@ footer::after {
     }
     
     footer {
-        padding: 2.5rem 0;
+        padding: 3rem 0 2rem;
+    }
+    
+    footer::before {
+        opacity: 0.25;
+        animation: none;
+    }
+    
+    footer::after {
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.9) 100%
+        );
+    }
+    
+    .footer-content {
+        padding: 1.5rem 0;
     }
     
     .footer-logo {
@@ -2427,16 +2444,16 @@ footer::after {
     }
     
     .footer-logo img {
-        height: 35px;
+        height: 40px;
     }
     
     .footer-text {
-        font-size: 0.85rem;
-        margin-bottom: 0.4rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
     }
     
     .footer-tagline {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
     
     .scroll-top-btn {
