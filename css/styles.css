@@ -722,9 +722,9 @@ footer::before {
     right: 0;
     bottom: 0;
     background-image: url('../assets/img/Noise/Noise_4.jpg');
-    background-size: contain;
+    background-size: 30% auto;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat-x;
     opacity: 0.5;
     z-index: 0;
     animation: subtleZoom 20s ease-in-out infinite alternate;
