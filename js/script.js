@@ -926,11 +926,10 @@ function initLookbook() {
     const lookbookGrid = document.getElementById('lookbookGrid');
     if (!lookbookGrid) return;
     
-    // Rutas de imágenes del lookbook (puedes agregar más aquí)
-    // Si creas una carpeta assets/lookbook/, agrega las rutas aquí
+    // Rutas de imágenes del lookbook
     const lookbookImages = [
-        // Ejemplo: 'assets/lookbook/foto1.jpg',
-        // Ejemplo: 'assets/lookbook/foto2.jpg',
+        'assets/lookbook/foto1.png',
+        'assets/lookbook/foto2.png',
     ];
     
     // Si no hay imágenes, mostrar placeholder
