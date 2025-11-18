@@ -22,6 +22,8 @@ const productBadges = window.productBadges || [];
 // Verificar que los productos se cargaron correctamente
 if (products.length === 0 && tshirtImages.length === 0) {
     console.warn('⚠️ No se encontraron productos. Verificar que products.js se cargó correctamente.');
+} else {
+    console.log(`✅ Productos cargados: ${products.length} productos, ${tshirtImages.length} imágenes`);
 }
 
 // Sistema de favoritos
@@ -31,34 +33,42 @@ let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
 // FUNCIONES DE PRODUCTOS
 // ============================================
 function loadTshirts() {
+    console.log('🔄 Iniciando carga de productos...');
     const productGrid = document.getElementById('productGrid');
     if (!productGrid) {
-        console.warn('productGrid no encontrado');
+        console.error('❌ productGrid no encontrado');
         return;
     }
     
     // Verificar que hay productos
     if (!tshirtImages || tshirtImages.length === 0) {
-        console.warn('No hay productos para cargar. Verificar que products.js se cargó correctamente.');
+        console.error('❌ No hay productos para cargar. Verificar que products.js se cargó correctamente.');
+        console.log('Productos disponibles:', window.products);
+        console.log('Imágenes disponibles:', window.tshirtImages);
         return;
     }
     
+    console.log(`📦 Cargando ${tshirtImages.length} productos...`);
+    
     try {
+        let cardsCreated = 0;
         tshirtImages.forEach((imagePath, index) => {
             try {
                 const card = createTshirtCard(imagePath, index);
                 productGrid.appendChild(card);
+                cardsCreated++;
                 
                 // Animación de aparición con delay
                 setTimeout(() => {
                     card.classList.add('visible');
                 }, index * CONFIG.animationDelay);
             } catch (error) {
-                console.error(`Error creando card ${index}:`, error);
+                console.error(`❌ Error creando card ${index} (${imagePath}):`, error);
             }
         });
+        console.log(`✅ ${cardsCreated} productos cargados exitosamente`);
     } catch (error) {
-        console.error('Error en loadTshirts():', error);
+        console.error('❌ Error en loadTshirts():', error);
     }
 }
 
@@ -808,9 +818,26 @@ function initMobileMenu() {
 // INICIALIZACIÓN
 // ============================================
 function init() {
+    console.log('🚀 Iniciando aplicación Noise...');
+    console.log('Productos disponibles:', window.products?.length || 0);
+    console.log('Imágenes disponibles:', window.tshirtImages?.length || 0);
+    
     try {
-        // Cargar productos
-        loadTshirts();
+        // Esperar un momento para asegurar que products.js cargó
+        if (!window.products || window.products.length === 0) {
+            console.warn('⚠️ Esperando productos...');
+            setTimeout(() => {
+                if (window.products && window.products.length > 0) {
+                    console.log('✅ Productos cargados, reintentando...');
+                    loadTshirts();
+                } else {
+                    console.error('❌ Productos aún no disponibles después del delay');
+                }
+            }, 500);
+        } else {
+            // Cargar productos
+            loadTshirts();
+        }
         
         // Inicializar navegación
         initSmoothScroll();
@@ -828,7 +855,7 @@ function init() {
         initParallax();
         createParticles();
     } catch (error) {
-        console.error('Error en init():', error);
+        console.error('❌ Error en init():', error);
     } finally {
         // Siempre ocultar loading, incluso si hay errores
         hideLoading();

@@ -389,13 +389,31 @@ function updateFilters() {
 // EXPORTACIÓN
 // ============================================
 // Generar productos automáticamente
-const products = generateProducts();
+let products = [];
+let tshirtImages = [];
+let tshirtQuotes = [];
+let productCategories = [];
+let productBadges = [];
 
-// Arrays para compatibilidad con código existente
-const tshirtImages = products.map(p => p.image);
-const tshirtQuotes = products.map(p => p.title);
-const productCategories = products.map(p => p.category);
-const productBadges = products.map(p => p.badge);
+try {
+    products = generateProducts();
+    console.log(`✅ Generados ${products.length} productos desde ${PRODUCT_PATHS.length} rutas`);
+    
+    // Arrays para compatibilidad con código existente
+    tshirtImages = products.map(p => p.image);
+    tshirtQuotes = products.map(p => p.title);
+    productCategories = products.map(p => p.category);
+    productBadges = products.map(p => p.badge);
+    
+    console.log(`✅ Arrays creados: ${tshirtImages.length} imágenes, ${tshirtQuotes.length} títulos`);
+} catch (error) {
+    console.error('❌ Error generando productos:', error);
+    products = [];
+    tshirtImages = [];
+    tshirtQuotes = [];
+    productCategories = [];
+    productBadges = [];
+}
 
 // Exportar para uso global
 if (typeof window !== 'undefined') {
