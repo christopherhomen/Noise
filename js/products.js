@@ -11,17 +11,17 @@
 // El sistema generará automáticamente título, descripción y categoría
 const PRODUCT_PATHS = [
     // UNIVERSOS - Stranger Things
-    'assets/img/Universos/StangerThings/Once_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Once_Premium_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Chicos_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Chicos_Luces_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Chicos_Version_2_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Chicos_Version_3_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Vecna_Chicos-Version_1_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Vecna_Chicos-Version_2_StrangerThings.jpg',
-    'assets/img/Universos/StangerThings/Team_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Once_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Once_Premium_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Chicos_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Chicos_Luces_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Chicos_Version_2_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Chicos_Version_3_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Vecna_Chicos-Version_1_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Vecna_Chicos-Version_2_StrangerThings.jpg',
+    'assets/img/Universos/Stanger Things/Team_StrangerThings.jpg',
     // UNIVERSOS - House of Dragons
-    'assets/img/Universos/HouseOfDragons/HouseOfDragons.jpg',
+    'assets/img/Universos/House Of Dragons/HouseOfDragons.jpg',
     // ANIME
     'assets/img/Anime/Goku.jpg',
     'assets/img/Anime/Sailor_Moon_1.jpg',
@@ -123,13 +123,13 @@ const DESCRIPTIONS = {
 
 /**
  * Extrae la categoría de la ruta del archivo
- * Detecta automáticamente nuevas carpetas
+ * Detecta automáticamente nuevas carpetas (incluye soporte para espacios)
  */
 function extractCategory(path) {
     const pathParts = path.split('/');
     const categoryFolder = pathParts[pathParts.length - 2] || '';
     
-    // Mapeo de carpetas a categorías (con soporte para nuevas carpetas)
+    // Mapeo de carpetas a categorías (con soporte para nuevas carpetas y espacios)
     const categoryMap = {
         'Universos': 'universos',
         'Anime': 'anime',
@@ -138,7 +138,9 @@ function extractCategory(path) {
         'Memes': 'memes',
         'Colombia': 'colombia',
         'Noise': 'noise',
-        'Tote bags': 'tote-bags'
+        'Tote bags': 'tote-bags',
+        'Stanger Things': 'universos', // Subcarpeta dentro de Universos
+        'House Of Dragons': 'universos' // Subcarpeta dentro de Universos
     };
     
     // Si la carpeta está en el mapa, usar ese valor
