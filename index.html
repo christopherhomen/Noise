@@ -90,13 +90,21 @@
     }
     </script>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="assets/logo/logo_white.PNG" as="image">
     
-    <!-- Custom Styles -->
+    <!-- Font Awesome (async load) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <!-- Custom Styles (critical, load immediately) -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -110,7 +118,7 @@
     <header>
         <nav class="container">
             <div class="logo-container">
-                <img src="assets/logo/logo_white.PNG" alt="Noise Logo" class="logo-img">
+                <img src="assets/logo/logo_white.PNG" alt="Noise Logo" class="logo-img" loading="eager" fetchpriority="high">
             </div>
             <div class="nav-links" id="navLinks">
                 <a href="#inicio" class="nav-link">Inicio</a>
@@ -333,9 +341,9 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- JavaScript -->
-    <script src="js/products.js"></script>
-    <script src="js/script.js"></script>
+    <!-- JavaScript (defer for faster page load) -->
+    <script src="js/products.js" defer></script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>
 

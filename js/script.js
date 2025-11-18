@@ -3,8 +3,8 @@
 // ============================================
 const CONFIG = {
     whatsappNumber: '573164212929', // Número de WhatsApp (Colombia: 57 + 3164212929)
-    animationDelay: 50, // Delay entre animaciones de cards (ms)
-    loadingDuration: 1200, // Duración del loading (ms)
+    animationDelay: 30, // Delay entre animaciones de cards (ms) - reducido para carga más rápida
+    loadingDuration: 800, // Duración del loading (ms) - reducido para carga más rápida
     parallaxSpeed: 0.5 // Velocidad del efecto parallax
 };
 
@@ -84,10 +84,11 @@ function loadTshirts() {
                 productGrid.appendChild(card);
                 cardsCreated++;
                 
-                // Animación de aparición con delay
+                // Animación de aparición con delay (batch para mejor rendimiento)
+                const batchDelay = Math.floor(index / 3) * CONFIG.animationDelay;
                 setTimeout(() => {
                     card.classList.add('visible');
-                }, index * CONFIG.animationDelay);
+                }, batchDelay);
             } catch (error) {
                 console.error(`❌ Error creando card ${index} (${imagePath}):`, error);
             }
@@ -337,7 +338,8 @@ function createParticles() {
     const particlesContainer = document.querySelector('.hero-particles');
     if (!particlesContainer) return;
     
-    const particleCount = 50;
+    // Reducir número de partículas para mejor rendimiento
+    const particleCount = window.innerWidth < 768 ? 25 : 35;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
