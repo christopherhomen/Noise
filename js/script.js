@@ -920,6 +920,66 @@ function initScrollToTop() {
 }
 
 // ============================================
+// LOOKBOOK
+// ============================================
+function initLookbook() {
+    const lookbookGrid = document.getElementById('lookbookGrid');
+    if (!lookbookGrid) return;
+    
+    // Rutas de imágenes del lookbook (puedes agregar más aquí)
+    // Si creas una carpeta assets/lookbook/, agrega las rutas aquí
+    const lookbookImages = [
+        // Ejemplo: 'assets/lookbook/foto1.jpg',
+        // Ejemplo: 'assets/lookbook/foto2.jpg',
+    ];
+    
+    // Si no hay imágenes, mostrar placeholder
+    if (lookbookImages.length === 0) {
+        lookbookGrid.innerHTML = `
+            <div class="lookbook-placeholder">
+                <i class="fas fa-camera"></i>
+                <h3>Próximamente: Fotos de la comunidad Noise</h3>
+                <p>Comparte tus looks con nosotros usando #NoiseStyle</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+                    Para agregar fotos al lookbook, crea la carpeta <code>assets/lookbook/</code> y agrega las rutas en <code>js/script.js</code>
+                </p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Si hay imágenes, cargarlas
+    lookbookGrid.innerHTML = '';
+    lookbookImages.forEach((imagePath, index) => {
+        const lookbookItem = document.createElement('div');
+        lookbookItem.className = 'lookbook-item';
+        lookbookItem.style.opacity = '0';
+        lookbookItem.style.transform = 'translateY(30px)';
+        
+        const img = document.createElement('img');
+        img.src = imagePath;
+        img.alt = `Lookbook Noise ${index + 1}`;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        
+        // Manejo de errores
+        img.onerror = function() {
+            lookbookItem.style.display = 'none';
+        };
+        
+        lookbookItem.appendChild(img);
+        lookbookGrid.appendChild(lookbookItem);
+        
+        // Animación de aparición
+        setTimeout(() => {
+            lookbookItem.style.transition = 'all 0.6s ease';
+            lookbookItem.style.opacity = '1';
+            lookbookItem.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+}
+
+// ============================================
 // INICIALIZACIÓN
 // ============================================
 function init() {
