@@ -30,6 +30,10 @@ function getProductCategories() {
     return window.productCategories || [];
 }
 
+function getProductTypes() {
+    return window.productTypes || [];
+}
+
 function getProductBadges() {
     return window.productBadges || [];
 }
@@ -38,7 +42,7 @@ function getProductBadges() {
 (function checkProducts() {
     const products = getProducts();
     const tshirtImages = getTshirtImages();
-    
+
     if (products.length === 0 && tshirtImages.length === 0) {
         console.warn('⚠️ No se encontraron productos. Verificar que products.js se cargó correctamente.');
     } else {
@@ -59,13 +63,14 @@ function loadTshirts() {
         console.error('❌ productGrid no encontrado');
         return;
     }
-    
+
     // Obtener productos actualizados desde window
     const currentImages = getTshirtImages();
     const currentQuotes = getTshirtQuotes();
     const currentCategories = getProductCategories();
+    const currentTypes = getProductTypes();
     const currentBadges = getProductBadges();
-    
+
     // Verificar que hay productos
     if (!currentImages || currentImages.length === 0) {
         console.error('❌ No hay productos para cargar. Verificar que products.js se cargó correctamente.');
@@ -73,17 +78,17 @@ function loadTshirts() {
         console.log('Imágenes disponibles:', window.tshirtImages);
         return;
     }
-    
+
     console.log(`📦 Cargando ${currentImages.length} productos...`);
-    
+
     try {
         let cardsCreated = 0;
         currentImages.forEach((imagePath, index) => {
             try {
-                const card = createTshirtCard(imagePath, index, currentQuotes[index], currentCategories[index], currentBadges[index]);
+                const card = createTshirtCard(imagePath, index, currentQuotes[index], currentCategories[index], currentBadges[index], currentTypes[index]);
                 productGrid.appendChild(card);
                 cardsCreated++;
-                
+
                 // Animación de aparición con delay (batch para mejor rendimiento)
                 const batchDelay = Math.floor(index / 3) * CONFIG.animationDelay;
                 setTimeout(() => {
@@ -99,36 +104,39 @@ function loadTshirts() {
     }
 }
 
-function createTshirtCard(imagePath, index, title, category, badge) {
+function createTshirtCard(imagePath, index, title, category, badge, type) {
     // Obtener valores actualizados si no se pasan como parámetros
     const currentQuotes = getTshirtQuotes();
     const currentCategories = getProductCategories();
+    const currentTypes = getProductTypes();
     const currentBadges = getProductBadges();
-    
+
     const productTitle = title || currentQuotes[index] || `Noise T-Shirt ${index + 1}`;
     const productCategory = category || currentCategories[index] || 'empoderamiento';
+    const productType = type || currentTypes[index] || 'camisetas';
     const productBadge = badge !== undefined ? badge : currentBadges[index];
-    
+
     // Contenedor principal
     const card = document.createElement('div');
     card.className = 'tshirt-card';
     card.dataset.category = productCategory;
+    card.dataset.type = productType;
     card.dataset.index = index;
-    
+
     // Contenedor de imagen
     const imageContainer = document.createElement('div');
     imageContainer.className = 'tshirt-image-container';
-    
+
     // Badge del producto
     if (productBadge) {
         const badgeEl = document.createElement('div');
         badgeEl.className = `product-badge ${productBadge}`;
-        badgeEl.textContent = productBadge === 'new' ? 'Nuevo' : 
-                           productBadge === 'bestseller' ? 'Más Vendido' : 
-                           productBadge === 'limited' ? 'Limitado' : '';
+        badgeEl.textContent = productBadge === 'new' ? 'Nuevo' :
+            productBadge === 'bestseller' ? 'Más Vendido' :
+                productBadge === 'limited' ? 'Limitado' : '';
         imageContainer.appendChild(badgeEl);
     }
-    
+
     // Botón de favoritos
     const favoriteBtn = document.createElement('button');
     favoriteBtn.className = 'favorite-btn';
@@ -143,7 +151,7 @@ function createTshirtCard(imagePath, index, title, category, badge) {
         toggleFavorite(index);
     };
     imageContainer.appendChild(favoriteBtn);
-    
+
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = productTitle;
@@ -154,9 +162,9 @@ function createTshirtCard(imagePath, index, title, category, badge) {
     if (index < 6) {
         img.fetchPriority = 'high';
     }
-    
+
     // Manejo de errores de imagen - ocultar toda la card si la imagen no está disponible
-    img.onerror = function() {
+    img.onerror = function () {
         // Ocultar toda la tarjeta cuando la imagen no esté disponible
         card.style.display = 'none';
         card.style.visibility = 'hidden';
@@ -165,26 +173,26 @@ function createTshirtCard(imagePath, index, title, category, badge) {
         card.style.margin = '0';
         card.style.padding = '0';
     };
-    
+
     // Overlay con información
     const overlay = document.createElement('div');
     overlay.className = 'tshirt-overlay';
-    
+
     const overlayContent = document.createElement('div');
     overlayContent.className = 'tshirt-info';
-    
+
     const titleEl = document.createElement('h3');
     titleEl.className = 'tshirt-title';
     titleEl.textContent = productTitle;
-    
+
     const price = document.createElement('p');
     price.className = 'tshirt-price';
     price.textContent = 'Consultar precio';
-    
+
     overlayContent.appendChild(titleEl);
     overlayContent.appendChild(price);
     overlay.appendChild(overlayContent);
-    
+
     // Botón de vista rápida
     const quickViewBtn = document.createElement('button');
     quickViewBtn.className = 'quick-view-btn';
@@ -194,20 +202,20 @@ function createTshirtCard(imagePath, index, title, category, badge) {
         openQuickView(index);
     };
     imageContainer.appendChild(quickViewBtn);
-    
+
     imageContainer.appendChild(img);
     imageContainer.appendChild(overlay);
-    
+
     // Botón de acción
     const actionBtn = document.createElement('button');
     actionBtn.className = 'tshirt-button';
     actionBtn.textContent = 'Más Info';
     actionBtn.setAttribute('aria-label', `Más información sobre ${productTitle}`);
     actionBtn.onclick = () => openWhatsApp(productTitle);
-    
+
     card.appendChild(imageContainer);
     card.appendChild(actionBtn);
-    
+
     return card;
 }
 
@@ -229,13 +237,13 @@ function initSmoothScroll() {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const target = document.querySelector(targetId);
             if (target) {
                 const headerOffset = 80;
                 const elementPosition = target.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
+
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'
@@ -248,18 +256,18 @@ function initSmoothScroll() {
 function initHeaderScroll() {
     const header = document.querySelector('header');
     if (!header) return;
-    
+
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        
+
         if (currentScroll > 100) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-        
+
         lastScroll = currentScroll;
     });
 }
@@ -268,13 +276,13 @@ function initParallax() {
     const hero = document.querySelector('.hero-section');
     const heroContent = document.querySelector('.hero-content');
     const heroGlows = document.querySelectorAll('.hero-glow');
-    
+
     if (!hero) return;
-    
+
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const windowHeight = window.innerHeight;
-        
+
         // Solo aplicar parallax cuando el hero está visible
         if (scrolled < windowHeight) {
             // Parallax solo en elementos internos, no en toda la sección
@@ -282,7 +290,7 @@ function initParallax() {
                 heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
                 heroContent.style.opacity = 1 - (scrolled / windowHeight) * 0.5;
             }
-            
+
             // Parallax más sutil en los glows
             heroGlows.forEach((glow, index) => {
                 const speed = index === 0 ? 0.2 : 0.15;
@@ -298,7 +306,7 @@ function initParallax() {
 function hideLoading() {
     const loadingOverlay = document.getElementById('loadingOverlay');
     if (!loadingOverlay) return;
-    
+
     setTimeout(() => {
         loadingOverlay.classList.add('hidden');
     }, CONFIG.loadingDuration);
@@ -318,7 +326,7 @@ function initScrollAnimations() {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -327,12 +335,12 @@ function initScrollAnimations() {
             }
         });
     }, observerOptions);
-    
+
     // Observar todas las cards
     document.querySelectorAll('.tshirt-card').forEach(card => {
         observer.observe(card);
     });
-    
+
     // Observar secciones
     document.querySelectorAll('section').forEach(section => {
         observer.observe(section);
@@ -342,20 +350,20 @@ function initScrollAnimations() {
 function createParticles() {
     const particlesContainer = document.querySelector('.hero-particles');
     if (!particlesContainer) return;
-    
+
     // Reducir número de partículas para mejor rendimiento
     const particleCount = window.innerWidth < 768 ? 25 : 35;
-    
+
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        
+
         const size = Math.random() * 3 + 1;
         const x = Math.random() * 100;
         const y = Math.random() * 100;
         const duration = Math.random() * 20 + 10;
         const delay = Math.random() * 5;
-        
+
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.left = `${x}%`;
@@ -363,7 +371,7 @@ function createParticles() {
         particle.style.animation = `float ${duration}s ease-in-out infinite`;
         particle.style.animationDelay = `${delay}s`;
         particle.style.opacity = Math.random() * 0.5 + 0.2;
-        
+
         particlesContainer.appendChild(particle);
     }
 }
@@ -374,7 +382,7 @@ function createParticles() {
 function initWhatsAppButton() {
     const whatsappBtn = document.querySelector('.whatsapp-btn');
     if (!whatsappBtn) return;
-    
+
     // Actualizar el href con el número configurado
     const currentHref = whatsappBtn.getAttribute('href');
     if (currentHref) {
@@ -386,13 +394,13 @@ function initWhatsAppButton() {
         const message = encodeURIComponent('Hola, me interesa conocer más sobre Noise');
         whatsappBtn.setAttribute('href', `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`);
     }
-    
+
     // Efecto de hover mejorado
-    whatsappBtn.addEventListener('mouseenter', function() {
+    whatsappBtn.addEventListener('mouseenter', function () {
         this.style.transform = 'scale(1.15) rotate(5deg)';
     });
-    
-    whatsappBtn.addEventListener('mouseleave', function() {
+
+    whatsappBtn.addEventListener('mouseleave', function () {
         this.style.transform = 'scale(1) rotate(0deg)';
     });
 }
@@ -419,9 +427,9 @@ function handleImageErrors() {
 
 function updateWhatsAppNumber(phoneNumber) {
     if (!phoneNumber) return;
-    
+
     CONFIG.whatsappNumber = phoneNumber;
-    
+
     const whatsappLinks = document.querySelectorAll('a[href*="wa.me"]');
     whatsappLinks.forEach(link => {
         const currentHref = link.getAttribute('href');
@@ -450,7 +458,7 @@ function updateFavoriteButton(index) {
     if (!card) return;
     const favoriteBtn = card.querySelector('.favorite-btn');
     if (!favoriteBtn) return;
-    
+
     if (favorites.includes(index)) {
         favoriteBtn.classList.add('active');
         favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
@@ -472,12 +480,12 @@ function updateFavoritesUI() {
 function renderFavoritesSidebar() {
     const favoritesContent = document.getElementById('favoritesContent');
     if (!favoritesContent) return;
-    
+
     if (favorites.length === 0) {
         favoritesContent.innerHTML = '<p class="empty-favorites">No tienes favoritos aún</p>';
         return;
     }
-    
+
     favoritesContent.innerHTML = favorites.map(index => {
         const currentQuotes = getTshirtQuotes();
         const currentImages = getTshirtImages();
@@ -515,42 +523,96 @@ window.removeFromFavorites = removeFromFavorites;
 // ============================================
 // SISTEMA DE FILTROS
 // ============================================
+// ============================================
+// SISTEMA DE FILTROS
+// ============================================
+let currentTypeFilter = 'camisetas';
+let currentCategoryFilter = 'all';
+
 function initFilters() {
-    // Remover listeners anteriores para evitar duplicados
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => {
-        // Clonar el botón para remover todos los listeners
+    // 1. Filtros Principales (Tipo)
+    const mainFilterButtons = document.querySelectorAll('.main-filter-btn');
+    mainFilterButtons.forEach(btn => {
+        // Clonar para limpiar listeners
         const newBtn = btn.cloneNode(true);
         btn.parentNode.replaceChild(newBtn, btn);
     });
-    
-    // Agregar listeners a los nuevos botones
-    const newFilterButtons = document.querySelectorAll('.filter-btn');
-    newFilterButtons.forEach(btn => {
+
+    const newMainButtons = document.querySelectorAll('.main-filter-btn');
+    newMainButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remover active de todos
-            newFilterButtons.forEach(b => b.classList.remove('active'));
-            // Añadir active al clickeado
+            // UI Update
+            newMainButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            const filter = btn.dataset.filter;
-            filterProducts(filter);
+
+            // Logic Update
+            currentTypeFilter = btn.dataset.type;
+            currentCategoryFilter = 'all'; // Reset subfilter when changing type
+
+            // Mostrar/Ocultar subfiltros
+            const subFiltersContainer = document.getElementById('subFiltersContainer');
+            if (currentTypeFilter === 'camisetas') {
+                subFiltersContainer.classList.add('visible');
+                // Resetear UI de subfiltros
+                const subButtons = document.querySelectorAll('.sub-filters .filter-btn');
+                subButtons.forEach(b => b.classList.remove('active'));
+                const allBtn = document.querySelector('.sub-filters .filter-btn[data-filter="all"]');
+                if (allBtn) allBtn.classList.add('active');
+            } else {
+                subFiltersContainer.classList.remove('visible');
+            }
+
+            applyFilters();
         });
     });
+
+    // 2. Subfiltros (Categoría)
+    const subFilterButtons = document.querySelectorAll('.sub-filters .filter-btn');
+    subFilterButtons.forEach(btn => {
+        // Clonar para limpiar listeners
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+    });
+
+    const newSubButtons = document.querySelectorAll('.sub-filters .filter-btn');
+    newSubButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // UI Update
+            newSubButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Logic Update
+            currentCategoryFilter = btn.dataset.filter;
+
+            applyFilters();
+        });
+    });
+
+    // Inicializar estado: mostrar subfiltros si estamos en camisetas
+    const subFiltersContainer = document.getElementById('subFiltersContainer');
+    if (currentTypeFilter === 'camisetas' && subFiltersContainer) {
+        subFiltersContainer.classList.add('visible');
+    }
 }
 
 // Hacer función global para que products.js pueda usarla
 window.initFilters = initFilters;
 
-function filterProducts(category) {
+function applyFilters() {
     const cards = document.querySelectorAll('.tshirt-card');
+    let visibleCount = 0;
+
     cards.forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
+        const typeMatch = card.dataset.type === currentTypeFilter;
+        const categoryMatch = currentCategoryFilter === 'all' || card.dataset.category === currentCategoryFilter;
+
+        if (typeMatch && (currentTypeFilter !== 'camisetas' || categoryMatch)) {
             card.style.display = '';
             setTimeout(() => {
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0)';
             }, 10);
+            visibleCount++;
         } else {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
@@ -559,6 +621,32 @@ function filterProducts(category) {
             }, 300);
         }
     });
+
+    // Mensaje si no hay productos (ej: Gorras)
+    const grid = document.getElementById('productGrid');
+    const existingMsg = document.getElementById('no-products-msg');
+    if (existingMsg) existingMsg.remove();
+
+    if (visibleCount === 0) {
+        const msg = document.createElement('div');
+        msg.id = 'no-products-msg';
+        msg.style.gridColumn = '1 / -1';
+        msg.style.textAlign = 'center';
+        msg.style.padding = '4rem';
+        msg.style.color = 'var(--text-gray)';
+        msg.innerHTML = `
+            <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+            <p>Próximamente nuevos productos en esta categoría.</p>
+        `;
+        grid.appendChild(msg);
+    }
+}
+
+// Deprecated: Mantener por compatibilidad si algo externo lo llama
+function filterProducts(category) {
+    console.warn('filterProducts is deprecated. Use applyFilters instead.');
+    currentCategoryFilter = category;
+    applyFilters();
 }
 
 // ============================================
@@ -570,20 +658,20 @@ function initSearch() {
     const searchClose = document.getElementById('searchClose');
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
-    
+
     if (!searchToggle || !searchOverlay) return;
-    
+
     searchToggle.addEventListener('click', () => {
         searchOverlay.classList.add('active');
         setTimeout(() => searchInput?.focus(), 100);
     });
-    
+
     searchClose?.addEventListener('click', () => {
         searchOverlay.classList.remove('active');
         searchInput.value = '';
         searchResults.innerHTML = '';
     });
-    
+
     searchOverlay.addEventListener('click', (e) => {
         if (e.target === searchOverlay) {
             searchOverlay.classList.remove('active');
@@ -591,7 +679,7 @@ function initSearch() {
             searchResults.innerHTML = '';
         }
     });
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
@@ -601,7 +689,7 @@ function initSearch() {
             }
             performSearch(query);
         });
-        
+
         // Cerrar con ESC
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -616,7 +704,7 @@ function initSearch() {
 function performSearch(query) {
     const searchResults = document.getElementById('searchResults');
     if (!searchResults) return;
-    
+
     const currentProducts = getProducts();
     const results = [];
     currentProducts.forEach((product, index) => {
@@ -626,12 +714,12 @@ function performSearch(query) {
             results.push({ index, title: product.title, description: product.description, image: product.image });
         }
     });
-    
+
     if (results.length === 0) {
         searchResults.innerHTML = '<p style="text-align: center; color: var(--text-gray); padding: 2rem;">No se encontraron resultados</p>';
         return;
     }
-    
+
     searchResults.innerHTML = results.map(result => `
         <div class="search-result-item" onclick="openQuickView(${result.index}); document.getElementById('searchOverlay').classList.remove('active');">
             <div style="display: flex; gap: 1rem; align-items: center;">
@@ -652,7 +740,7 @@ function openQuickView(index) {
     const modal = document.getElementById('quickViewModal');
     const modalBody = document.getElementById('modalBody');
     if (!modal || !modalBody) return;
-    
+
     const currentProducts = getProducts();
     const currentImages = getTshirtImages();
     const product = currentProducts[index] || {
@@ -661,15 +749,15 @@ function openQuickView(index) {
         image: currentImages[index] || '',
         category: 'empoderamiento'
     };
-    
+
     const title = product.title;
     const description = product.description;
     const imagePath = product.image;
     const category = product.category;
-    
+
     // Determinar si es un producto que no requiere tallas (como tote bags)
     const noSizes = category === 'tote-bags';
-    
+
     // Generar HTML del selector de tallas solo si es necesario
     const sizesHTML = noSizes ? '' : `
         <div class="modal-sizes">
@@ -682,7 +770,7 @@ function openQuickView(index) {
             </div>
         </div>
     `;
-    
+
     modalBody.innerHTML = `
         <div class="modal-image">
             <img src="${imagePath}" alt="${title}">
@@ -702,7 +790,7 @@ function openQuickView(index) {
             </div>
         </div>
     `;
-    
+
     // Inicializar selector de tallas solo si existe
     if (!noSizes) {
         const sizeButtons = modalBody.querySelectorAll('.size-btn');
@@ -713,22 +801,22 @@ function openQuickView(index) {
             });
         });
     }
-    
+
     // Configurar botón de favoritos
     const favoriteBtn = modalBody.querySelector('#modalFavoriteBtn');
     if (favoriteBtn) {
         // Remover cualquier listener anterior
         const newFavoriteBtn = favoriteBtn.cloneNode(true);
         favoriteBtn.parentNode.replaceChild(newFavoriteBtn, favoriteBtn);
-        
+
         // Agregar nuevo listener
         newFavoriteBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
+
             // Toggle favorite
             toggleFavorite(index);
-            
+
             // Actualizar el botón del modal después de que favorites se actualice
             setTimeout(() => {
                 const isFavorite = favorites.includes(index);
@@ -736,7 +824,7 @@ function openQuickView(index) {
             }, 0);
         });
     }
-    
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -768,18 +856,18 @@ function initNewsletterPopup() {
             }
         }, 3000);
     }
-    
+
     const popup = document.getElementById('newsletterPopup');
     const popupClose = document.getElementById('popupClose');
     const newsletterForm = document.getElementById('newsletterForm');
-    
+
     if (popupClose) {
         popupClose.addEventListener('click', () => {
             popup.classList.remove('active');
             localStorage.setItem('newsletterPopupShown', 'true');
         });
     }
-    
+
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -791,7 +879,7 @@ function initNewsletterPopup() {
             newsletterForm.reset();
         });
     }
-    
+
     // Cerrar al hacer clic fuera
     if (popup) {
         popup.addEventListener('click', (e) => {
@@ -810,21 +898,21 @@ function initFavoritesSidebar() {
     const favoritesToggle = document.getElementById('favoritesToggle');
     const favoritesSidebar = document.getElementById('favoritesSidebar');
     const sidebarClose = document.getElementById('sidebarClose');
-    
+
     if (!favoritesToggle || !favoritesSidebar) return;
-    
+
     favoritesToggle.addEventListener('click', () => {
         favoritesSidebar.classList.add('active');
         document.body.style.overflow = 'hidden';
     });
-    
+
     if (sidebarClose) {
         sidebarClose.addEventListener('click', () => {
             favoritesSidebar.classList.remove('active');
             document.body.style.overflow = '';
         });
     }
-    
+
     // Cerrar al hacer clic fuera
     favoritesSidebar.addEventListener('click', (e) => {
         if (e.target === favoritesSidebar) {
@@ -840,16 +928,16 @@ function initFavoritesSidebar() {
 function initMobileMenu() {
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const navLinks = document.getElementById('navLinks');
-    
+
     if (!mobileMenuToggle || !navLinks) return;
-    
+
     // Toggle del menú
     mobileMenuToggle.addEventListener('click', () => {
         mobileMenuToggle.classList.toggle('active');
         navLinks.classList.toggle('active');
         document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     });
-    
+
     // Cerrar menú al hacer clic en un enlace
     const navLinkElements = navLinks.querySelectorAll('.nav-link');
     navLinkElements.forEach(link => {
@@ -859,18 +947,18 @@ function initMobileMenu() {
             document.body.style.overflow = '';
         });
     });
-    
+
     // Cerrar menú al hacer clic fuera
     document.addEventListener('click', (e) => {
-        if (navLinks.classList.contains('active') && 
-            !navLinks.contains(e.target) && 
+        if (navLinks.classList.contains('active') &&
+            !navLinks.contains(e.target) &&
             !mobileMenuToggle.contains(e.target)) {
             mobileMenuToggle.classList.remove('active');
             navLinks.classList.remove('active');
             document.body.style.overflow = '';
         }
     });
-    
+
     // Cerrar menú con ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && navLinks.classList.contains('active')) {
@@ -887,7 +975,7 @@ function initMobileMenu() {
 function initScrollToTop() {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     if (!scrollTopBtn) return;
-    
+
     // Mostrar/ocultar botón según la posición del scroll
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
@@ -896,7 +984,7 @@ function initScrollToTop() {
             scrollTopBtn.classList.remove('show');
         }
     });
-    
+
     // Funcionalidad de scroll suave a la sección de productos
     scrollTopBtn.addEventListener('click', () => {
         const productosSection = document.getElementById('productos');
@@ -904,7 +992,7 @@ function initScrollToTop() {
             const headerOffset = 80;
             const elementPosition = productosSection.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            
+
             window.scrollTo({
                 top: offsetPosition,
                 behavior: 'smooth'
@@ -925,13 +1013,13 @@ function initScrollToTop() {
 function initLookbook() {
     const lookbookGrid = document.getElementById('lookbookGrid');
     if (!lookbookGrid) return;
-    
+
     // Rutas de imágenes del lookbook
     const lookbookImages = [
         'assets/lookbook/foto1.png',
         'assets/lookbook/foto2.png',
     ];
-    
+
     // Si no hay imágenes, mostrar placeholder
     if (lookbookImages.length === 0) {
         lookbookGrid.innerHTML = `
@@ -946,7 +1034,7 @@ function initLookbook() {
         `;
         return;
     }
-    
+
     // Si hay imágenes, cargarlas
     lookbookGrid.innerHTML = '';
     lookbookImages.forEach((imagePath, index) => {
@@ -955,26 +1043,26 @@ function initLookbook() {
         lookbookItem.style.opacity = '0';
         lookbookItem.style.transform = 'translateY(30px)';
         lookbookItem.style.cursor = 'pointer';
-        
+
         const img = document.createElement('img');
         img.src = imagePath;
         img.alt = `Lookbook Noise ${index + 1}`;
         img.loading = 'lazy';
         img.decoding = 'async';
-        
+
         // Manejo de errores
-        img.onerror = function() {
+        img.onerror = function () {
             lookbookItem.style.display = 'none';
         };
-        
+
         // Agregar evento click para abrir modal
         lookbookItem.addEventListener('click', () => {
             openLookbookModal(imagePath, index);
         });
-        
+
         lookbookItem.appendChild(img);
         lookbookGrid.appendChild(lookbookItem);
-        
+
         // Animación de aparición
         setTimeout(() => {
             lookbookItem.style.transition = 'all 0.6s ease';
@@ -994,7 +1082,7 @@ function openLookbookModal(imagePath, index) {
         modal.className = 'lookbook-modal';
         document.body.appendChild(modal);
     }
-    
+
     modal.innerHTML = `
         <div class="lookbook-modal-overlay"></div>
         <div class="lookbook-modal-content">
@@ -1006,23 +1094,23 @@ function openLookbookModal(imagePath, index) {
             </div>
         </div>
     `;
-    
+
     // Mostrar modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    
+
     // Cerrar al hacer clic en overlay o botón cerrar
     const overlay = modal.querySelector('.lookbook-modal-overlay');
     const closeBtn = modal.querySelector('.lookbook-modal-close');
-    
+
     const closeModal = () => {
         modal.classList.remove('active');
         document.body.style.overflow = '';
     };
-    
+
     overlay.addEventListener('click', closeModal);
     closeBtn.addEventListener('click', closeModal);
-    
+
     // Cerrar con ESC
     const handleEsc = (e) => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
@@ -1040,7 +1128,7 @@ function init() {
     console.log('🚀 Iniciando aplicación Noise...');
     console.log('Productos disponibles:', window.products?.length || 0);
     console.log('Imágenes disponibles:', window.tshirtImages?.length || 0);
-    
+
     try {
         // Esperar un momento para asegurar que products.js cargó
         if (!window.products || window.products.length === 0) {
@@ -1057,23 +1145,23 @@ function init() {
             // Cargar productos
             loadTshirts();
         }
-        
+
         // Inicializar navegación
         initSmoothScroll();
         initHeaderScroll();
         initMobileMenu();
-        
+
         // Inicializar nuevas funcionalidades
         initFilters();
         initSearch();
         initFavoritesSidebar();
         initNewsletterPopup();
         updateFavoritesUI();
-        
+
         // Inicializar efectos
         initParallax();
         createParticles();
-        
+
         // Inicializar lookbook
         initLookbook();
     } catch (error) {
@@ -1082,21 +1170,21 @@ function init() {
         // Siempre ocultar loading, incluso si hay errores
         hideLoading();
     }
-    
+
     // Inicializar animaciones después de un delay
     setTimeout(() => {
         initScrollAnimations();
     }, 500);
-    
-        // Inicializar botón de WhatsApp
-        initWhatsAppButton();
-        
-        // Inicializar botón de scroll to top
-        initScrollToTop();
-        
-        // Manejo de errores
-        handleImageErrors();
-    
+
+    // Inicializar botón de WhatsApp
+    initWhatsAppButton();
+
+    // Inicializar botón de scroll to top
+    initScrollToTop();
+
+    // Manejo de errores
+    handleImageErrors();
+
     // Cerrar modales con ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -1112,18 +1200,18 @@ function init() {
             }
         }
     });
-    
+
     // Cerrar modal al hacer clic en overlay
     const modalOverlay = document.getElementById('modalOverlay');
     if (modalOverlay) {
         modalOverlay.addEventListener('click', closeQuickView);
     }
-    
+
     const modalClose = document.getElementById('modalClose');
     if (modalClose) {
         modalClose.addEventListener('click', closeQuickView);
     }
-    
+
     console.log('🚀 Noise website initialized successfully!');
 }
 
@@ -1146,7 +1234,7 @@ if ('IntersectionObserver' in window) {
             }
         });
     });
-    
+
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });

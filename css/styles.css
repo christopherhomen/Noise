@@ -41,7 +41,12 @@ body {
     font-family: 'Space Grotesk', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 700;
     line-height: 1.2;
 }
@@ -50,31 +55,40 @@ h1, h2, h3, h4, h5, h6 {
    ANIMATIONS
    ============================================ */
 @keyframes float {
-    0%, 100% { 
-        transform: translateY(0px) rotate(0deg); 
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
     }
-    50% { 
-        transform: translateY(-30px) rotate(5deg); 
+
+    50% {
+        transform: translateY(-30px) rotate(5deg);
     }
 }
 
 @keyframes float-reverse {
-    0%, 100% { 
-        transform: translateY(0px) rotate(0deg); 
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
     }
-    50% { 
-        transform: translateY(30px) rotate(-5deg); 
+
+    50% {
+        transform: translateY(30px) rotate(-5deg);
     }
 }
 
 @keyframes pulse-glow {
-    0%, 100% { 
+
+    0%,
+    100% {
         box-shadow: 0 0 20px rgba(37, 211, 102, 0.4),
-                    0 0 40px rgba(37, 211, 102, 0.2);
+            0 0 40px rgba(37, 211, 102, 0.2);
     }
-    50% { 
+
+    50% {
         box-shadow: 0 0 30px rgba(37, 211, 102, 0.6),
-                    0 0 60px rgba(37, 211, 102, 0.4);
+            0 0 60px rgba(37, 211, 102, 0.4);
     }
 }
 
@@ -83,6 +97,7 @@ h1, h2, h3, h4, h5, h6 {
         opacity: 0;
         transform: translateY(50px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -93,6 +108,7 @@ h1, h2, h3, h4, h5, h6 {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -103,6 +119,7 @@ h1, h2, h3, h4, h5, h6 {
         opacity: 0;
         transform: scale(0.8);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -113,21 +130,25 @@ h1, h2, h3, h4, h5, h6 {
     0% {
         background-position: -1000px 0;
     }
+
     100% {
         background-position: 1000px 0;
     }
 }
 
 @keyframes spin {
-    to { 
-        transform: rotate(360deg); 
+    to {
+        transform: rotate(360deg);
     }
 }
 
 @keyframes gradient-shift {
-    0%, 100% {
+
+    0%,
+    100% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
@@ -265,15 +286,13 @@ nav {
 .logo-img {
     height: 65px;
     width: auto;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) 
-            drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     transition: all 0.3s ease;
     display: block;
 }
 
 .logo-container:hover .logo-img {
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)) 
-            drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 .logo-text {
@@ -501,7 +520,8 @@ nav {
     position: relative;
     z-index: 10;
     background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.02));
-    margin-top: -1px; /* Asegura que no haya gap */
+    margin-top: -1px;
+    /* Asegura que no haya gap */
 }
 
 .section-header {
@@ -576,7 +596,7 @@ nav {
 .tshirt-card:hover {
     transform: translateY(-15px) scale(1.03);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(255, 255, 255, 0.1);
+        0 0 40px rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -737,12 +757,10 @@ footer::after {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(0, 0, 0, 0.85) 50%,
-        rgba(0, 0, 0, 0.9) 100%
-    );
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.85) 50%,
+            rgba(0, 0, 0, 0.9) 100%);
     z-index: 1;
 }
 
@@ -750,6 +768,7 @@ footer::after {
     0% {
         transform: scale(1);
     }
+
     100% {
         transform: scale(1.05);
     }
@@ -826,7 +845,8 @@ footer::after {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    display: none; /* Oculto por defecto, se muestra al hacer scroll */
+    display: none;
+    /* Oculto por defecto, se muestra al hacer scroll */
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -920,6 +940,7 @@ footer::after {
         transform: scale(1);
         opacity: 1;
     }
+
     100% {
         transform: scale(1.5);
         opacity: 0;
@@ -1090,60 +1111,148 @@ footer::after {
 /* ============================================
    FILTERS
    ============================================ */
-.filters-container {
+.filters-wrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 20;
+}
+
+/* Main Filters (Level 1) */
+.main-filters {
+    display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.5rem;
+}
+
+.main-filter-btn {
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-gray);
+    padding: 1.2rem 2.5rem;
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
     gap: 1rem;
-    margin-bottom: 3rem;
-    padding: 0 1rem;
+    min-width: 180px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.main-filter-btn i {
+    font-size: 1.4rem;
+    opacity: 0.6;
+    transition: all 0.4s ease;
+}
+
+.main-filter-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.main-filter-btn:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--accent-white);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.main-filter-btn:hover::before {
+    opacity: 1;
+}
+
+.main-filter-btn:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.main-filter-btn.active {
+    background: var(--accent-white);
+    color: var(--primary-black);
+    border-color: var(--accent-white);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.main-filter-btn.active i {
+    opacity: 1;
+    color: var(--primary-black);
+}
+
+/* Sub Filters (Level 2) */
+.sub-filters-container {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-20px);
+}
+
+.sub-filters-container.visible {
+    max-height: 300px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 0.5rem;
+}
+
+.sub-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .filter-btn {
-    padding: 0.75rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-gray);
+    padding: 0.8rem 1.5rem;
     border-radius: 50px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 500;
-    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
     letter-spacing: 0.05em;
-    position: relative;
-    overflow: hidden;
-}
-
-.filter-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.filter-btn:hover::before {
-    width: 300px;
-    height: 300px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
 .filter-btn:hover {
-    color: var(--accent-white);
+    background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.3);
+    color: var(--accent-white);
     transform: translateY(-2px);
 }
 
 .filter-btn.active {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: transparent;
+    border-color: var(--accent-white);
     color: var(--accent-white);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1) inset;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
@@ -1218,9 +1327,19 @@ footer::after {
 }
 
 @keyframes heartBeat {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.2); }
-    50% { transform: scale(0.9); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.2);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
 }
 
 /* ============================================
@@ -1310,6 +1429,7 @@ footer::after {
         opacity: 0;
         transform: scale(0.9) translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1334,7 +1454,7 @@ footer::after {
     z-index: 10;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3),
-                0 0 20px rgba(255, 255, 255, 0.2);
+        0 0 20px rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
 }
 
@@ -1342,7 +1462,7 @@ footer::after {
     background: var(--accent-white);
     transform: rotate(90deg) scale(1.1);
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(255, 255, 255, 0.3);
+        0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 .modal-body {
@@ -1615,6 +1735,7 @@ footer::after {
         opacity: 0;
         transform: scale(0.9) translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1873,14 +1994,14 @@ footer::after {
         max-width: 95vw;
         padding: 1rem;
     }
-    
+
     .lookbook-modal-close {
         top: -40px;
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
     }
-    
+
     .lookbook-modal-image {
         max-width: 95vw;
         max-height: 85vh;
@@ -1934,7 +2055,7 @@ footer::after {
     .container {
         max-width: 1600px;
     }
-    
+
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
@@ -1952,28 +2073,28 @@ footer::after {
     .hero-title {
         font-size: clamp(3.5rem, 10vw, 7rem);
     }
-    
+
     .section-title {
         font-size: clamp(2.5rem, 7vw, 5rem);
     }
-    
+
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
     }
-    
+
     .tshirt-image-container {
         height: 380px;
     }
-    
+
     .hero-content {
         padding: 1.5rem;
     }
-    
+
     .hero-subtitle {
         font-size: clamp(1.1rem, 2.5vw, 1.8rem);
     }
-    
+
     .hero-description {
         font-size: clamp(0.95rem, 2vw, 1.2rem);
     }
@@ -1985,32 +2106,32 @@ footer::after {
         padding: 1rem 1.5rem;
         position: relative;
     }
-    
+
     .header-actions {
         gap: 0.75rem;
         order: 3;
     }
-    
+
     .search-toggle,
     .favorites-toggle {
         width: 35px;
         height: 35px;
         font-size: 0.9rem;
     }
-    
+
     .mobile-menu-toggle {
         display: flex;
         order: 2;
     }
-    
+
     nav {
         flex-wrap: wrap;
     }
-    
+
     .logo-container {
         order: 1;
     }
-    
+
     .nav-links {
         position: fixed;
         top: 0;
@@ -2030,11 +2151,11 @@ footer::after {
         border-left: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
     }
-    
+
     .nav-links.active {
         right: 0;
     }
-    
+
     /* Overlay para el menú móvil */
     .nav-links.active::before {
         content: '';
@@ -2047,175 +2168,173 @@ footer::after {
         z-index: -1;
         animation: fadeIn 0.3s ease;
     }
-    
+
     .nav-links .nav-link {
         font-size: 1.2rem;
         width: 100%;
         padding: 0.75rem 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     .nav-links .nav-link::after {
         display: none;
     }
-    
+
     nav {
         padding: 1.2rem 1.5rem;
     }
-    
+
     .logo-container img {
         height: 50px;
     }
-    
+
     .nav-links {
         gap: 2rem;
     }
-    
+
     .hero-section {
         padding-top: 80px;
         min-height: 90vh;
     }
-    
+
     .hero-title {
         font-size: clamp(3rem, 12vw, 6rem);
         margin-bottom: 1.5rem;
     }
-    
+
     .hero-subtitle {
         font-size: clamp(1rem, 3vw, 1.6rem);
         margin-bottom: 0.75rem;
     }
-    
+
     .hero-description {
         font-size: clamp(0.9rem, 2.2vw, 1.1rem);
         margin-bottom: 2rem;
     }
-    
+
     .cta-button {
         padding: 1rem 2.5rem;
         font-size: 1rem;
     }
-    
+
     .products-section {
         padding: 5rem 0;
     }
-    
+
     .section-header {
         margin-bottom: 3rem;
     }
-    
+
     .section-title {
         font-size: clamp(2.5rem, 8vw, 4.5rem);
         margin-bottom: 1rem;
     }
-    
+
     .section-subtitle {
         font-size: clamp(1rem, 2.5vw, 1.2rem);
         padding: 0 1rem;
     }
-    
+
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 1.5rem;
         padding: 0 1rem;
     }
-    
+
     .tshirt-image-container {
         height: 350px;
     }
-    
+
     .tshirt-title {
         font-size: 1.3rem;
     }
-    
+
     .about-section {
         padding: 5rem 0;
     }
-    
+
     .about-content {
         padding: 0 1.5rem;
     }
-    
+
     .about-text {
         font-size: 1.1rem;
         line-height: 1.8;
         margin-bottom: 1.5rem;
     }
-    
+
     footer {
         padding: 4rem 0 3rem;
     }
-    
+
     footer::before {
         opacity: 0.3;
     }
-    
+
     footer::after {
-        background: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.75) 0%,
-            rgba(0, 0, 0, 0.85) 50%,
-            rgba(0, 0, 0, 0.9) 100%
-        );
+        background: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.75) 0%,
+                rgba(0, 0, 0, 0.85) 50%,
+                rgba(0, 0, 0, 0.9) 100%);
     }
-    
+
     .footer-logo {
         margin-bottom: 2rem;
     }
-    
+
     .footer-logo img {
         height: 50px;
     }
-    
+
     .scroll-top-btn {
         width: 60px;
         height: 60px;
         bottom: 20px;
         left: 20px;
     }
-    
+
     .scroll-top-btn i {
         font-size: 24px;
     }
-    
+
     .whatsapp-btn {
         width: 60px;
         height: 60px;
         bottom: 20px;
         right: 20px;
     }
-    
+
     .whatsapp-btn i {
         font-size: 32px;
     }
-    
+
     .hero-glow {
         width: 400px;
         height: 400px;
     }
-    
+
     .container {
         padding: 0 1rem;
     }
-    
+
     .modal-body {
         padding: 2rem 1.5rem;
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .modal-info h2 {
         font-size: 1.5rem;
     }
-    
+
     .modal-action-btn {
         min-width: 100%;
     }
-    
+
     .favorites-sidebar {
         width: 100%;
     }
-    
+
     .popup-content {
         padding: 2rem;
         margin: 1rem;
@@ -2227,16 +2346,16 @@ footer::after {
     .hero-title {
         font-size: clamp(2.5rem, 10vw, 5rem);
     }
-    
+
     .section-title {
         font-size: clamp(2rem, 7vw, 3.5rem);
     }
-    
+
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 1.25rem;
     }
-    
+
     .tshirt-image-container {
         height: 320px;
     }
@@ -2247,257 +2366,255 @@ footer::after {
     nav {
         padding: 1rem 1rem;
     }
-    
+
     .logo-container img {
         height: 45px;
     }
-    
+
     .header-actions {
         gap: 0.5rem;
         order: 3;
     }
-    
+
     .search-toggle,
     .favorites-toggle {
         width: 32px;
         height: 32px;
         font-size: 0.85rem;
     }
-    
+
     .favorites-count {
         width: 16px;
         height: 16px;
         font-size: 0.65rem;
     }
-    
+
     nav {
         flex-wrap: wrap;
         gap: 0.5rem;
     }
-    
+
     .logo-container {
         order: 1;
     }
-    
+
     .mobile-menu-toggle {
         order: 2;
     }
-    
+
     .nav-links {
         width: 100%;
         right: -100%;
         gap: 1.5rem;
     }
-    
+
     .filters-container {
         gap: 0.75rem;
     }
-    
+
     .filter-btn {
         padding: 0.6rem 1.2rem;
         font-size: 0.8rem;
     }
-    
+
     .search-input {
         padding: 1.2rem 2.5rem 1.2rem 1.2rem;
         font-size: 1rem;
     }
-    
+
     .search-close {
         right: 2rem;
     }
-    
+
     .modal-body {
         padding: 2rem 1.5rem;
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .modal-info h2 {
         font-size: 1.5rem;
     }
-    
+
     .modal-action-btn {
         min-width: 100%;
     }
-    
+
     .favorites-sidebar {
         width: 100%;
     }
-    
+
     .popup-content {
         padding: 1.5rem;
     }
-    
+
     .popup-body h3 {
         font-size: 1.5rem;
     }
-    
+
     .hero-section {
         padding-top: 60px;
         min-height: 85vh;
     }
-    
+
     .hero-title {
         font-size: clamp(2.5rem, 12vw, 4.5rem);
         margin-bottom: 1rem;
         letter-spacing: 0.05em;
     }
-    
+
     .hero-subtitle {
         font-size: clamp(0.95rem, 3.5vw, 1.4rem);
         margin-bottom: 0.5rem;
     }
-    
+
     .hero-description {
         font-size: clamp(0.85rem, 2.5vw, 1rem);
         margin-bottom: 1.5rem;
         line-height: 1.6;
     }
-    
+
     .cta-button {
         padding: 0.9rem 2rem;
         font-size: 0.9rem;
         letter-spacing: 0.08em;
     }
-    
+
     .products-section {
         padding: 4rem 0;
     }
-    
+
     .section-header {
         margin-bottom: 2.5rem;
     }
-    
+
     .section-title {
         font-size: clamp(2rem, 9vw, 3rem);
         margin-bottom: 0.75rem;
     }
-    
+
     .section-subtitle {
         font-size: clamp(0.9rem, 3vw, 1.1rem);
         padding: 0 0.5rem;
         line-height: 1.7;
     }
-    
+
     .products-grid {
         grid-template-columns: 1fr;
         gap: 1.25rem;
         padding: 0 0.75rem;
     }
-    
+
     .tshirt-card {
         border-radius: 15px;
     }
-    
+
     .tshirt-image-container {
         height: 400px;
     }
-    
+
     .tshirt-title {
         font-size: 1.2rem;
     }
-    
+
     .tshirt-price {
         font-size: 0.9rem;
     }
-    
+
     .tshirt-button {
         padding: 0.9rem;
         font-size: 0.85rem;
     }
-    
+
     .about-section {
         padding: 4rem 0;
     }
-    
+
     .about-content {
         padding: 0 1rem;
     }
-    
+
     .about-text {
         font-size: 1rem;
         line-height: 1.7;
         margin-bottom: 1.25rem;
     }
-    
+
     footer {
         padding: 3rem 0 2rem;
     }
-    
+
     footer::before {
         opacity: 0.25;
         animation: none;
     }
-    
+
     footer::after {
-        background: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.8) 0%,
-            rgba(0, 0, 0, 0.9) 100%
-        );
+        background: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(0, 0, 0, 0.9) 100%);
     }
-    
+
     .footer-content {
         padding: 1.5rem 0;
     }
-    
+
     .footer-logo {
         margin-bottom: 1.5rem;
     }
-    
+
     .footer-logo img {
         height: 40px;
     }
-    
+
     .footer-text {
         font-size: 0.9rem;
         margin-bottom: 0.75rem;
     }
-    
+
     .footer-tagline {
         font-size: 0.8rem;
     }
-    
+
     .scroll-top-btn {
         width: 55px;
         height: 55px;
         bottom: 15px;
         left: 15px;
     }
-    
+
     .scroll-top-btn i {
         font-size: 22px;
     }
-    
+
     .whatsapp-btn {
         width: 55px;
         height: 55px;
         bottom: 15px;
         right: 15px;
     }
-    
+
     .whatsapp-btn i {
         font-size: 28px;
     }
-    
+
     .hero-glow {
         width: 300px;
         height: 300px;
     }
-    
+
     .hero-particles {
         opacity: 0.2;
     }
-    
+
     .container {
         padding: 0 0.75rem;
     }
-    
+
     .loading-text {
         font-size: 20px;
     }
-    
+
     .spinner {
         width: 50px;
         height: 50px;
@@ -2509,33 +2626,33 @@ footer::after {
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .section-title {
         font-size: 1.75rem;
     }
-    
+
     .tshirt-image-container {
         height: 350px;
     }
-    
+
     .scroll-top-btn {
         width: 50px;
         height: 50px;
         bottom: 10px;
         left: 10px;
     }
-    
+
     .scroll-top-btn i {
         font-size: 20px;
     }
-    
+
     .whatsapp-btn {
         width: 50px;
         height: 50px;
         bottom: 10px;
         right: 10px;
     }
-    
+
     .whatsapp-btn i {
         font-size: 24px;
     }
@@ -2547,22 +2664,22 @@ footer::after {
         min-height: auto;
         padding: 6rem 0 4rem;
     }
-    
+
     .hero-title {
         font-size: clamp(2.5rem, 8vw, 4rem);
         margin-bottom: 0.5rem;
     }
-    
+
     .hero-subtitle {
         font-size: clamp(0.9rem, 2vw, 1.2rem);
         margin-bottom: 0.25rem;
     }
-    
+
     .hero-description {
         font-size: clamp(0.8rem, 1.8vw, 1rem);
         margin-bottom: 1rem;
     }
-    
+
     .cta-button {
         padding: 0.75rem 2rem;
         font-size: 0.85rem;
@@ -2574,34 +2691,34 @@ footer::after {
     .tshirt-card:hover {
         transform: none;
     }
-    
+
     .tshirt-card:active {
         transform: scale(0.98);
     }
-    
+
     .cta-button:hover {
         transform: none;
     }
-    
+
     .cta-button:active {
         transform: scale(0.95);
     }
-    
+
     .whatsapp-btn:hover {
         transform: none;
     }
-    
+
     .whatsapp-btn:active {
         transform: scale(0.9);
     }
-    
+
     /* Increase touch target sizes */
     .nav-links .nav-link {
         min-height: 44px;
         display: flex;
         align-items: center;
     }
-    
+
     .tshirt-button {
         min-height: 44px;
     }
@@ -2622,4 +2739,3 @@ footer::after {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
-

@@ -161,6 +161,24 @@ function extractCategory(path) {
 }
 
 /**
+ * Determina el tipo de producto (Camisetas, Gorras, Tote Bags)
+ */
+function determineProductType(path) {
+    const lowerPath = path.toLowerCase();
+    
+    if (lowerPath.includes('tote bags') || lowerPath.includes('tote-bags')) {
+        return 'tote-bags';
+    }
+    
+    if (lowerPath.includes('gorras')) {
+        return 'gorras';
+    }
+    
+    // Por defecto, todo lo demás son camisetas
+    return 'camisetas';
+}
+
+/**
  * Genera un título creativo basándose en el nombre del archivo
  */
 function generateTitle(filename, path) {
@@ -303,6 +321,7 @@ function generateProducts() {
     return PRODUCT_PATHS.map((path, index) => {
         const filename = path.split('/').pop();
         const category = extractCategory(path);
+        const type = determineProductType(path);
         const title = generateTitle(filename, path);
         const description = generateDescription(filename, path, title);
         const badge = determineBadge(filename, path, index);
@@ -312,6 +331,7 @@ function generateProducts() {
             title: title,
             description: description,
             category: category,
+            type: type,
             badge: badge
         };
     }).filter(product => product.category !== 'noise'); // Filtrar productos de categoría "noise"
@@ -361,33 +381,37 @@ function getCategoryDisplayName(category) {
 /**
  * Actualiza los filtros en el HTML automáticamente
  */
+/**
+ * Actualiza los filtros en el HTML automáticamente
+ */
 function updateFilters() {
-    const filtersContainer = document.querySelector('.filters-container');
-    if (!filtersContainer) return;
+    const subFiltersContainer = document.getElementById('subFilters');
+    if (!subFiltersContainer) return;
     
-    const categories = getUniqueCategories(products).filter(cat => cat !== 'noise'); // Excluir categoría "noise"
+    // Limpiar filtros existentes
+    subFiltersContainer.innerHTML = '';
     
-    // Mantener el botón "Todas"
-    const allButton = filtersContainer.querySelector('[data-filter="all"]');
-    const existingButtons = filtersContainer.querySelectorAll('.filter-btn:not([data-filter="all"])');
-    existingButtons.forEach(btn => {
-        // No eliminar el botón de "noise" si existe (ya está oculto en HTML)
-        if (btn.getAttribute('data-filter') !== 'noise') {
-            btn.remove();
-        }
-    });
+    // Obtener categorías únicas de camisetas (excluyendo noise y tote-bags)
+    const tshirtCategories = [...new Set(
+        products
+            .filter(p => p.type === 'camisetas' && p.category !== 'noise')
+            .map(p => p.category)
+    )].sort();
     
-    // Agregar botones de categorías (excluyendo "noise")
-    categories.forEach(category => {
-        // Verificar que no exista ya un botón para esta categoría
-        const existingBtn = filtersContainer.querySelector(`[data-filter="${category}"]`);
-        if (!existingBtn) {
-            const button = document.createElement('button');
-            button.className = 'filter-btn';
-            button.setAttribute('data-filter', category);
-            button.innerHTML = `<span>${getCategoryDisplayName(category)}</span>`;
-            filtersContainer.appendChild(button);
-        }
+    // Botón "Todas"
+    const allButton = document.createElement('button');
+    allButton.className = 'filter-btn active';
+    allButton.setAttribute('data-filter', 'all');
+    allButton.innerHTML = '<span>Todas</span>';
+    subFiltersContainer.appendChild(allButton);
+    
+    // Botones de categorías
+    tshirtCategories.forEach(category => {
+        const button = document.createElement('button');
+        button.className = 'filter-btn';
+        button.setAttribute('data-filter', category);
+        button.innerHTML = `<span>${getCategoryDisplayName(category)}</span>`;
+        subFiltersContainer.appendChild(button);
     });
     
     // Reinicializar los event listeners de filtros
@@ -413,7 +437,10 @@ try {
     // Arrays para compatibilidad con código existente
     tshirtImages = products.map(p => p.image);
     tshirtQuotes = products.map(p => p.title);
+    tshirtImages = products.map(p => p.image);
+    tshirtQuotes = products.map(p => p.title);
     productCategories = products.map(p => p.category);
+    productTypes = products.map(p => p.type);
     productBadges = products.map(p => p.badge);
     
     console.log(`✅ Arrays creados: ${tshirtImages.length} imágenes, ${tshirtQuotes.length} títulos`);
@@ -422,7 +449,9 @@ try {
     products = [];
     tshirtImages = [];
     tshirtQuotes = [];
+    tshirtQuotes = [];
     productCategories = [];
+    productTypes = [];
     productBadges = [];
 }
 
@@ -431,7 +460,9 @@ if (typeof window !== 'undefined') {
     window.products = products;
     window.tshirtImages = tshirtImages;
     window.tshirtQuotes = tshirtQuotes;
+    window.tshirtQuotes = tshirtQuotes;
     window.productCategories = productCategories;
+    window.productTypes = productTypes;
     window.productBadges = productBadges;
     
     // Función para regenerar productos (útil si se agregan nuevos)
@@ -440,7 +471,9 @@ if (typeof window !== 'undefined') {
         window.products = newProducts;
         window.tshirtImages = newProducts.map(p => p.image);
         window.tshirtQuotes = newProducts.map(p => p.title);
+        window.tshirtQuotes = newProducts.map(p => p.title);
         window.productCategories = newProducts.map(p => p.category);
+        window.productTypes = newProducts.map(p => p.type);
         window.productBadges = newProducts.map(p => p.badge);
         
         // Actualizar filtros automáticamente
