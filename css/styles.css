@@ -1257,10 +1257,12 @@ footer::after {
 }
 
 .sub-filters-container.visible {
-    max-height: 600px;
+    max-height: 2000px;
     opacity: 1;
     transform: translateY(0);
     margin-top: 0.5rem;
+    overflow: visible !important;
+    padding-bottom: 20px;
 }
 
 .category-notice {
