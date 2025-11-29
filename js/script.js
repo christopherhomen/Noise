@@ -53,6 +53,13 @@ function getProductBadges() {
 // Sistema de favoritos
 let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
 
+const MAX_RANDOM_CAMISETAS = 15;
+let camisetasRandomOrder = [];
+let camisetasDisplayLimit = MAX_RANDOM_CAMISETAS;
+const CATEGORY_NOTICES = {
+    pets: 'Categoría especial: personaliza tu camiseta con la foto de tu peludito y rinde homenaje con estilo.'
+};
+
 // ============================================
 // FUNCIONES DE PRODUCTOS
 // ============================================
@@ -82,6 +89,7 @@ function loadTshirts() {
     console.log(`📦 Cargando ${currentImages.length} productos...`);
 
     try {
+        generateRandomCamisetasOrder();
         let cardsCreated = 0;
         currentImages.forEach((imagePath, index) => {
             try {
@@ -99,6 +107,9 @@ function loadTshirts() {
             }
         });
         console.log(`✅ ${cardsCreated} productos cargados exitosamente`);
+
+        // Aplicar filtros iniciales con el límite aleatorio
+        applyFilters();
     } catch (error) {
         console.error('❌ Error en loadTshirts():', error);
     }
@@ -523,6 +534,69 @@ window.removeFromFavorites = removeFromFavorites;
 // ============================================
 // SISTEMA DE FILTROS
 // ============================================
+function generateRandomCamisetasOrder(forceReset = true) {
+    const productList = getProducts();
+    camisetasRandomOrder = productList
+        .map((product, index) => ({ index, type: product.type }))
+        .filter(item => item.type === 'camisetas')
+        .map(item => item.index);
+
+    for (let i = camisetasRandomOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [camisetasRandomOrder[i], camisetasRandomOrder[j]] = [camisetasRandomOrder[j], camisetasRandomOrder[i]];
+    }
+
+    const total = camisetasRandomOrder.length;
+    if (forceReset) {
+        camisetasDisplayLimit = Math.min(MAX_RANDOM_CAMISETAS, total);
+    } else {
+        camisetasDisplayLimit = Math.min(camisetasDisplayLimit, total);
+    }
+}
+
+function initLoadMoreButton() {
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (!loadMoreBtn) return;
+
+    loadMoreBtn.addEventListener('click', () => {
+        camisetasDisplayLimit = camisetasRandomOrder.length;
+        applyFilters();
+    });
+}
+
+function updateLoadMoreButtonState() {
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (!loadMoreBtn) return;
+
+    const shouldShow = currentTypeFilter === 'camisetas'
+        && currentCategoryFilter === 'all'
+        && camisetasRandomOrder.length > camisetasDisplayLimit;
+
+    if (shouldShow) {
+        loadMoreBtn.style.display = 'inline-flex';
+        loadMoreBtn.disabled = false;
+    } else {
+        loadMoreBtn.style.display = 'none';
+        loadMoreBtn.disabled = true;
+    }
+}
+
+function updateCategoryNotice() {
+    const notice = document.getElementById('categoryNotice');
+    if (!notice) return;
+
+    const noticeText = CATEGORY_NOTICES[currentCategoryFilter];
+    const shouldShow = currentTypeFilter === 'camisetas' && noticeText;
+
+    if (shouldShow) {
+        notice.innerHTML = `<strong>${noticeText}</strong>`;
+        notice.classList.add('show');
+    } else {
+        notice.innerHTML = '';
+        notice.classList.remove('show');
+    }
+}
+
 // ============================================
 // SISTEMA DE FILTROS
 // ============================================
@@ -600,13 +674,41 @@ window.initFilters = initFilters;
 
 function applyFilters() {
     const cards = document.querySelectorAll('.tshirt-card');
+    const grid = document.getElementById('productGrid');
+    const isAllCamisetas = currentTypeFilter === 'camisetas' && currentCategoryFilter === 'all';
+    const allowedRandomIndexes = new Set();
+
+    if (isAllCamisetas) {
+        if (camisetasRandomOrder.length === 0) {
+            generateRandomCamisetasOrder();
+        } else {
+            camisetasDisplayLimit = Math.min(camisetasDisplayLimit, camisetasRandomOrder.length);
+        }
+
+        camisetasRandomOrder.forEach((productIndex, orderPosition) => {
+            const card = grid?.querySelector(`.tshirt-card[data-index="${productIndex}"]`);
+            if (card) {
+                card.style.order = orderPosition;
+            }
+        });
+
+        camisetasRandomOrder
+            .slice(0, Math.min(camisetasDisplayLimit, camisetasRandomOrder.length))
+            .forEach(idx => allowedRandomIndexes.add(String(idx)));
+    }
+
     let visibleCount = 0;
 
     cards.forEach(card => {
         const typeMatch = card.dataset.type === currentTypeFilter;
         const categoryMatch = currentCategoryFilter === 'all' || card.dataset.category === currentCategoryFilter;
+        let shouldDisplay = typeMatch && (currentTypeFilter !== 'camisetas' || categoryMatch);
 
-        if (typeMatch && (currentTypeFilter !== 'camisetas' || categoryMatch)) {
+        if (isAllCamisetas) {
+            shouldDisplay = typeMatch && allowedRandomIndexes.has(card.dataset.index);
+        }
+
+        if (shouldDisplay) {
             card.style.display = '';
             setTimeout(() => {
                 card.style.opacity = '1';
@@ -623,7 +725,6 @@ function applyFilters() {
     });
 
     // Mensaje si no hay productos (ej: Gorras)
-    const grid = document.getElementById('productGrid');
     const existingMsg = document.getElementById('no-products-msg');
     if (existingMsg) existingMsg.remove();
 
@@ -640,6 +741,9 @@ function applyFilters() {
         `;
         grid.appendChild(msg);
     }
+
+    updateLoadMoreButtonState();
+    updateCategoryNotice();
 }
 
 // Deprecated: Mantener por compatibilidad si algo externo lo llama
@@ -1153,6 +1257,7 @@ function init() {
 
         // Inicializar nuevas funcionalidades
         initFilters();
+        initLoadMoreButton();
         initSearch();
         initFavoritesSidebar();
         initNewsletterPopup();

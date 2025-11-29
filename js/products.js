@@ -10,56 +10,108 @@
 // Solo necesitas agregar la ruta de la imagen aquí
 // El sistema generará automáticamente título, descripción y categoría
 const PRODUCT_PATHS = [
-    // UNIVERSOS - Stranger Things
-    'assets/img/Universos/Stanger Things/Once_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Once_Premium_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Chicos_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Chicos_Luces_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Chicos_Version_2_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Chicos_Version_3_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Vecna_Chicos-Version_1_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Vecna_Chicos-Version_2_StrangerThings.jpg',
-    'assets/img/Universos/Stanger Things/Team_StrangerThings.jpg',
-    // UNIVERSOS - House of Dragons
-    'assets/img/Universos/House Of Dragons/HouseOfDragons.jpg',
-    // ANIME
-    'assets/img/Anime/Goku.jpg',
-    'assets/img/Anime/Sailor_Moon_1.jpg',
-    'assets/img/Anime/Sailor_Moon_2.jpg',
-    'assets/img/Anime/Sailor_Moon_3.jpg',
-    // EMPODERAMIENTO
-    'assets/img/Empoderamiento/More_Pride.png',
-    'assets/img/Empoderamiento/Future_Inclusive.png',
-    'assets/img/Empoderamiento/Resist_Persist.png',
-    'assets/img/Empoderamiento/Soy_Fabuloso.png',
-    'assets/img/Empoderamiento/Ojo_de_loca_No_Se_Equivoca.png',
-    // HEROÍNAS
-    'assets/img/Heroínas/Cleopatra.png',
-    'assets/img/Heroínas/La_Pola.png',
-    'assets/img/Heroínas/Marie_Curie.png',
-    // MEMES
-    'assets/img/Memes/Calamardo_Bob_Esponga.jpg',
-    'assets/img/Memes/Empanada_Lover.jpg',
-    'assets/img/Memes/Homero_Simpson_Sueño.jpg',
-    'assets/img/Memes/No_Dormi_Bien.png',
-    // COLOMBIA
-    'assets/img/Colombia/Esto_Es_Colombia.png',
-    'assets/img/Colombia/Hableme_Perrito.png',
-    'assets/img/Colombia/LaTiNa.png',
-    'assets/img/Colombia/Me_Dijo_ChatGPT.png',
-    'assets/img/Colombia/Papaya_Partida.png',
-    'assets/img/Colombia/Parce_Made_In_Colombia.png',
-    'assets/img/Colombia/Parchese.png',
-    // NOISE
+    // CAMISETAS - Colombia
+    'assets/img/Camisetas/Colombia/Cabello Meme.JPG',
+    'assets/img/Camisetas/Colombia/Croptop chocorramo.JPG',
+    'assets/img/Camisetas/Colombia/Croptop laTiNa Essential.JPG',
+    'assets/img/Camisetas/Colombia/Croptop no soy monstruo.JPG',
+    'assets/img/Camisetas/Colombia/hableme perrito.JPG',
+    'assets/img/Camisetas/Colombia/made in colombia.JPG',
+    'assets/img/Camisetas/Colombia/papaya given papaya taken.JPG',
+
+    // CAMISETAS - Empoderamiento
+    'assets/img/Camisetas/Empoderamiento/future inclusive.JPG',
+    'assets/img/Camisetas/Empoderamiento/more pride.JPG',
+    'assets/img/Camisetas/Empoderamiento/ojo de loca.JPG',
+    'assets/img/Camisetas/Empoderamiento/ressist.JPG',
+
+    // CAMISETAS - Heroínas
+    'assets/img/Camisetas/Heroinas/cleopatra.JPG',
+    'assets/img/Camisetas/Heroinas/frida kahlo.JPG',
+    'assets/img/Camisetas/Heroinas/marie curie.JPG',
+    'assets/img/Camisetas/Heroinas/señora antigua.JPG',
+
+    // CAMISETAS - Manga y Anime
+    'assets/img/Camisetas/Manga/Croptop patamon digimon.JPG',
+    'assets/img/Camisetas/Manga/Croptop sailor moon 1.JPG',
+    'assets/img/Camisetas/Manga/Croptop sailor moon 2.JPG',
+    'assets/img/Camisetas/Manga/Croptop sakura cardcaptor.JPG',
+    'assets/img/Camisetas/Manga/gengar pokemon.JPG',
+    'assets/img/Camisetas/Manga/majin buu.JPG',
+    'assets/img/Camisetas/Manga/monkey dluffy.JPG',
+    'assets/img/Camisetas/Manga/pokemons.JPG',
+    'assets/img/Camisetas/Manga/sailor moon 3.JPG',
+    'assets/img/Camisetas/Manga/saint seiya man.JPG',
+    'assets/img/Camisetas/Manga/saint seiya woman.JPG',
+
+    // CAMISETAS - Memes
+    'assets/img/Camisetas/Memes/Croptop cynthia.JPG',
+    'assets/img/Camisetas/Memes/ser adulto.JPG',
+
+    // CAMISETAS - Pets
+    'assets/img/Camisetas/Pets/andy dog.JPG',
+    'assets/img/Camisetas/Pets/cat.JPG',
+    'assets/img/Camisetas/Pets/dogs paw.JPG',
+    'assets/img/Camisetas/Pets/general dog.JPG',
+    'assets/img/Camisetas/Pets/kyra memorial.JPG',
+    'assets/img/Camisetas/Pets/luna dog.JPG',
+    'assets/img/Camisetas/Pets/odin dog.JPG',
+    'assets/img/Camisetas/Pets/patacon dog.JPG',
+    'assets/img/Camisetas/Pets/poncho dog memorial.JPG',
+    'assets/img/Camisetas/Pets/vincet dog memorial.JPG',
+
+    // CAMISETAS - Music
+    'assets/img/Camisetas/Music/beele.JPG',
+    'assets/img/Camisetas/Music/billie eilish 1.JPG',
+    'assets/img/Camisetas/Music/billie eilish.JPG',
+    'assets/img/Camisetas/Music/blackpink.JPG',
+    'assets/img/Camisetas/Music/britney spears 1.JPG',
+    'assets/img/Camisetas/Music/britney spears 2.JPG',
+    'assets/img/Camisetas/Music/Croptop bts.JPG',
+    'assets/img/Camisetas/Music/feid.JPG',
+    'assets/img/Camisetas/Music/karol g.JPG',
+    'assets/img/Camisetas/Music/mago de oz.JPG',
+    'assets/img/Camisetas/Music/marilyn monroe 1.JPG',
+    'assets/img/Camisetas/Music/marilyn monroe 2.JPG',
+    'assets/img/Camisetas/Music/new york.JPG',
+    'assets/img/Camisetas/Music/selena quintanilla.JPG',
+    'assets/img/Camisetas/Music/shakira 1.JPG',
+    'assets/img/Camisetas/Music/shakira 2.JPG',
+
+    // CAMISETAS - Urban
+    'assets/img/Camisetas/Urban/beside the point.JPG',
+    'assets/img/Camisetas/Urban/great yourself.JPG',
+    'assets/img/Camisetas/Urban/hands.JPG',
+    'assets/img/Camisetas/Urban/its leviosa.JPG',
+    'assets/img/Camisetas/Urban/reave.JPG',
+    'assets/img/Camisetas/Urban/the real.JPG',
+    'assets/img/Camisetas/Urban/tokyo cart.JPG',
+    'assets/img/Camisetas/Urban/vincent van gogh.JPG',
+
+    // CAMISETAS - Roblox
+    'assets/img/Camisetas/Roblox/roblox.JPG',
+
+    // GORRAS
+    'assets/img/Gorras/angelica rugrats.JPG',
+    'assets/img/Gorras/elijo violencia.JPG',
+    'assets/img/Gorras/existencial crisis.JPG',
+    'assets/img/Gorras/sailor moon.JPG',
+
+    // NOISE (oculto)
     'assets/img/Noise/Noise_1.jpg',
     'assets/img/Noise/Noise_2.jpg',
     'assets/img/Noise/Noise_3.jpg',
     'assets/img/Noise/Noise_4.jpg',
     'assets/img/Noise/Noise_5.jpg',
     'assets/img/Noise/Noise_6.png',
+
     // TOTE BAGS
     'assets/img/Tote bags/Chicos_StrangerThings_Tote_Bag.JPG',
     'assets/img/Tote bags/Dama_Antigua.png',
+    'assets/img/Tote bags/sailor moon 1.JPG',
+    'assets/img/Tote bags/sailor moon 2.JPG',
+    'assets/img/Tote bags/stranger thins kids.JPG',
+    'assets/img/Tote bags/vecna stranger things.PNG',
     'assets/img/Tote bags/Vecna_strangerThings.png'
 ];
 
@@ -77,6 +129,8 @@ const KEYWORDS = {
     'cleopatra': { title: 'Cleopatra - La Reina', desc: 'La última faraona de Egipto. El poder y la inteligencia.' },
     'pola': { title: 'La Pola - Heroína Nacional', desc: 'Policarpa Salavarrieta. La valentía que cambió la historia.' },
     'marie': { title: 'Marie Curie - La Científica', desc: 'La primera mujer en ganar un Nobel. La ciencia que transforma.' },
+    'frida': { title: 'Frida Kahlo - Arte y Rebeldía', desc: 'La artista mexicana que convirtió su historia en colores y resiliencia.' },
+    'señora': { title: 'Señora Antigua - Glam Clásico', desc: 'Elegancia atemporal, perlas y actitud impecable en cada detalle.' },
     'calamardo': { title: 'Calamardo - El Deprimido', desc: 'El meme que todos sentimos. La vida de Calamardo.' },
     'homero': { title: 'Homero - El Sueño', desc: 'Cuando solo quieres dormir. El meme de la vida real.' },
     
@@ -105,7 +159,53 @@ const KEYWORDS = {
     
     // Tote bags
     'tote': { title: 'Tote Bag', desc: 'Lleva tu estilo contigo. El diseño en cada viaje.' },
-    'bag': { title: 'Tote Bag', desc: 'Lleva tu estilo contigo. El diseño en cada viaje.' }
+    'bag': { title: 'Tote Bag', desc: 'Lleva tu estilo contigo. El diseño en cada viaje.' },
+
+    // Cultura pop y música
+    'beele': { title: 'Beele - Caribe Wave', desc: 'Vibras de dancehall y afrobeat directo del Caribe colombiano.' },
+    'selena': { title: 'Selena Quintanilla - Reina del Tex-Mex', desc: 'Homenaje a la artista que conquistó los Grammy con Amor Prohibido.' },
+    'billie': { title: 'Billie Eilish - Neon Moods', desc: 'Pop oscuro, susurros eléctricos y estilo oversized.' },
+    'blackpink': { title: 'BLACKPINK - Born Pink', desc: 'Girl power K-pop con coreografías que incendian escenarios.' },
+    'britney': { title: 'Britney Spears - Pop Icon', desc: 'El brillo Y2K que definió una era en MTV.' },
+    'bts': { title: 'BTS - Beyond The Scene', desc: 'Siete voces, millones de ARMY y coreografías perfectas.' },
+    'feid': { title: 'Feid - Ferxxo Nights', desc: 'Reggaetón mid tempo con gafas verdes y vibra Medellín.' },
+    'karol': { title: 'Karol G - Bichota Energy', desc: 'Empoderamiento urbano y letras que se corean a gritos.' },
+    'mago': { title: 'Mägo de Oz - Fiesta Folk', desc: 'Gaitas, metal y cuento épico en una sola camiseta.' },
+    'marilyn': { title: 'Marilyn Monroe - Golden Icon', desc: 'Hollywood clásico, labios rojos y glamour eterno.' },
+    'shakira': { title: 'Shakira - Hips Don’t Lie', desc: 'Fusiones latinas con movimientos imposibles y voz inconfundible.' },
+    'vincent': { title: 'Vincent van Gogh - Starry Muse', desc: 'Pinceladas intensas que iluminan la noche.' },
+    'tokyo': { title: 'Tokyo Drift - Neon Pulse', desc: 'Carreras nocturnas y glow urbano con sabor asiático.' },
+    'angelica': { title: 'Angélica Pickles - Rugrats Queen', desc: 'La villana favorita del patio de juegos 90s.' },
+    'rugrats': { title: 'Rugrats Nostalgia', desc: 'Nickelodeon vibes para fans de la infancia sin filtros.' },
+    'leviosa': { title: 'It’s Leviosa, Not Leviosar', desc: 'La cita que todo potterhead corrige con orgullo.' },
+
+    // Anime, manga y gaming
+    'patamon': { title: 'Patamon - Guardián Digital', desc: 'La ternura Digimon que evoluciona en pura épica.' },
+    'digimon': { title: 'Digimon Adventure', desc: 'Bestias digitales, amistad y nostalgia noventera.' },
+    'sakura': { title: 'Sakura Card Captor', desc: 'Cartas mágicas, broches y outfits de Tomoyo.' },
+    'gengar': { title: 'Gengar - Sombra Pokémon', desc: 'Smile travieso y aura púrpura salida de Kanto.' },
+    'pokemon': { title: 'Pokémon Trainer', desc: 'Atrápalos todos con estilo retro gaming.' },
+    'majin': { title: 'Majin Buu - Caos Rosa', desc: 'Villano impredecible con poder infinito y dulces.' },
+    'dluffy': { title: 'Monkey D. Luffy - Rey Pirata', desc: 'Sombrero de paja listo para conquistar el Grand Line.' },
+    'seiya': { title: 'Saint Seiya - Cosmos', desc: 'Caballeros de bronce encendiendo el cosmos por Atena.' },
+    'roblox': { title: 'Roblox - Metaverso Pixel', desc: 'Creatividad infinita para gamers que construyen mundos.' },
+
+    // Memes y frases
+    'cynthia': { title: 'Cynthia Vibes', desc: 'La muñeca más punk de los 2000 vuelve en crop top.' },
+    'adulto': { title: 'Ser Adulto Es Un Meme', desc: 'Cansancio, café y humor ácido en cada línea.' },
+    'cabello': { title: 'Cabello Meme - Pelo Perfecto', desc: 'Drama capilar convertido en statement fashion.' },
+    'chocorramo': { title: 'Chocorramo Love', desc: 'Dulce nostalgia colombiana en modo streetwear.' },
+    'monstruo': { title: 'No Soy Monstruo', desc: 'Respuesta icónica para callar prejuicios con humor.' },
+
+    // Mascotas
+    'andy': { title: 'Andy Dog - Best Friend', desc: 'Un tributo peludo para llevar siempre cerca del corazón.' },
+    'kyra': { title: 'Kyra - Guardian Angel', desc: 'Recuerdo brillante para una compañera leal.' },
+    'odin': { title: 'Odín - Alma Aventurera', desc: 'Historias de parque y ternura en cada trazo.' },
+    'poncho': { title: 'Poncho - Leyenda Canina', desc: 'Memorial para el perrito más noble del barrio.' },
+    'patacon': { title: 'Patacón Dog', desc: 'El perrito con nombre de snack que todos aman.' },
+    'luna': { title: 'Luna - Luz Peluda', desc: 'Reflejos plateados y ojitos que hipnotizan.' },
+    'vincet': { title: 'Vincent Dog - Arte Canino', desc: 'Bigotes nobles inspirados en Van Gogh.' },
+    'paw': { title: 'Dogs Paw - Huella Eterna', desc: 'Un imprint que simboliza fidelidad infinita.' }
 };
 
 const DESCRIPTIONS = {
@@ -135,8 +235,16 @@ function extractCategory(path) {
         'Anime': 'anime',
         'Empoderamiento': 'empoderamiento',
         'Heroínas': 'heroinas',
+        'Heroinas': 'heroinas',
         'Memes': 'memes',
         'Colombia': 'colombia',
+        'Manga': 'manga',
+        'Pets': 'pets',
+        'Pop': 'music',
+        'Music': 'music',
+        'Roblox': 'roblox',
+        'Gorras': 'gorras',
+        'Urban': 'urban',
         'Noise': 'noise',
         'Tote bags': 'tote-bags',
         'Stanger Things': 'universos', // Subcarpeta dentro de Universos
@@ -257,6 +365,14 @@ function generateDescription(filename, path, title) {
             if (normalized.includes('vecna') && normalized.includes('chicos')) {
                 desc = 'El enfrentamiento épico. El mal contra la amistad.';
             }
+
+            // Memoriales para mascotas fallecidas
+            if (normalized.includes('memorial')) {
+                const isCat = normalized.includes('cat');
+                desc = isCat
+                    ? 'Homenaje póstumo para recordar a tu gato con estilo y cariño.'
+                    : 'Homenaje póstumo para celebrar la vida de tu perrito con estilo y cariño.';
+            }
             
             return desc;
         }
@@ -271,6 +387,12 @@ function generateDescription(filename, path, title) {
         'heroinas': 'La heroína que inspira. El poder femenino.',
         'memes': 'El meme que todos sentimos. La risa que conecta.',
         'colombia': 'El orgullo colombiano. La identidad que nos une.',
+        'manga': 'Paneles de shonen y shojo listos para tomar la calle.',
+        'pets': 'Tributos peludos con energía cozy y corazón gigante.',
+        'music': 'Beats icónicos, cultura pop y homenajes musicales en versión streetwear.',
+        'urban': 'Grafiti deluxe, referencias callejeras y vibra street para romper la ciudad.',
+        'roblox': 'Metaverso pixelado para gamers que crean mundos.',
+        'gorras': 'Accesorios urbanos para coronar cualquier fit.',
         'noise': 'El diseño que habla. La identidad Noise.',
         'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.'
     };
@@ -361,6 +483,12 @@ function getCategoryDisplayName(category) {
         'heroinas': 'Heroínas',
         'memes': 'Memes',
         'colombia': 'Colombia',
+        'manga': 'Manga',
+        'pets': 'Pets',
+        'music': 'Music',
+        'urban': 'Urban',
+        'roblox': 'Roblox',
+        'gorras': 'Gorras',
         'noise': 'Noise',
         'tote-bags': 'Tote Bags'
     };
@@ -428,6 +556,7 @@ let products = [];
 let tshirtImages = [];
 let tshirtQuotes = [];
 let productCategories = [];
+let productTypes = [];
 let productBadges = [];
 
 try {
