@@ -53,6 +53,18 @@ function getProductBadges() {
 // Sistema de favoritos
 let favorites = JSON.parse(localStorage.getItem('noiseFavorites')) || [];
 
+// Migración de datos antiguos (array de números) a nuevo formato (array de objetos)
+if (favorites.length > 0 && typeof favorites[0] === 'number') {
+    favorites = favorites.map(index => ({ index, size: null }));
+    localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
+}
+
+// Migración de datos antiguos (array de números) a nuevo formato (array de objetos)
+if (favorites.length > 0 && typeof favorites[0] === 'number') {
+    favorites = favorites.map(index => ({ index, size: null }));
+    localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
+}
+
 const MAX_RANDOM_CAMISETAS = 15;
 let camisetasRandomOrder = [];
 let camisetasDisplayLimit = MAX_RANDOM_CAMISETAS;
@@ -153,7 +165,7 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     favoriteBtn.className = 'favorite-btn';
     favoriteBtn.setAttribute('aria-label', 'Agregar a favoritos');
     favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
-    if (favorites.includes(index)) {
+    if (favorites.some(item => item.index === index)) {
         favoriteBtn.classList.add('active');
         favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
     }
@@ -456,13 +468,17 @@ function updateWhatsAppNumber(phoneNumber) {
 // ============================================
 // SISTEMA DE FAVORITOS
 // ============================================
-function toggleFavorite(index) {
-    const favoriteIndex = favorites.indexOf(index);
-    if (favoriteIndex > -1) {
-        favorites.splice(favoriteIndex, 1);
+function toggleFavorite(index, size = null) {
+    const existingIndex = favorites.findIndex(item => item.index === index);
+
+    if (existingIndex > -1) {
+        // Si ya existe, lo quitamos (sin importar la talla, para simplificar UX de toggle)
+        favorites.splice(existingIndex, 1);
     } else {
-        favorites.push(index);
+        // Si no existe, lo agregamos con la talla seleccionada
+        favorites.push({ index, size });
     }
+
     localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
     updateFavoritesUI();
     updateFavoriteButton(index);
@@ -474,7 +490,9 @@ function updateFavoriteButton(index) {
     const favoriteBtn = card.querySelector('.favorite-btn');
     if (!favoriteBtn) return;
 
-    if (favorites.includes(index)) {
+    const isFavorite = favorites.some(item => item.index === index);
+
+    if (isFavorite) {
         favoriteBtn.classList.add('active');
         favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
     } else {
@@ -501,11 +519,16 @@ function renderFavoritesSidebar() {
         return;
     }
 
-    favoritesContent.innerHTML = favorites.map(index => {
+    const itemsHTML = favorites.map(item => {
+        const index = item.index;
+        const size = item.size;
         const currentQuotes = getTshirtQuotes();
         const currentImages = getTshirtImages();
         const title = currentQuotes[index] || `Noise T-Shirt ${index + 1}`;
         const imagePath = currentImages[index];
+
+        const sizeText = size ? `<span class="favorite-size">Talla: ${size}</span>` : '';
+
         return `
             <div class="favorite-item">
                 <div class="favorite-item-image">
@@ -513,6 +536,7 @@ function renderFavoritesSidebar() {
                 </div>
                 <div class="favorite-item-info">
                     <h4>${title}</h4>
+                    ${sizeText}
                     <button class="favorite-item-remove" onclick="removeFromFavorites(${index})">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -520,20 +544,48 @@ function renderFavoritesSidebar() {
             </div>
         `;
     }).join('');
+
+    const buyButtonHTML = `
+        <div class="favorites-actions">
+            <button class="favorites-buy-btn" onclick="buyFavorites()">
+                <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
+            </button>
+        </div>
+    `;
+
+    favoritesContent.innerHTML = itemsHTML + buyButtonHTML;
 }
 
 function removeFromFavorites(index) {
-    const favoriteIndex = favorites.indexOf(index);
-    if (favoriteIndex > -1) {
-        favorites.splice(favoriteIndex, 1);
+    const existingIndex = favorites.findIndex(item => item.index === index);
+    if (existingIndex > -1) {
+        favorites.splice(existingIndex, 1);
         localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
         updateFavoritesUI();
         updateFavoriteButton(index);
     }
 }
 
+function buyFavorites() {
+    if (favorites.length === 0) return;
+
+    const currentQuotes = getTshirtQuotes();
+    let messageText = "Hola, quiero comprar estos favoritos:\n\n";
+
+    favorites.forEach(item => {
+        const title = currentQuotes[item.index] || `Noise T-Shirt ${item.index + 1}`;
+        const sizeInfo = item.size ? ` (Talla: ${item.size})` : '';
+        messageText += `- ${title}${sizeInfo}\n`;
+    });
+
+    const message = encodeURIComponent(messageText);
+    const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+}
+
 // Hacer función global para uso en HTML
 window.removeFromFavorites = removeFromFavorites;
+window.buyFavorites = buyFavorites;
 
 // ============================================
 // SISTEMA DE FILTROS
@@ -893,7 +945,7 @@ function openQuickView(index) {
                     Consultar por WhatsApp
                 </button>
                 <button class="modal-action-btn secondary" id="modalFavoriteBtn">
-                    <i class="${favorites.includes(index) ? 'fas' : 'far'} fa-heart"></i> ${favorites.includes(index) ? 'En Favoritos' : 'Agregar a Favoritos'}
+                    <i class="${favorites.some(item => item.index === index) ? 'fas' : 'far'} fa-heart"></i> ${favorites.some(item => item.index === index) ? 'En Favoritos' : 'Agregar a Favoritos'}
                 </button>
             </div>
         </div>
@@ -938,12 +990,20 @@ function openQuickView(index) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Toggle favorite
-            toggleFavorite(index);
+            let selectedSize = null;
+            if (!noSizes) {
+                const selectedBtn = modalBody.querySelector('.size-btn.selected');
+                if (selectedBtn) {
+                    selectedSize = selectedBtn.dataset.size;
+                }
+            }
+
+            // Toggle favorite con talla
+            toggleFavorite(index, selectedSize);
 
             // Actualizar el botón del modal después de que favorites se actualice
             setTimeout(() => {
-                const isFavorite = favorites.includes(index);
+                const isFavorite = favorites.some(item => item.index === index);
                 newFavoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}`;
             }, 0);
         });

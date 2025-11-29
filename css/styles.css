@@ -2819,3 +2819,48 @@ footer::after {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+/* ============================================
+   FAVORITES SIDEBAR EXTRAS
+   ============================================ */
+.favorite-size {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--accent-gray);
+    margin-top: 0.2rem;
+}
+
+.favorites-actions {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+}
+
+.favorites-buy-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--whatsapp-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.favorites-buy-btn:hover {
+    background: var(--whatsapp-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+
+.favorites-buy-btn i {
+    font-size: 1.2rem;
+}
+
