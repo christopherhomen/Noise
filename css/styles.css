@@ -1280,6 +1280,15 @@ footer::after {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+@media (max-width: 767px) {
+    .category-notice {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+        margin-top: 1rem;
+        line-height: 1.4;
+    }
+}
+
 .category-notice.show {
     display: block;
 }
