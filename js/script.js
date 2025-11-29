@@ -230,8 +230,12 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     return card;
 }
 
-function openWhatsApp(productName) {
-    const message = encodeURIComponent(`Hola, me interesa esta camiseta: ${productName}`);
+function openWhatsApp(productName, size = null) {
+    let messageText = `Hola, me interesa esta camiseta: ${productName}`;
+    if (size) {
+        messageText += ` (Talla: ${size})`;
+    }
+    const message = encodeURIComponent(messageText);
     const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
 }
@@ -885,7 +889,7 @@ function openQuickView(index) {
             <p class="modal-price">Consultar precio</p>
             ${sizesHTML}
             <div class="modal-actions">
-                <button class="modal-action-btn primary" onclick="openWhatsApp('${title.replace(/'/g, "\\'")}'); closeQuickView();">
+                <button class="modal-action-btn primary" id="whatsappBtn">
                     Consultar por WhatsApp
                 </button>
                 <button class="modal-action-btn secondary" id="modalFavoriteBtn">
@@ -894,6 +898,22 @@ function openQuickView(index) {
             </div>
         </div>
     `;
+
+    // Configurar botón de WhatsApp
+    const whatsappBtn = modalBody.querySelector('#whatsappBtn');
+    if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', () => {
+            let selectedSize = null;
+            if (!noSizes) {
+                const selectedBtn = modalBody.querySelector('.size-btn.selected');
+                if (selectedBtn) {
+                    selectedSize = selectedBtn.dataset.size;
+                }
+            }
+            openWhatsApp(title, selectedSize);
+            closeQuickView();
+        });
+    }
 
     // Inicializar selector de tallas solo si existe
     if (!noSizes) {
@@ -1260,7 +1280,7 @@ function init() {
         initLoadMoreButton();
         initSearch();
         initFavoritesSidebar();
-        initNewsletterPopup();
+        // initNewsletterPopup(); // Oculto temporalmente
         updateFavoritesUI();
 
         // Inicializar efectos
