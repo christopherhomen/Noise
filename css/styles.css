@@ -631,6 +631,7 @@ nav {
     padding: 2px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
@@ -2819,6 +2820,7 @@ footer::after {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
 /* ============================================
    FAVORITES SIDEBAR EXTRAS
    ============================================ */
@@ -2864,3 +2866,63 @@ footer::after {
     font-size: 1.2rem;
 }
 
+
+/* Mobile optimization for favorites buy button */
+@media (max-width: 768px) {
+    .favorites-sidebar .sidebar-content {
+        padding-bottom: 120px;
+        /* Make space for the fixed actions */
+    }
+
+    .favorites-actions {
+        padding: 1.5rem 2rem 2.5rem;
+        /* Extra padding at bottom for safe area */
+        background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
+    }
+
+    .favorites-buy-btn {
+        padding: 1.2rem;
+        font-size: 1.2rem;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        animation: pulse-green 3s infinite;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .favorites-buy-btn:active {
+        transform: scale(0.98);
+    }
+
+    .favorites-buy-btn i {
+        font-size: 1.6rem;
+        margin-right: 0.8rem;
+    }
+}
+
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
