@@ -990,7 +990,7 @@ function openQuickView(index) {
             ${pricingHTML}
             <div class="modal-actions">
                 <button class="modal-action-btn primary" id="whatsappBtn">
-                    Consultar por WhatsApp
+                    COMPRAR POR WHATSAPP <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
                 </button>
                 <button class="modal-action-btn secondary" id="modalFavoriteBtn">
                     <i class="${favorites.some(item => item.index === index) ? 'fas' : 'far'} fa-heart"></i> ${favorites.some(item => item.index === index) ? 'En Favoritos' : 'Agregar a Favoritos'}
