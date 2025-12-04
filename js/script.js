@@ -521,7 +521,7 @@ function renderFavoritesSidebar() {
     if (!favoritesContent) return;
 
     if (favorites.length === 0) {
-        favoritesContent.innerHTML = '<p class="empty-favorites">No tienes favoritos aún</p>';
+        favoritesContent.innerHTML = '<p class="empty-favorites">Tu carrito está vacío</p>';
         return;
     }
 
@@ -1034,7 +1034,7 @@ function openQuickView(index) {
                     COMPRAR POR WHATSAPP <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
                 </button>
                 <button class="modal-action-btn secondary" id="modalFavoriteBtn">
-                    <i class="${favorites.some(item => item.index === index) ? 'fas' : 'far'} fa-heart"></i> ${favorites.some(item => item.index === index) ? 'En Favoritos' : 'Agregar a Favoritos'}
+                    <i class="fas fa-shopping-cart"></i> ${favorites.some(item => item.index === index) ? 'En el Carrito' : 'Agregar al Carrito'}
                 </button>
             </div>
         </div>
@@ -1135,7 +1135,7 @@ function openQuickView(index) {
             // Actualizar el botón del modal después de que favorites se actualice
             setTimeout(() => {
                 const isFavorite = favorites.some(item => item.index === index);
-                newFavoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'En Favoritos' : 'Agregar a Favoritos'}`;
+                newFavoriteBtn.innerHTML = `<i class="fas fa-shopping-cart"></i> ${isFavorite ? 'En el Carrito' : 'Agregar al Carrito'}`;
             }, 0);
         });
     }
