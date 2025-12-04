@@ -474,15 +474,15 @@ function updateWhatsAppNumber(phoneNumber) {
 // ============================================
 // SISTEMA DE FAVORITOS
 // ============================================
-function toggleFavorite(index, size = null) {
+function toggleFavorite(index, size = null, quality = null, price = null) {
     const existingIndex = favorites.findIndex(item => item.index === index);
 
     if (existingIndex > -1) {
-        // Si ya existe, lo quitamos (sin importar la talla, para simplificar UX de toggle)
+        // Si ya existe, lo quitamos
         favorites.splice(existingIndex, 1);
     } else {
-        // Si no existe, lo agregamos con la talla seleccionada
-        favorites.push({ index, size });
+        // Si no existe, lo agregamos con la talla, calidad y precio seleccionados
+        favorites.push({ index, size, quality, price });
     }
 
     localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
@@ -500,10 +500,10 @@ function updateFavoriteButton(index) {
 
     if (isFavorite) {
         favoriteBtn.classList.add('active');
-        favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+        favoriteBtn.innerHTML = '<i class="fas fa-shopping-cart"></i>';
     } else {
         favoriteBtn.classList.remove('active');
-        favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+        favoriteBtn.innerHTML = '<i class="fas fa-cart-plus"></i>';
     }
 }
 
@@ -528,12 +528,16 @@ function renderFavoritesSidebar() {
     const itemsHTML = favorites.map(item => {
         const index = item.index;
         const size = item.size;
+        const quality = item.quality;
+        const price = item.price;
         const currentQuotes = getTshirtQuotes();
         const currentImages = getTshirtImages();
         const title = currentQuotes[index] || `Noise T-Shirt ${index + 1}`;
         const imagePath = currentImages[index];
 
         const sizeText = size ? `<span class="favorite-size">Talla: ${size}</span>` : '';
+        const qualityText = quality ? `<span class="favorite-size" style="font-size: 0.8rem; color: #aaa;">${quality}</span>` : '';
+        const priceText = price ? `<span class="favorite-size" style="color: var(--accent-white); font-weight: bold;">${price}</span>` : '';
 
         return `
             <div class="favorite-item">
@@ -543,6 +547,8 @@ function renderFavoritesSidebar() {
                 <div class="favorite-item-info">
                     <h4>${title}</h4>
                     ${sizeText}
+                    ${qualityText}
+                    ${priceText}
                     <button class="favorite-item-remove" onclick="removeFromFavorites(${index})">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -581,7 +587,9 @@ function buyFavorites() {
     favorites.forEach(item => {
         const title = currentQuotes[item.index] || `Noise T-Shirt ${item.index + 1}`;
         const sizeInfo = item.size ? ` (Talla: ${item.size})` : '';
-        messageText += `- ${title}${sizeInfo}\n`;
+        const qualityInfo = item.quality ? ` (${item.quality})` : '';
+        const priceInfo = item.price ? ` - ${item.price}` : '';
+        messageText += `- ${title}${sizeInfo}${qualityInfo}${priceInfo}\n`;
     });
 
     const message = encodeURIComponent(messageText);
@@ -1129,8 +1137,21 @@ function openQuickView(index) {
                 }
             }
 
-            // Toggle favorite con talla
-            toggleFavorite(index, selectedSize);
+            let selectedQuality = null;
+            let selectedPrice = null;
+
+            if (isTshirt || isToteBag) {
+                const selectedPricingBtn = modalBody.querySelector('.pricing-btn.selected');
+                if (selectedPricingBtn) {
+                    selectedQuality = selectedPricingBtn.dataset.quality;
+                    selectedPrice = selectedPricingBtn.dataset.price;
+                }
+            } else if (isGorra) {
+                selectedPrice = '30k';
+            }
+
+            // Toggle favorite con talla, calidad y precio
+            toggleFavorite(index, selectedSize, selectedQuality, selectedPrice);
 
             // Actualizar el botón del modal después de que favorites se actualice
             setTimeout(() => {
