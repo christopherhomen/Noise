@@ -242,10 +242,16 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     return card;
 }
 
-function openWhatsApp(productName, size = null) {
+function openWhatsApp(productName, size = null, quality = null, price = null) {
     let messageText = `Hola, me interesa esta camiseta: ${productName}`;
     if (size) {
-        messageText += ` (Talla: ${size})`;
+        messageText += `\nTalla: ${size}`;
+    }
+    if (quality) {
+        messageText += `\nCalidad/Estilo: ${quality}`;
+    }
+    if (price) {
+        messageText += `\nPrecio: ${price}`;
     }
     const message = encodeURIComponent(messageText);
     const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`;
@@ -931,6 +937,47 @@ function openQuickView(index) {
         </div>
     `;
 
+    // Generar HTML del selector de precios/calidad (solo para camisetas)
+    const isTshirt = !noSizes && category !== 'gorras'; // Asumiendo que gorras tampoco tienen este selector complejo
+    const pricingHTML = isTshirt ? `
+        <div class="modal-pricing">
+            <h3>Calidad & Fit</h3>
+            <div class="pricing-options">
+                <div class="pricing-group">
+                    <h4>🧵 Classic</h4>
+                    <button class="pricing-btn" data-quality="Classic - Algodón 160g" data-price="42k">
+                        <span class="pricing-desc">Algodón 160g</span>
+                        <span class="pricing-value">42k</span>
+                    </button>
+                </div>
+                
+                <div class="pricing-group">
+                    <h4>🔥 Streetwear</h4>
+                    <button class="pricing-btn selected" data-quality="Streetwear - Regular 230g" data-price="50k">
+                        <span class="pricing-desc">Regular 230g</span>
+                        <span class="pricing-value">50k</span>
+                    </button>
+                    <button class="pricing-btn" data-quality="Streetwear - Oversized 230g" data-price="55k">
+                        <span class="pricing-desc">Oversized 230g</span>
+                        <span class="pricing-value">55k</span>
+                    </button>
+                    <button class="pricing-btn" data-quality="Streetwear - Boxy Fit 230g" data-price="58k">
+                        <span class="pricing-desc">Boxy Fit 230g</span>
+                        <span class="pricing-value">58k</span>
+                    </button>
+                </div>
+
+                <div class="pricing-group">
+                    <h4>✨ Premium</h4>
+                    <button class="pricing-btn" data-quality="Premium - Algodón Peruano 300g" data-price="80k">
+                        <span class="pricing-desc">Algodón Peruano 300g</span>
+                        <span class="pricing-value">80k</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    ` : '';
+
     modalBody.innerHTML = `
         <div class="modal-image">
             <img src="${imagePath}" alt="${title}">
@@ -938,8 +985,9 @@ function openQuickView(index) {
         <div class="modal-info">
             <h2>${title}</h2>
             <p class="modal-description" style="color: var(--text-gray); margin: 1rem 0; line-height: 1.6;">${description}</p>
-            <p class="modal-price">Consultar precio</p>
+            <p class="modal-price" id="modalPriceDisplay">${isTshirt ? '50k' : 'Consultar precio'}</p>
             ${sizesHTML}
+            ${pricingHTML}
             <div class="modal-actions">
                 <button class="modal-action-btn primary" id="whatsappBtn">
                     Consultar por WhatsApp
@@ -951,18 +999,55 @@ function openQuickView(index) {
         </div>
     `;
 
+    // Lógica para selector de precios
+    if (isTshirt) {
+        const pricingButtons = modalBody.querySelectorAll('.pricing-btn');
+        const priceDisplay = modalBody.querySelector('#modalPriceDisplay');
+
+        pricingButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                pricingButtons.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+
+                // Actualizar precio visualmente
+                if (priceDisplay) {
+                    priceDisplay.textContent = btn.dataset.price;
+                    // Animación simple de cambio
+                    priceDisplay.style.transform = 'scale(1.1)';
+                    priceDisplay.style.color = '#fff';
+                    setTimeout(() => {
+                        priceDisplay.style.transform = 'scale(1)';
+                        priceDisplay.style.color = 'rgba(255, 255, 255, 0.8)';
+                    }, 200);
+                }
+            });
+        });
+    }
+
     // Configurar botón de WhatsApp
     const whatsappBtn = modalBody.querySelector('#whatsappBtn');
     if (whatsappBtn) {
         whatsappBtn.addEventListener('click', () => {
             let selectedSize = null;
+            let selectedQuality = null;
+            let selectedPrice = null;
+
             if (!noSizes) {
                 const selectedBtn = modalBody.querySelector('.size-btn.selected');
                 if (selectedBtn) {
                     selectedSize = selectedBtn.dataset.size;
                 }
             }
-            openWhatsApp(title, selectedSize);
+
+            if (isTshirt) {
+                const selectedPricingBtn = modalBody.querySelector('.pricing-btn.selected');
+                if (selectedPricingBtn) {
+                    selectedQuality = selectedPricingBtn.dataset.quality;
+                    selectedPrice = selectedPricingBtn.dataset.price;
+                }
+            }
+
+            openWhatsApp(title, selectedSize, selectedQuality, selectedPrice);
             closeQuickView();
         });
     }

@@ -1617,6 +1617,87 @@ footer::after {
     border-color: var(--accent-white);
 }
 
+/* Pricing Selector Styles */
+.modal-pricing {
+    margin-bottom: 2rem;
+}
+
+.modal-pricing h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.pricing-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.pricing-group h4 {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.pricing-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.pricing-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: left;
+}
+
+.pricing-desc {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.pricing-value {
+    font-family: 'Bebas Neue', cursive;
+    color: var(--accent-white);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+}
+
+.pricing-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.pricing-btn.selected {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-white);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.pricing-btn.selected .pricing-desc {
+    color: white;
+}
+
+.pricing-btn.selected .pricing-value {
+    color: var(--accent-white);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
 .modal-actions {
     display: flex;
     gap: 1rem;
