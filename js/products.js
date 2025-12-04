@@ -106,13 +106,28 @@ const PRODUCT_PATHS = [
     'assets/img/Noise/Noise_6.png',
 
     // TOTE BAGS
-    'assets/img/Tote bags/Chicos_StrangerThings_Tote_Bag.JPG',
+    'assets/img/Tote bags/bulbasaur pokemon.JPG',
+    'assets/img/Tote bags/cartoons classics.JPG',
     'assets/img/Tote bags/Dama_Antigua.png',
-    'assets/img/Tote bags/sailor moon 1.JPG',
-    'assets/img/Tote bags/sailor moon 2.JPG',
-    'assets/img/Tote bags/stranger thins kids.JPG',
-    'assets/img/Tote bags/vecna stranger things.PNG',
-    'assets/img/Tote bags/Vecna_strangerThings.png'
+    'assets/img/Tote bags/Frida Kahlo.JPG',
+    'assets/img/Tote bags/gatito.JPG',
+    'assets/img/Tote bags/gengar pokemon.JPG',
+    'assets/img/Tote bags/horror movies characters.JPG',
+    'assets/img/Tote bags/Perrito personalizado.JPG',
+    'assets/img/Tote bags/perrito personalizado 2.JPG',
+    'assets/img/Tote bags/sakura cardcaptor angel.JPG',
+    'assets/img/Tote bags/sakura cardcaptor.JPG',
+    'assets/img/Tote bags/stranger things capitulo final 3.JPG',
+    'assets/img/Tote bags/stranger things capitulo final.JPG',
+    'assets/img/Tote bags/stranger things december.JPG',
+    'assets/img/Tote bags/stranger things demogorgon.JPG',
+    'assets/img/Tote bags/stranger things final.JPG',
+    'assets/img/Tote bags/stranger things kids.JPG',
+    'assets/img/Tote bags/stranger things upside down 2.JPG',
+    'assets/img/Tote bags/stranger things upside down 3.JPG',
+    'assets/img/Tote bags/stranger things upside down.JPG',
+    'assets/img/Tote bags/vecna stranger things black.JPG',
+    'assets/img/Tote bags/vecna stranger things.PNG'
 ];
 
 // ============================================
@@ -133,7 +148,15 @@ const KEYWORDS = {
     'señora': { title: 'Señora Antigua - Glam Clásico', desc: 'Elegancia atemporal, perlas y actitud impecable en cada detalle.' },
     'calamardo': { title: 'Calamardo - El Deprimido', desc: 'El meme que todos sentimos. La vida de Calamardo.' },
     'homero': { title: 'Homero - El Sueño', desc: 'Cuando solo quieres dormir. El meme de la vida real.' },
-    
+    'bulbasaur': { title: 'Bulbasaur - Planta Inicial', desc: 'El compañero leal de tipo planta. El inicio de la aventura.' },
+    'cartoons': { title: 'Cartoon Classics', desc: 'Los clásicos que nunca pasan de moda. Nostalgia pura.' },
+    'gatito': { title: 'Gatito - Ternura Felina', desc: 'La ternura de un gatito. El compañero perfecto.' },
+    'horror': { title: 'Horror Icons', desc: 'Los personajes más icónicos del cine de terror. Miedo y estilo.' },
+    'demogorgon': { title: 'Demogorgon - El Monstruo', desc: 'La criatura del Upside Down. El terror de Hawkins.' },
+    'upside': { title: 'Upside Down', desc: 'El mundo del revés. Donde todo cambia.' },
+    'kids': { title: 'Stranger Kids', desc: 'El grupo de amigos que desafía lo imposible.' },
+    'stranger': { title: 'Stranger Things', desc: 'Cosas extrañas suceden en Hawkins.' },
+
     // Frases y conceptos
     'pride': { title: 'More Pride', desc: 'Más orgullo, más amor, más libertad. Celebra quién eres.' },
     'inclusive': { title: 'Future Inclusive', desc: 'El futuro es inclusivo. Un mundo donde todos pertenecemos.' },
@@ -149,14 +172,14 @@ const KEYWORDS = {
     'parchese': { title: 'Parchese', desc: 'El plan que siempre funciona. La amistad colombiana.' },
     'empanada': { title: 'Empanada Lover', desc: 'El amor por las empanadas. La pasión colombiana.' },
     'dormi': { title: 'No Dormí Bien', desc: 'El estado de ánimo de lunes a viernes. La realidad.' },
-    
+
     // Universos
     'house': { title: 'House of Dragons', desc: 'Fuego y sangre. El poder de los Targaryen.' },
     'dragons': { title: 'House of Dragons', desc: 'Fuego y sangre. El poder de los Targaryen.' },
-    
+
     // Noise
     'noise': { title: 'Noise Original', desc: 'El diseño que empezó todo. La esencia de Noise.' },
-    
+
     // Tote bags
     'tote': { title: 'Tote Bag', desc: 'Lleva tu estilo contigo. El diseño en cada viaje.' },
     'bag': { title: 'Tote Bag', desc: 'Lleva tu estilo contigo. El diseño en cada viaje.' },
@@ -228,7 +251,7 @@ const DESCRIPTIONS = {
 function extractCategory(path) {
     const pathParts = path.split('/');
     const categoryFolder = pathParts[pathParts.length - 2] || '';
-    
+
     // Mapeo de carpetas a categorías (con soporte para nuevas carpetas y espacios)
     const categoryMap = {
         'Universos': 'universos',
@@ -250,12 +273,12 @@ function extractCategory(path) {
         'Stanger Things': 'universos', // Subcarpeta dentro de Universos
         'House Of Dragons': 'universos' // Subcarpeta dentro de Universos
     };
-    
+
     // Si la carpeta está en el mapa, usar ese valor
     if (categoryMap[categoryFolder]) {
         return categoryMap[categoryFolder];
     }
-    
+
     // Si no está en el mapa, generar categoría automáticamente
     // Convertir a formato slug (minúsculas, sin espacios, sin acentos)
     const autoCategory = categoryFolder
@@ -264,7 +287,7 @@ function extractCategory(path) {
         .replace(/[\u0300-\u036f]/g, '') // Remover acentos
         .replace(/\s+/g, '-') // Espacios a guiones
         .replace(/[^a-z0-9-]/g, ''); // Remover caracteres especiales
-    
+
     return autoCategory || 'empoderamiento';
 }
 
@@ -273,15 +296,15 @@ function extractCategory(path) {
  */
 function determineProductType(path) {
     const lowerPath = path.toLowerCase();
-    
+
     if (lowerPath.includes('tote bags') || lowerPath.includes('tote-bags')) {
         return 'tote-bags';
     }
-    
+
     if (lowerPath.includes('gorras')) {
         return 'gorras';
     }
-    
+
     // Por defecto, todo lo demás son camisetas
     return 'camisetas';
 }
@@ -292,14 +315,14 @@ function determineProductType(path) {
 function generateTitle(filename, path) {
     // Remover extensión
     const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
-    
+
     // Normalizar: reemplazar guiones y underscores con espacios
     const normalized = nameWithoutExt
         .replace(/[-_]/g, ' ')
         .replace(/([A-Z])/g, ' $1')
         .trim()
         .toLowerCase();
-    
+
     // Buscar palabras clave
     for (const [keyword, data] of Object.entries(KEYWORDS)) {
         if (normalized.includes(keyword.toLowerCase())) {
@@ -326,17 +349,17 @@ function generateTitle(filename, path) {
             return data.title;
         }
     }
-    
+
     // Si no hay keyword, generar título desde el nombre
     const words = normalized.split(/\s+/).filter(w => w.length > 0);
     const titleWords = words
         .filter(w => !['stranger', 'things', 'tote', 'bag', 'jpg', 'png'].includes(w))
         .map(w => w.charAt(0).toUpperCase() + w.slice(1));
-    
+
     if (titleWords.length > 0) {
         return titleWords.join(' ');
     }
-    
+
     // Fallback
     return nameWithoutExt.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
@@ -346,12 +369,12 @@ function generateTitle(filename, path) {
  */
 function generateDescription(filename, path, title) {
     const normalized = filename.toLowerCase().replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
-    
+
     // Buscar descripción en keywords
     for (const [keyword, data] of Object.entries(KEYWORDS)) {
         if (normalized.includes(keyword.toLowerCase())) {
             let desc = data.desc;
-            
+
             // Modificadores
             if (normalized.includes('premium')) {
                 desc = desc.replace('Representa', 'Edición premium de').replace('El poder', 'El poder exclusivo');
@@ -373,11 +396,11 @@ function generateDescription(filename, path, title) {
                     ? 'Homenaje póstumo para recordar a tu gato con estilo y cariño.'
                     : 'Homenaje póstumo para celebrar la vida de tu perrito con estilo y cariño.';
             }
-            
+
             return desc;
         }
     }
-    
+
     // Descripciones por categoría
     const category = extractCategory(path);
     const categoryDescriptions = {
@@ -396,7 +419,7 @@ function generateDescription(filename, path, title) {
         'noise': 'El diseño que habla. La identidad Noise.',
         'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.'
     };
-    
+
     return categoryDescriptions[category] || 'Diseño único de Noise. El estilo que define.';
 }
 
@@ -405,30 +428,30 @@ function generateDescription(filename, path, title) {
  */
 function determineBadge(filename, path, index) {
     const normalized = filename.toLowerCase();
-    
+
     // Nuevos productos (primeros 3 de cada categoría o con "new" en el nombre)
     if (normalized.includes('new') || normalized.includes('nuevo')) {
         return 'new';
     }
-    
+
     // Premium o limited
     if (normalized.includes('premium') || normalized.includes('limited')) {
         return 'limited';
     }
-    
+
     // Bestsellers (algunos productos populares)
     const bestsellers = ['once', 'goku', 'perrito', 'ojo'];
     if (bestsellers.some(bs => normalized.includes(bs))) {
         return 'bestseller';
     }
-    
+
     // Nuevos productos (primeros de cada categoría)
     const category = extractCategory(path);
     const categoryFirstIndex = PRODUCT_PATHS.findIndex(p => extractCategory(p) === category);
     if (index === categoryFirstIndex) {
         return 'new';
     }
-    
+
     return null;
 }
 
@@ -447,7 +470,7 @@ function generateProducts() {
         const title = generateTitle(filename, path);
         const description = generateDescription(filename, path, title);
         const badge = determineBadge(filename, path, index);
-        
+
         return {
             image: path,
             title: title,
@@ -492,12 +515,12 @@ function getCategoryDisplayName(category) {
         'noise': 'Noise',
         'tote-bags': 'Tote Bags'
     };
-    
+
     // Si existe en el mapa, usar ese nombre
     if (categoryNames[category]) {
         return categoryNames[category];
     }
-    
+
     // Si no existe, generar nombre automáticamente
     // Capitalizar primera letra de cada palabra
     return category
@@ -515,24 +538,24 @@ function getCategoryDisplayName(category) {
 function updateFilters() {
     const subFiltersContainer = document.getElementById('subFilters');
     if (!subFiltersContainer) return;
-    
+
     // Limpiar filtros existentes
     subFiltersContainer.innerHTML = '';
-    
+
     // Obtener categorías únicas de camisetas (excluyendo noise y tote-bags)
     const tshirtCategories = [...new Set(
         products
             .filter(p => p.type === 'camisetas' && p.category !== 'noise')
             .map(p => p.category)
     )].sort();
-    
+
     // Botón "Todas"
     const allButton = document.createElement('button');
     allButton.className = 'filter-btn active';
     allButton.setAttribute('data-filter', 'all');
     allButton.innerHTML = '<span>Todas</span>';
     subFiltersContainer.appendChild(allButton);
-    
+
     // Botones de categorías
     tshirtCategories.forEach(category => {
         const button = document.createElement('button');
@@ -541,7 +564,7 @@ function updateFilters() {
         button.innerHTML = `<span>${getCategoryDisplayName(category)}</span>`;
         subFiltersContainer.appendChild(button);
     });
-    
+
     // Reinicializar los event listeners de filtros
     if (typeof window.initFilters === 'function') {
         window.initFilters();
@@ -562,7 +585,7 @@ let productBadges = [];
 try {
     products = generateProducts();
     console.log(`✅ Generados ${products.length} productos desde ${PRODUCT_PATHS.length} rutas`);
-    
+
     // Arrays para compatibilidad con código existente
     tshirtImages = products.map(p => p.image);
     tshirtQuotes = products.map(p => p.title);
@@ -571,7 +594,7 @@ try {
     productCategories = products.map(p => p.category);
     productTypes = products.map(p => p.type);
     productBadges = products.map(p => p.badge);
-    
+
     console.log(`✅ Arrays creados: ${tshirtImages.length} imágenes, ${tshirtQuotes.length} títulos`);
 } catch (error) {
     console.error('❌ Error generando productos:', error);
@@ -593,9 +616,9 @@ if (typeof window !== 'undefined') {
     window.productCategories = productCategories;
     window.productTypes = productTypes;
     window.productBadges = productBadges;
-    
+
     // Función para regenerar productos (útil si se agregan nuevos)
-    window.regenerateProducts = function() {
+    window.regenerateProducts = function () {
         const newProducts = generateProducts();
         window.products = newProducts;
         window.tshirtImages = newProducts.map(p => p.image);
@@ -604,16 +627,16 @@ if (typeof window !== 'undefined') {
         window.productCategories = newProducts.map(p => p.category);
         window.productTypes = newProducts.map(p => p.type);
         window.productBadges = newProducts.map(p => p.badge);
-        
+
         // Actualizar filtros automáticamente
         updateFilters();
-        
+
         return newProducts;
     };
-    
+
     // Función para actualizar filtros
     window.updateFilters = updateFilters;
-    
+
     // Actualizar filtros cuando el DOM esté listo (con delay para asegurar que script.js ya cargó)
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
@@ -626,7 +649,7 @@ if (typeof window !== 'undefined') {
 }
 
 // Manejo de errores global para evitar que bloqueen la carga
-window.addEventListener('error', function(e) {
+window.addEventListener('error', function (e) {
     if (e.error) {
         console.error('Error en products.js:', e.error);
     } else if (e.message) {
