@@ -938,7 +938,10 @@ function openQuickView(index) {
     `;
 
     // Generar HTML del selector de precios/calidad (solo para camisetas)
-    const isTshirt = !noSizes && category !== 'gorras'; // Asumiendo que gorras tampoco tienen este selector complejo
+    const isTshirt = !noSizes && category !== 'gorras';
+    const isGorra = category === 'gorras';
+    const isToteBag = category === 'tote-bags';
+
     const pricingHTML = isTshirt ? `
         <div class="modal-pricing">
             <h3>Calidad & Fit</h3>
@@ -978,6 +981,43 @@ function openQuickView(index) {
         </div>
     ` : '';
 
+    // Selector para Tote Bags
+    const toteBagHTML = isToteBag ? `
+        <div class="modal-pricing">
+            <h3>Estilo & Color</h3>
+            <div class="pricing-options">
+                <div class="pricing-group">
+                    <h4>🧵 Daily Tote</h4>
+                    <button class="pricing-btn selected" data-quality="Daily Tote - Marfil" data-price="38k">
+                        <span class="pricing-desc">Color Marfil - 100% Algodón (40x34cm)</span>
+                        <span class="pricing-value">38k</span>
+                    </button>
+                </div>
+                
+                <div class="pricing-group">
+                    <h4>🖤 Street Tote</h4>
+                    <button class="pricing-btn" data-quality="Street Tote - Negro" data-price="38k">
+                        <span class="pricing-desc">Color Negro - Dril Resistente (40x34cm)</span>
+                        <span class="pricing-value">38k</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    ` : '';
+
+    // Determinar etiqueta y precio inicial
+    let priceLabel = 'Precio:';
+    let initialPrice = 'Consultar precio';
+
+    if (isTshirt) {
+        priceLabel = 'Precio elegido:';
+        initialPrice = '50k';
+    } else if (isGorra) {
+        initialPrice = '30k';
+    } else if (isToteBag) {
+        initialPrice = '38k';
+    }
+
     modalBody.innerHTML = `
         <div class="modal-image">
             <img src="${imagePath}" alt="${title}">
@@ -985,9 +1025,10 @@ function openQuickView(index) {
         <div class="modal-info">
             <h2>${title}</h2>
             <p class="modal-description" style="color: var(--text-gray); margin: 1rem 0; line-height: 1.6;">${description}</p>
-            <p class="modal-price" id="modalPriceDisplay">${isTshirt ? '50k' : 'Consultar precio'}</p>
+            <p class="modal-price" id="modalPriceDisplay"><span style="font-size: 0.9em; color: var(--text-gray); font-weight: 400;">${priceLabel}</span> ${initialPrice}</p>
             ${sizesHTML}
             ${pricingHTML}
+            ${toteBagHTML}
             <div class="modal-actions">
                 <button class="modal-action-btn primary" id="whatsappBtn">
                     COMPRAR POR WHATSAPP <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
@@ -999,8 +1040,8 @@ function openQuickView(index) {
         </div>
     `;
 
-    // Lógica para selector de precios
-    if (isTshirt) {
+    // Lógica para selector de precios (Camisetas y Tote Bags)
+    if (isTshirt || isToteBag) {
         const pricingButtons = modalBody.querySelectorAll('.pricing-btn');
         const priceDisplay = modalBody.querySelector('#modalPriceDisplay');
 
@@ -1011,13 +1052,16 @@ function openQuickView(index) {
 
                 // Actualizar precio visualmente
                 if (priceDisplay) {
-                    priceDisplay.textContent = btn.dataset.price;
+                    // Mantener el label si es camiseta
+                    const label = isTshirt ? '<span style="font-size: 0.9em; color: var(--text-gray); font-weight: 400;">Precio elegido:</span> ' : '<span style="font-size: 0.9em; color: var(--text-gray); font-weight: 400;">Precio:</span> ';
+                    priceDisplay.innerHTML = `${label}${btn.dataset.price}`;
+
                     // Animación simple de cambio
-                    priceDisplay.style.transform = 'scale(1.1)';
+                    priceDisplay.style.transform = 'scale(1.05)';
                     priceDisplay.style.color = '#fff';
                     setTimeout(() => {
                         priceDisplay.style.transform = 'scale(1)';
-                        priceDisplay.style.color = 'rgba(255, 255, 255, 0.8)';
+                        priceDisplay.style.color = 'var(--accent-white)'; // Volver al color original del precio
                     }, 200);
                 }
             });
@@ -1039,12 +1083,14 @@ function openQuickView(index) {
                 }
             }
 
-            if (isTshirt) {
+            if (isTshirt || isToteBag) {
                 const selectedPricingBtn = modalBody.querySelector('.pricing-btn.selected');
                 if (selectedPricingBtn) {
                     selectedQuality = selectedPricingBtn.dataset.quality;
                     selectedPrice = selectedPricingBtn.dataset.price;
                 }
+            } else if (isGorra) {
+                selectedPrice = '30k';
             }
 
             openWhatsApp(title, selectedSize, selectedQuality, selectedPrice);
