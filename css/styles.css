@@ -2926,3 +2926,30 @@ footer::after {
         box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
     }
 }
+
+/* ============================================
+   ESTILOS ESPECÍFICOS PARA DICIEMBRE
+   ============================================ */
+.filter-btn[data-filter="diciembre"] {
+    border: 2px solid #ff0000 !important;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    color: #ff4d4d;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn[data-filter="diciembre"]:hover,
+.filter-btn[data-filter="diciembre"].active {
+    background: rgba(255, 0, 0, 0.15) !important;
+    border-color: #ff0000 !important;
+    color: #ff0000 !important;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6) !important;
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
+
+.filter-btn[data-filter="diciembre"].active {
+    background: #ff0000 !important;
+    color: white !important;
+    text-shadow: none;
+}

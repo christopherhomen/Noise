@@ -19,6 +19,23 @@ const PRODUCT_PATHS = [
     'assets/img/Camisetas/Colombia/made in colombia.JPG',
     'assets/img/Camisetas/Colombia/papaya given papaya taken.JPG',
 
+    // CAMISETAS - Diciembre
+    'assets/img/Camisetas/Diciembre/5 pa las 12.JPG',
+    'assets/img/Camisetas/Diciembre/Ansiedad en diciembre.JPG',
+    'assets/img/Camisetas/Diciembre/Ojo con eso nueva.JPG',
+    'assets/img/Camisetas/Diciembre/Ojos con eso clasica.JPG',
+    'assets/img/Camisetas/Diciembre/adonay.JPG',
+    'assets/img/Camisetas/Diciembre/donde esta mi regalo.JPG',
+    'assets/img/Camisetas/Diciembre/feliz año.JPG',
+    'assets/img/Camisetas/Diciembre/guarito o miedo.JPG',
+    'assets/img/Camisetas/Diciembre/limoncito con ron.JPG',
+    'assets/img/Camisetas/Diciembre/lucerito.JPG',
+    'assets/img/Camisetas/Diciembre/modo grinch.JPG',
+    'assets/img/Camisetas/Diciembre/no dieta.JPG',
+    'assets/img/Camisetas/Diciembre/no jo joo jodan.JPG',
+    'assets/img/Camisetas/Diciembre/peces en el rio.JPG',
+    'assets/img/Camisetas/Diciembre/yo afan no tengo Vecna sufre.JPG',
+
     // CAMISETAS - Empoderamiento
     'assets/img/Camisetas/Empoderamiento/future inclusive.JPG',
     'assets/img/Camisetas/Empoderamiento/more pride.JPG',
@@ -172,6 +189,22 @@ const KEYWORDS = {
     'parchese': { title: 'Parchese', desc: 'El plan que siempre funciona. La amistad colombiana.' },
     'empanada': { title: 'Empanada Lover', desc: 'El amor por las empanadas. La pasión colombiana.' },
     'dormi': { title: 'No Dormí Bien', desc: 'El estado de ánimo de lunes a viernes. La realidad.' },
+
+    // Diciembre
+    'adonay': { title: 'Adonay - ¿Por qué te casaste?', desc: 'La pregunta que Rodolfo Aicardi nos dejó para siempre.' },
+    'limoncito': { title: 'Limoncito Con Ron', desc: 'El himno de la fiesta decembrina. ¡Sírvalo pues!' },
+    'lucerito': { title: 'Lucerito', desc: '¿Por qué has perdido tus raros encantos? Nostalgia parrandera.' },
+    'ojo con eso': { title: 'Ojo Con Eso', desc: 'Homenaje a Joaquín Bedoya con un toque de terror de Derry. ¡Ojo con eso!' },
+    '5 pa las 12': { title: 'Faltan 5 Pa\' Las 12', desc: 'El himno del fin de año. Corre a abrazar a tu mamá.' },
+    'ansiedad': { title: 'Ansiedad Navideña', desc: 'Cuando llega diciembre y no sabes qué hacer con tu vida.' },
+    'regalo': { title: '¿Y Mi Regalo?', desc: 'La pregunta oficial de la nochebuena.' },
+    'feliz año': { title: 'Feliz Año', desc: 'Prosperidad, amor y mucho guaro.' },
+    'guarito': { title: 'Guarito o Miedo', desc: 'Diciembre sin guaro no es diciembre.' },
+    'grinch': { title: 'Modo Grinch', desc: 'Para los que odian la navidad... pero aman la natilla.' },
+    'dieta': { title: 'En Diciembre No Hay Dieta', desc: 'La dieta empieza en enero. Pásame el buñuelo.' },
+    'jodan': { title: 'Jo Jo Jo... No Jodan', desc: 'Espíritu navideño con límites.' },
+    'peces': { title: 'Los Peces en el Río', desc: 'Beben y beben y vuelven a beber. Como tú en diciembre.' },
+    'afan': { title: 'Yo Afán No Tengo', desc: 'Como dice la canción... pero versión Vecna.' },
 
     // Universos
     'house': { title: 'House of Dragons', desc: 'Fuego y sangre. El poder de los Targaryen.' },
@@ -417,7 +450,8 @@ function generateDescription(filename, path, title) {
         'roblox': 'Metaverso pixelado para gamers que crean mundos.',
         'gorras': 'Accesorios urbanos para coronar cualquier fit.',
         'noise': 'El diseño que habla. La identidad Noise.',
-        'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.'
+        'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.',
+        'diciembre': 'La mejor época del año. Parranda, natilla y buñuelos.'
     };
 
     return categoryDescriptions[category] || 'Diseño único de Noise. El estilo que define.';
@@ -513,7 +547,8 @@ function getCategoryDisplayName(category) {
         'roblox': 'Roblox',
         'gorras': 'Gorras',
         'noise': 'Noise',
-        'tote-bags': 'Tote Bags'
+        'tote-bags': 'Tote Bags',
+        'diciembre': 'Diciembre 🎄'
     };
 
     // Si existe en el mapa, usar ese nombre
