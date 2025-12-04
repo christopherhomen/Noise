@@ -194,7 +194,7 @@ const KEYWORDS = {
     'adonay': { title: 'Adonay - ¿Por qué te casaste?', desc: 'La pregunta que Rodolfo Aicardi nos dejó para siempre.' },
     'limoncito': { title: 'Limoncito Con Ron', desc: 'El himno de la fiesta decembrina. ¡Sírvalo pues!' },
     'lucerito': { title: 'Lucerito', desc: '¿Por qué has perdido tus raros encantos? Nostalgia parrandera.' },
-    'ojo con eso': { title: 'Ojo Con Eso', desc: 'Homenaje a Joaquín Bedoya con un toque de terror de Derry. ¡Ojo con eso!' },
+    'ojo con eso': { title: 'Ojo Con Eso', desc: 'Homenaje a Joaquín Bedoya y su éxito parrandero, fusionado con el terror de Pennywise ("Eso"). ¡Un doble sentido muy paisa!' },
     '5 pa las 12': { title: 'Faltan 5 Pa\' Las 12', desc: 'El himno del fin de año. Corre a abrazar a tu mamá.' },
     'ansiedad': { title: 'Ansiedad Navideña', desc: 'Cuando llega diciembre y no sabes qué hacer con tu vida.' },
     'regalo': { title: '¿Y Mi Regalo?', desc: 'La pregunta oficial de la nochebuena.' },
@@ -548,7 +548,7 @@ function getCategoryDisplayName(category) {
         'gorras': 'Gorras',
         'noise': 'Noise',
         'tote-bags': 'Tote Bags',
-        'diciembre': 'Diciembre 🎄'
+        'diciembre': 'Diciembre 💡'
     };
 
     // Si existe en el mapa, usar ese nombre
