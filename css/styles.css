@@ -860,6 +860,32 @@ footer::after {
     color: var(--accent-white);
 }
 
+.footer-social {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-social-link {
+    color: var(--accent-white);
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-social-link:hover {
+    color: #E1306C;
+    transform: scale(1.2) rotate(5deg);
+    opacity: 1;
+    text-shadow: 0 0 20px rgba(225, 48, 108, 0.6);
+}
+
 .footer-text {
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 1rem;
