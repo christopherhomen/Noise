@@ -357,7 +357,10 @@ function generateTitle(filename, path) {
         .toLowerCase();
 
     // Buscar palabras clave
-    for (const [keyword, data] of Object.entries(KEYWORDS)) {
+    // Ordenar por longitud descendente para que coincidan primero las frases más específicas
+    const sortedKeywords = Object.entries(KEYWORDS).sort((a, b) => b[0].length - a[0].length);
+
+    for (const [keyword, data] of sortedKeywords) {
         if (normalized.includes(keyword.toLowerCase())) {
             // Si hay variaciones (premium, version, etc.)
             if (normalized.includes('premium')) {
@@ -404,7 +407,10 @@ function generateDescription(filename, path, title) {
     const normalized = filename.toLowerCase().replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
 
     // Buscar descripción en keywords
-    for (const [keyword, data] of Object.entries(KEYWORDS)) {
+    // Ordenar por longitud descendente para que coincidan primero las frases más específicas
+    const sortedKeywords = Object.entries(KEYWORDS).sort((a, b) => b[0].length - a[0].length);
+
+    for (const [keyword, data] of sortedKeywords) {
         if (normalized.includes(keyword.toLowerCase())) {
             let desc = data.desc;
 
