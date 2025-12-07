@@ -2,7 +2,7 @@
 // CONFIGURACIÓN
 // ============================================
 const CONFIG = {
-    whatsappNumber: '573164212929', // Número de WhatsApp (Colombia: 57 + 3164212929)
+    whatsappNumber: '573224039667', // Número de WhatsApp (Colombia: 57 + 3224039667)
     animationDelay: 30, // Delay entre animaciones de cards (ms) - reducido para carga más rápida
     loadingDuration: 800, // Duración del loading (ms) - reducido para carga más rápida
     parallaxSpeed: 0.5 // Velocidad del efecto parallax
@@ -234,7 +234,7 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     actionBtn.className = 'tshirt-button';
     actionBtn.textContent = 'Más Info';
     actionBtn.setAttribute('aria-label', `Más información sobre ${productTitle}`);
-    actionBtn.onclick = () => openWhatsApp(productTitle);
+    actionBtn.onclick = () => openWhatsApp(productTitle, null, null, null, productType);
 
     card.appendChild(imageContainer);
     card.appendChild(actionBtn);
@@ -242,8 +242,20 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     return card;
 }
 
-function openWhatsApp(productName, size = null, quality = null, price = null) {
-    let messageText = `Hola, me interesa esta camiseta: ${productName}`;
+function openWhatsApp(productName, size = null, quality = null, price = null, type = 'camisetas') {
+    // Determinar el nombre del tipo de producto para el mensaje (singular)
+    let typeName = 'producto';
+    const lowerType = (type || '').toLowerCase();
+
+    if (lowerType.includes('gorra')) {
+        typeName = 'gorra';
+    } else if (lowerType.includes('tote')) {
+        typeName = 'tote bag';
+    } else if (lowerType.includes('camiseta')) {
+        typeName = 'camiseta';
+    }
+
+    let messageText = `Hola, me interesa esta ${typeName}: ${productName}`;
     if (size) {
         messageText += `\nTalla: ${size}`;
     }
@@ -581,15 +593,23 @@ function removeFromFavorites(index) {
 function buyFavorites() {
     if (favorites.length === 0) return;
 
-    const currentQuotes = getTshirtQuotes();
+    const currentTypes = getProductTypes();
     let messageText = "Hola, quiero comprar estos favoritos:\n\n";
 
     favorites.forEach(item => {
         const title = currentQuotes[item.index] || `Noise T-Shirt ${item.index + 1}`;
+        const type = currentTypes[item.index] || 'producto';
+
+        // Determinar nombre legible del tipo
+        let typeLabel = '';
+        if (type.includes('gorra')) typeLabel = '[Gorra] ';
+        else if (type.includes('tote')) typeLabel = '[Tote Bag] ';
+        else if (type.includes('camiseta')) typeLabel = '[Camiseta] ';
+
         const sizeInfo = item.size ? ` (Talla: ${item.size})` : '';
         const qualityInfo = item.quality ? ` (${item.quality})` : '';
         const priceInfo = item.price ? ` - ${item.price}` : '';
-        messageText += `- ${title}${sizeInfo}${qualityInfo}${priceInfo}\n`;
+        messageText += `- ${typeLabel}${title}${sizeInfo}${qualityInfo}${priceInfo}\n`;
     });
 
     const message = encodeURIComponent(messageText);
