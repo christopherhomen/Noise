@@ -594,6 +594,7 @@ function buyFavorites() {
     if (favorites.length === 0) return;
 
     const currentTypes = getProductTypes();
+    const currentQuotes = getTshirtQuotes();
     let messageText = "Hola, quiero comprar estos favoritos:\n\n";
 
     favorites.forEach(item => {
@@ -949,8 +950,8 @@ function openQuickView(index) {
     const imagePath = product.image;
     const category = product.category;
 
-    // Determinar si es un producto que no requiere tallas (como tote bags)
-    const noSizes = category === 'tote-bags';
+    // Determinar si es un producto que no requiere tallas (como tote bags y gorras)
+    const noSizes = category === 'tote-bags' || category === 'gorras';
 
     // Generar HTML del selector de tallas solo si es necesario
     const sizesHTML = noSizes ? '' : `
@@ -1121,7 +1122,12 @@ function openQuickView(index) {
                 selectedPrice = '30k';
             }
 
-            openWhatsApp(title, selectedSize, selectedQuality, selectedPrice);
+            // Determinar tipo de producto para WhatsApp
+            let productType = 'camisetas';
+            if (isGorra) productType = 'gorras';
+            else if (isToteBag) productType = 'tote-bags';
+
+            openWhatsApp(title, selectedSize, selectedQuality, selectedPrice, productType);
             closeQuickView();
         });
     }
