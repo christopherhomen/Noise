@@ -38,6 +38,10 @@ function getProductBadges() {
     return window.productBadges || [];
 }
 
+function getProductPrices() {
+    return window.productPrices || [];
+}
+
 // Verificar que los productos se cargaron correctamente (sin declarar constantes para evitar conflictos)
 (function checkProducts() {
     const products = getProducts();
@@ -89,6 +93,7 @@ function loadTshirts() {
     const currentCategories = getProductCategories();
     const currentTypes = getProductTypes();
     const currentBadges = getProductBadges();
+    const currentPrices = getProductPrices();
 
     // Verificar que hay productos
     if (!currentImages || currentImages.length === 0) {
@@ -105,9 +110,18 @@ function loadTshirts() {
         let cardsCreated = 0;
         currentImages.forEach((imagePath, index) => {
             try {
-                const card = createTshirtCard(imagePath, index, currentQuotes[index], currentCategories[index], currentBadges[index], currentTypes[index]);
+                const card = createTshirtCard(
+                    imagePath,
+                    index,
+                    currentQuotes[index],
+                    currentCategories[index],
+                    currentBadges[index],
+                    currentTypes[index],
+                    currentPrices[index]
+                );
                 productGrid.appendChild(card);
                 cardsCreated++;
+
 
                 // Animación de aparición con delay (batch para mejor rendimiento)
                 const batchDelay = Math.floor(index / 3) * CONFIG.animationDelay;
@@ -127,17 +141,19 @@ function loadTshirts() {
     }
 }
 
-function createTshirtCard(imagePath, index, title, category, badge, type) {
+function createTshirtCard(imagePath, index, title, category, badge, type, priceStr) {
     // Obtener valores actualizados si no se pasan como parámetros
     const currentQuotes = getTshirtQuotes();
     const currentCategories = getProductCategories();
     const currentTypes = getProductTypes();
     const currentBadges = getProductBadges();
+    const currentPrices = getProductPrices();
 
     const productTitle = title || currentQuotes[index] || `Noise T-Shirt ${index + 1}`;
     const productCategory = category || currentCategories[index] || 'empoderamiento';
     const productType = type || currentTypes[index] || 'camisetas';
     const productBadge = badge !== undefined ? badge : currentBadges[index];
+    const productPrice = priceStr || currentPrices[index];
 
     // Contenedor principal
     const card = document.createElement('div');
@@ -208,12 +224,12 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     titleEl.className = 'tshirt-title';
     titleEl.textContent = productTitle;
 
-    const price = document.createElement('p');
-    price.className = 'tshirt-price';
-    price.textContent = 'Consultar precio';
+    const priceEL = document.createElement('p');
+    priceEL.className = 'tshirt-price';
+    priceEL.textContent = productPrice || 'Consultar precio';
 
     overlayContent.appendChild(titleEl);
-    overlayContent.appendChild(price);
+    overlayContent.appendChild(priceEL);
     overlay.appendChild(overlayContent);
 
     // Botón de vista rápida
@@ -234,7 +250,7 @@ function createTshirtCard(imagePath, index, title, category, badge, type) {
     actionBtn.className = 'tshirt-button';
     actionBtn.textContent = 'Más Info';
     actionBtn.setAttribute('aria-label', `Más información sobre ${productTitle}`);
-    actionBtn.onclick = () => openWhatsApp(productTitle, null, null, null, productType);
+    actionBtn.onclick = () => openWhatsApp(productTitle, null, null, productPrice, productType);
 
     card.appendChild(imageContainer);
     card.appendChild(actionBtn);
@@ -253,6 +269,8 @@ function openWhatsApp(productName, size = null, quality = null, price = null, ty
         typeName = 'tote bag';
     } else if (lowerType.includes('camiseta')) {
         typeName = 'camiseta';
+    } else if (lowerType.includes('hoodie') || lowerType.includes('buzo')) {
+        typeName = 'buzo';
     }
 
     let messageText = `Hola, me interesa esta ${typeName}: ${productName}`;
@@ -595,21 +613,24 @@ function buyFavorites() {
 
     const currentTypes = getProductTypes();
     const currentQuotes = getTshirtQuotes();
+    const currentPrices = getProductPrices();
     let messageText = "Hola, quiero comprar estos favoritos:\n\n";
 
     favorites.forEach(item => {
         const title = currentQuotes[item.index] || `Noise T-Shirt ${item.index + 1}`;
         const type = currentTypes[item.index] || 'producto';
+        const itemPrice = item.price || currentPrices[item.index];
 
         // Determinar nombre legible del tipo
         let typeLabel = '';
         if (type.includes('gorra')) typeLabel = '[Gorra] ';
         else if (type.includes('tote')) typeLabel = '[Tote Bag] ';
         else if (type.includes('camiseta')) typeLabel = '[Camiseta] ';
+        else if (type.includes('hoodie') || type.includes('buzo')) typeLabel = '[Buzo] ';
 
         const sizeInfo = item.size ? ` (Talla: ${item.size})` : '';
         const qualityInfo = item.quality ? ` (${item.quality})` : '';
-        const priceInfo = item.price ? ` - ${item.price}` : '';
+        const priceInfo = itemPrice ? ` - ${itemPrice}` : '';
         messageText += `- ${typeLabel}${title}${sizeInfo}${qualityInfo}${priceInfo}\n`;
     });
 
@@ -967,9 +988,33 @@ function openQuickView(index) {
     `;
 
     // Generar HTML del selector de precios/calidad (solo para camisetas)
-    const isTshirt = !noSizes && category !== 'gorras';
+    const isHoodie = category === 'hoodies' || (product.type && (product.type.includes('hoodie') || product.type.includes('buzo')));
     const isGorra = category === 'gorras';
     const isToteBag = category === 'tote-bags';
+    const isTshirt = !noSizes && !isGorra && !isToteBag && !isHoodie;
+
+    const hoodieHTML = isHoodie ? `
+        <div class="modal-pricing">
+            <h3>Estilo & Precio</h3>
+            <div class="pricing-options">
+                <div class="pricing-group">
+                    <h4>🧥 Sin Capota</h4>
+                    <button class="pricing-btn" data-quality="Buzo Sin Capota - 240g Antipiling" data-price="$70.000">
+                        <span class="pricing-desc">240g Antipiling</span>
+                        <span class="pricing-value">$70.000</span>
+                    </button>
+                </div>
+                
+                <div class="pricing-group">
+                    <h4>🧥 Con Capota</h4>
+                    <button class="pricing-btn selected" data-quality="Buzo Con Capota - 240g Antipiling" data-price="$80.000">
+                        <span class="pricing-desc">240g Antipiling</span>
+                        <span class="pricing-value">$80.000</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    ` : '';
 
     const pricingHTML = isTshirt ? `
         <div class="modal-pricing">
@@ -1045,6 +1090,9 @@ function openQuickView(index) {
         initialPrice = '30k';
     } else if (isToteBag) {
         initialPrice = '38k';
+    } else if (isHoodie) {
+        priceLabel = 'Precio elegido:';
+        initialPrice = '$80.000'; // Default con capota
     }
 
     modalBody.innerHTML = `
@@ -1053,26 +1101,35 @@ function openQuickView(index) {
         </div>
         <div class="modal-info">
             <h2>${title}</h2>
-            <p class="modal-description" style="color: var(--text-gray); margin: 1rem 0; line-height: 1.6;">${description}</p>
-            <p class="modal-price" id="modalPriceDisplay"><span style="font-size: 0.9em; color: var(--text-gray); font-weight: 400;">${priceLabel}</span> ${initialPrice}</p>
+            <p class="modal-category" onclick="filterByCategory('${category}')" title="Ver todos los productos de ${category}">${category}</p>
+            <p class="modal-desc">${description}</p>
+            
             ${sizesHTML}
+            ${hoodieHTML}
             ${pricingHTML}
             ${toteBagHTML}
-            <div class="modal-actions">
-                <button class="modal-action-btn primary" id="whatsappBtn">
-                    COMPRAR POR WHATSAPP <i class="fab fa-whatsapp" style="margin-left: 8px;"></i>
-                </button>
-                <button class="modal-action-btn secondary" id="modalFavoriteBtn">
-                    <i class="fas fa-shopping-cart"></i> ${favorites.some(item => item.index === index) ? 'En el Carrito' : 'Agregar al Carrito'}
-                </button>
+
+            <div class="modal-footer">
+                <div class="modal-price">
+                    <span>${priceLabel}</span>
+                    <strong id="modalPrice">${initialPrice}</strong>
+                </div>
+                <div class="modal-actions">
+                    <button class="add-to-cart-btn" onclick="addToCartFromModal(${index})">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                    <button class="buy-whatsapp-btn" onclick="buyFromModal('${title}')">
+                        <i class="fab fa-whatsapp"></i> Comprar
+                    </button>
+                </div>
             </div>
         </div>
     `;
 
-    // Lógica para selector de precios (Camisetas y Tote Bags)
-    if (isTshirt || isToteBag) {
+    // Lógica para selector de precios (Camisetas, Tote Bags y Hoodies)
+    if (isTshirt || isToteBag || isHoodie) {
         const pricingButtons = modalBody.querySelectorAll('.pricing-btn');
-        const priceDisplay = modalBody.querySelector('#modalPriceDisplay');
+        const priceDisplay = modalBody.querySelector('#modalPrice');
 
         pricingButtons.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1081,9 +1138,7 @@ function openQuickView(index) {
 
                 // Actualizar precio visualmente
                 if (priceDisplay) {
-                    // Mantener el label si es camiseta
-                    const label = isTshirt ? '<span style="font-size: 0.9em; color: var(--text-gray); font-weight: 400;">Precio elegido:</span> ' : '<span style="font-size: 0.9em; color: var(--text-gray); font-weight: 400;">Precio:</span> ';
-                    priceDisplay.innerHTML = `${label}${btn.dataset.price}`;
+                    priceDisplay.textContent = btn.dataset.price;
 
                     // Animación simple de cambio
                     priceDisplay.style.transform = 'scale(1.05)';
@@ -1112,7 +1167,7 @@ function openQuickView(index) {
                 }
             }
 
-            if (isTshirt || isToteBag) {
+            if (isTshirt || isToteBag || isHoodie) {
                 const selectedPricingBtn = modalBody.querySelector('.pricing-btn.selected');
                 if (selectedPricingBtn) {
                     selectedQuality = selectedPricingBtn.dataset.quality;
@@ -1126,6 +1181,7 @@ function openQuickView(index) {
             let productType = 'camisetas';
             if (isGorra) productType = 'gorras';
             else if (isToteBag) productType = 'tote-bags';
+            else if (isHoodie) productType = 'hoodies';
 
             openWhatsApp(title, selectedSize, selectedQuality, selectedPrice, productType);
             closeQuickView();
@@ -1166,7 +1222,7 @@ function openQuickView(index) {
             let selectedQuality = null;
             let selectedPrice = null;
 
-            if (isTshirt || isToteBag) {
+            if (isTshirt || isToteBag || isHoodie) {
                 const selectedPricingBtn = modalBody.querySelector('.pricing-btn.selected');
                 if (selectedPricingBtn) {
                     selectedQuality = selectedPricingBtn.dataset.quality;
@@ -1203,6 +1259,122 @@ function closeQuickView() {
 window.openQuickView = openQuickView;
 window.closeQuickView = closeQuickView;
 window.toggleFavorite = toggleFavorite;
+
+function getSelectedOptions(modalBody) {
+    const isGorra = modalBody.querySelector('.modal-category').textContent === 'gorras';
+    const isToteBag = modalBody.querySelector('.modal-category').textContent === 'tote-bags';
+    const isHoodie = modalBody.querySelector('.modal-category').textContent === 'hoodies';
+    const isTshirt = !isGorra && !isToteBag && !isHoodie;
+
+    let selectedSize = null;
+    const sizeBtn = modalBody.querySelector('.size-btn.selected');
+    if (sizeBtn) {
+        selectedSize = sizeBtn.dataset.size;
+    }
+
+    let selectedQuality = null;
+    let selectedPrice = null;
+
+    if (isTshirt || isToteBag || isHoodie) {
+        const pricingBtn = modalBody.querySelector('.pricing-btn.selected');
+        if (pricingBtn) {
+            selectedQuality = pricingBtn.dataset.quality;
+            selectedPrice = pricingBtn.dataset.price;
+        }
+    } else if (isGorra) {
+        selectedPrice = '30k';
+    }
+
+    return { selectedSize, selectedQuality, selectedPrice, isGorra, isToteBag, isHoodie, isTshirt };
+}
+
+function addToCartFromModal(index) {
+    const modalBody = document.getElementById('modalBody');
+    if (!modalBody) return;
+
+    const { selectedSize, selectedQuality, selectedPrice } = getSelectedOptions(modalBody);
+
+    // Add to favorites/cart
+    toggleFavorite(index, selectedSize, selectedQuality, selectedPrice);
+
+    // Update button text temporarily
+    const btn = modalBody.querySelector('.add-to-cart-btn');
+    if (btn) {
+        const originalContent = btn.innerHTML;
+        const isAdded = favorites.some(item => item.index === index);
+
+        if (isAdded) {
+            btn.innerHTML = '<i class="fas fa-check"></i> Agregado';
+            btn.classList.add('added');
+        } else {
+            btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Agregar al Carrito';
+            btn.classList.remove('added');
+        }
+    }
+}
+
+function buyFromModal(title) {
+    const modalBody = document.getElementById('modalBody');
+    if (!modalBody) return;
+
+    const { selectedSize, selectedQuality, selectedPrice, isGorra, isToteBag, isHoodie } = getSelectedOptions(modalBody);
+
+    let productType = 'camisetas';
+    if (isGorra) productType = 'gorras';
+    else if (isToteBag) productType = 'tote-bags';
+    else if (isHoodie) productType = 'hoodies';
+
+    openWhatsApp(title, selectedSize, selectedQuality, selectedPrice, productType);
+    closeQuickView();
+}
+
+window.addToCartFromModal = addToCartFromModal;
+window.buyFromModal = buyFromModal;
+
+function filterByCategory(category) {
+    closeQuickView();
+
+    // Scroll to filters
+    const filtersSection = document.querySelector('.filters-wrapper');
+    if (filtersSection) {
+        const headerOffset = 100;
+        const elementPosition = filtersSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+
+    // Determine type
+    let targetType = 'camisetas';
+    if (category === 'gorras') targetType = 'gorras';
+    else if (category === 'tote-bags') targetType = 'tote-bags';
+    else if (category === 'hoodies') targetType = 'hoodies';
+
+    // Click Main Filter (Type)
+    const mainBtns = document.querySelectorAll('.main-filter-btn');
+    mainBtns.forEach(btn => {
+        if (btn.dataset.filter === targetType) {
+            btn.click();
+        }
+    });
+
+    // If T-shirt subcategory, Click Sub Filter
+    if (targetType === 'camisetas') {
+        setTimeout(() => {
+            const subBtns = document.querySelectorAll('.sub-filters .filter-btn');
+            subBtns.forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.click();
+                }
+            });
+        }, 100);
+    }
+}
+
+window.filterByCategory = filterByCategory;
 
 // ============================================
 // NEWSLETTER POPUP

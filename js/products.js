@@ -42,6 +42,19 @@ const PRODUCT_PATHS = [
     'assets/img/Camisetas/Empoderamiento/ojo de loca.JPG',
     'assets/img/Camisetas/Empoderamiento/ressist.JPG',
 
+    // CAMISETAS - Gym
+    'assets/img/Camisetas/Gym/antio cardio club.JPEG',
+    'assets/img/Camisetas/Gym/courage dog gym.JPEG',
+    'assets/img/Camisetas/Gym/eat sleep train.JPEG',
+    'assets/img/Camisetas/Gym/good workouts.JPEG',
+    'assets/img/Camisetas/Gym/gym 2.JPEG',
+    'assets/img/Camisetas/Gym/gym rat.JPEG',
+    'assets/img/Camisetas/Gym/gym.JPEG',
+    'assets/img/Camisetas/Gym/kinda fit kinda fat.JPEG',
+    'assets/img/Camisetas/Gym/reborn.JPEG',
+    'assets/img/Camisetas/Gym/spiderman gym.JPEG',
+    'assets/img/Camisetas/Gym/strong arm.JPEG',
+
     // CAMISETAS - Heroínas
     'assets/img/Camisetas/Heroinas/cleopatra.JPG',
     'assets/img/Camisetas/Heroinas/frida kahlo.JPG',
@@ -49,17 +62,20 @@ const PRODUCT_PATHS = [
     'assets/img/Camisetas/Heroinas/señora antigua.JPG',
 
     // CAMISETAS - Manga y Anime
-    'assets/img/Camisetas/Manga/Croptop patamon digimon.JPG',
-    'assets/img/Camisetas/Manga/Croptop sailor moon 1.JPG',
-    'assets/img/Camisetas/Manga/Croptop sailor moon 2.JPG',
-    'assets/img/Camisetas/Manga/Croptop sakura cardcaptor.JPG',
-    'assets/img/Camisetas/Manga/gengar pokemon.JPG',
-    'assets/img/Camisetas/Manga/majin buu.JPG',
-    'assets/img/Camisetas/Manga/monkey dluffy.JPG',
-    'assets/img/Camisetas/Manga/pokemons.JPG',
-    'assets/img/Camisetas/Manga/sailor moon 3.JPG',
-    'assets/img/Camisetas/Manga/saint seiya man.JPG',
-    'assets/img/Camisetas/Manga/saint seiya woman.JPG',
+    'assets/img/Camisetas/Anime - Manga/Croptop patamon digimon.JPG',
+    'assets/img/Camisetas/Anime - Manga/Croptop sailor moon 1.JPG',
+    'assets/img/Camisetas/Anime - Manga/Croptop sailor moon 2.JPG',
+    'assets/img/Camisetas/Anime - Manga/Croptop sakura cardcaptor.JPG',
+    'assets/img/Camisetas/Anime - Manga/death parade.JPG',
+    'assets/img/Camisetas/Anime - Manga/gengar pokemon.JPG',
+    'assets/img/Camisetas/Anime - Manga/goku ss3.JPEG',
+    'assets/img/Camisetas/Anime - Manga/majin buu.JPG',
+    'assets/img/Camisetas/Anime - Manga/monkey dluffy.JPG',
+    'assets/img/Camisetas/Anime - Manga/one piece.JPEG',
+    'assets/img/Camisetas/Anime - Manga/pokemons.JPG',
+    'assets/img/Camisetas/Anime - Manga/sailor moon 3.JPG',
+    'assets/img/Camisetas/Anime - Manga/saint seiya man.JPG',
+    'assets/img/Camisetas/Anime - Manga/saint seiya woman.JPG',
 
     // CAMISETAS - Memes
     'assets/img/Camisetas/Memes/Croptop cynthia.JPG',
@@ -78,13 +94,15 @@ const PRODUCT_PATHS = [
     'assets/img/Camisetas/Pets/vincet dog memorial.JPG',
 
     // CAMISETAS - Music
+    'assets/img/Camisetas/Music/Bad Bunny singer black.JPEG',
+    'assets/img/Camisetas/Music/Bad Bunny singer color.JPEG',
+    'assets/img/Camisetas/Music/Croptop bts.JPG',
     'assets/img/Camisetas/Music/beele.JPG',
     'assets/img/Camisetas/Music/billie eilish 1.JPG',
     'assets/img/Camisetas/Music/billie eilish.JPG',
     'assets/img/Camisetas/Music/blackpink.JPG',
     'assets/img/Camisetas/Music/britney spears 1.JPG',
     'assets/img/Camisetas/Music/britney spears 2.JPG',
-    'assets/img/Camisetas/Music/Croptop bts.JPG',
     'assets/img/Camisetas/Music/feid.JPG',
     'assets/img/Camisetas/Music/karol g.JPG',
     'assets/img/Camisetas/Music/mago de oz.JPG',
@@ -96,11 +114,27 @@ const PRODUCT_PATHS = [
     'assets/img/Camisetas/Music/shakira 2.JPG',
 
     // CAMISETAS - Urban
+    'assets/img/Camisetas/Urban/angel arm.JPEG',
+    'assets/img/Camisetas/Urban/angel salvator.JPEG',
+    'assets/img/Camisetas/Urban/back to the future.JPEG',
     'assets/img/Camisetas/Urban/beside the point.JPG',
+    'assets/img/Camisetas/Urban/chaser.JPEG',
+    'assets/img/Camisetas/Urban/clueless.JPEG',
+    'assets/img/Camisetas/Urban/dont cry.JPEG',
+    'assets/img/Camisetas/Urban/faces.JPG',
+    'assets/img/Camisetas/Urban/focused.JPEG',
+    'assets/img/Camisetas/Urban/fututre echoes.JPEG',
+    'assets/img/Camisetas/Urban/good energy.JPEG',
     'assets/img/Camisetas/Urban/great yourself.JPG',
+    'assets/img/Camisetas/Urban/green art.JPEG',
     'assets/img/Camisetas/Urban/hands.JPG',
     'assets/img/Camisetas/Urban/its leviosa.JPG',
+    'assets/img/Camisetas/Urban/lowrider.JPEG',
+    'assets/img/Camisetas/Urban/mentality.JPG',
+    'assets/img/Camisetas/Urban/no fear.JPEG',
+    'assets/img/Camisetas/Urban/poseidon.JPEG',
     'assets/img/Camisetas/Urban/reave.JPG',
+    'assets/img/Camisetas/Urban/retro car.JPEG',
     'assets/img/Camisetas/Urban/the real.JPG',
     'assets/img/Camisetas/Urban/tokyo cart.JPG',
     'assets/img/Camisetas/Urban/vincent van gogh.JPG',
@@ -144,7 +178,12 @@ const PRODUCT_PATHS = [
     'assets/img/Tote bags/stranger things upside down 3.JPG',
     'assets/img/Tote bags/stranger things upside down.JPG',
     'assets/img/Tote bags/vecna stranger things black.JPG',
-    'assets/img/Tote bags/vecna stranger things.PNG'
+    'assets/img/Tote bags/vecna stranger things.PNG',
+
+    // BUZOS - HOODIES
+    'assets/img/Buzos - Hoodies/ACDC - con capota.JPEG',
+    'assets/img/Buzos - Hoodies/ACDC - sin capota.JPEG',
+    'assets/img/Buzos - Hoodies/beam me up -  con capota.JPEG'
 ];
 
 // ============================================
@@ -184,11 +223,22 @@ const KEYWORDS = {
     'perrito': { title: 'Hábleme Perrito', desc: 'El meme que nos representa. La jerga colombiana.' },
     'latina': { title: 'La TiNa', desc: 'El orgullo latino. La identidad que nos une.' },
     'chatgpt': { title: 'Me Dijo ChatGPT', desc: 'La era de la IA. El meme del futuro.' },
-    'papaya': { title: 'Papaya Partida', desc: 'El dicho colombiano. La sabiduría popular.' },
-    'parce': { title: 'Parce Made In Colombia', desc: 'Hecho en Colombia con orgullo. La calidad nacional.' },
     'parchese': { title: 'Parchese', desc: 'El plan que siempre funciona. La amistad colombiana.' },
     'empanada': { title: 'Empanada Lover', desc: 'El amor por las empanadas. La pasión colombiana.' },
     'dormi': { title: 'No Dormí Bien', desc: 'El estado de ánimo de lunes a viernes. La realidad.' },
+
+    // Gym specific - Ordered by specificity
+    'antio': { title: 'Anti Cardio Club', desc: 'El club de los que prefieren las pesas. Cardio? No gracias.' },
+    'courage': { title: 'Courage Dog Gym', desc: 'El perro cobarde se puso mamadísimo.' },
+    'spiderman': { title: 'Spidey Gym', desc: 'Un gran poder conlleva una gran rutina.' },
+    'workouts': { title: 'Good Workouts', desc: 'Buenos entrenamientos, buenos resultados.' },
+    'reborn': { title: 'Reborn', desc: 'Renacer más fuerte en cada repetición.' },
+    'strong': { title: 'Strong Arm', desc: 'Fuerza bruta y determinación.' },
+    'gym rat': { title: 'Gym Rat', desc: 'Para los que viven en el gym. No pain no gain.' },
+    'fit': { title: 'Kinda Fit Kinda Fat', desc: 'Equilibrio perfecto. Gym y pizza.' },
+    'train': { title: 'Eat Sleep Train', desc: 'La rutina sagrada. Comer, dormir, entrenar, repetir.' },
+    'gym 2': { title: 'Gym Mode On', desc: 'Modo gimnasio activado. Nada me detiene.' },
+    'gym': { title: 'Gym Lifestyle', desc: 'Más que un hobby, un estilo de vida.' },
 
     // Diciembre
     'adonay': { title: 'Adonay - ¿Por qué te casaste?', desc: 'La pregunta que Rodolfo Aicardi nos dejó para siempre.' },
@@ -221,6 +271,7 @@ const KEYWORDS = {
     // Cultura pop y música
     'beele': { title: 'Beele - Caribe Wave', desc: 'Vibras de dancehall y afrobeat directo del Caribe colombiano.' },
     'selena': { title: 'Selena Quintanilla - Reina del Tex-Mex', desc: 'Homenaje a la artista que conquistó los Grammy con Amor Prohibido.' },
+    'bad bunny': { title: 'Bad Bunny - Un Verano Sin Ti', desc: 'El conejo malo. YHLQMDLG.' },
     'billie': { title: 'Billie Eilish - Neon Moods', desc: 'Pop oscuro, susurros eléctricos y estilo oversized.' },
     'blackpink': { title: 'BLACKPINK - Born Pink', desc: 'Girl power K-pop con coreografías que incendian escenarios.' },
     'britney': { title: 'Britney Spears - Pop Icon', desc: 'El brillo Y2K que definió una era en MTV.' },
@@ -241,6 +292,8 @@ const KEYWORDS = {
     'digimon': { title: 'Digimon Adventure', desc: 'Bestias digitales, amistad y nostalgia noventera.' },
     'sakura': { title: 'Sakura Card Captor', desc: 'Cartas mágicas, broches y outfits de Tomoyo.' },
     'gengar': { title: 'Gengar - Sombra Pokémon', desc: 'Smile travieso y aura púrpura salida de Kanto.' },
+    'one piece': { title: 'One Piece - Nakama', desc: 'La aventura más grande de todos los tiempos.' },
+    'death parade': { title: 'Death Parade', desc: 'Bienvenido al Quindecim. ¿Qué juego elegirá tu destino?' },
     'pokemon': { title: 'Pokémon Trainer', desc: 'Atrápalos todos con estilo retro gaming.' },
     'majin': { title: 'Majin Buu - Caos Rosa', desc: 'Villano impredecible con poder infinito y dulces.' },
     'dluffy': { title: 'Monkey D. Luffy - Rey Pirata', desc: 'Sombrero de paja listo para conquistar el Grand Line.' },
@@ -291,11 +344,13 @@ function extractCategory(path) {
         'Universos': 'universos',
         'Anime': 'anime',
         'Empoderamiento': 'empoderamiento',
+        'Gym': 'gym',
         'Heroínas': 'heroinas',
         'Heroinas': 'heroinas',
         'Memes': 'memes',
         'Colombia': 'colombia',
-        'Manga': 'manga',
+        'Manga': 'anime-manga',
+        'Anime - Manga': 'anime-manga',
         'Pets': 'pets',
         'Pop': 'music',
         'Music': 'music',
@@ -304,6 +359,9 @@ function extractCategory(path) {
         'Urban': 'urban',
         'Noise': 'noise',
         'Tote bags': 'tote-bags',
+        'Noise': 'noise',
+        'Tote bags': 'tote-bags',
+        'Buzos - Hoodies': 'hoodies',
         'Stanger Things': 'universos', // Subcarpeta dentro de Universos
         'House Of Dragons': 'universos' // Subcarpeta dentro de Universos
     };
@@ -337,6 +395,10 @@ function determineProductType(path) {
 
     if (lowerPath.includes('gorras')) {
         return 'gorras';
+    }
+
+    if (lowerPath.includes('buzos') || lowerPath.includes('hoodies')) {
+        return 'hoodies';
     }
 
     // Por defecto, todo lo demás son camisetas
@@ -458,6 +520,9 @@ function generateDescription(filename, path, title) {
         'gorras': 'Accesorios urbanos para coronar cualquier fit.',
         'noise': 'El diseño que habla. La identidad Noise.',
         'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.',
+        'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.',
+        'hoodies': '240 gramos, antipiling.',
+        'gym': 'Modo bestia activado. La motivación que necesitas para entrenar.',
         'diciembre': 'La mejor época del año. Parranda, natilla y buñuelos.'
     };
 
@@ -496,6 +561,22 @@ function determineBadge(filename, path, index) {
     return null;
 }
 
+/**
+ * Determina el precio del producto
+ */
+function determinePrice(filename, type) {
+    if (type !== 'hoodies') return null;
+
+    const normalized = filename.toLowerCase();
+    if (normalized.includes('sin capota')) {
+        return '$70.000';
+    }
+    if (normalized.includes('con capota')) {
+        return '$80.000';
+    }
+    return null;
+}
+
 // ============================================
 // GENERACIÓN DE PRODUCTOS
 // ============================================
@@ -511,6 +592,7 @@ function generateProducts() {
         const title = generateTitle(filename, path);
         const description = generateDescription(filename, path, title);
         const badge = determineBadge(filename, path, index);
+        const price = determinePrice(filename, type);
 
         return {
             image: path,
@@ -518,7 +600,10 @@ function generateProducts() {
             description: description,
             category: category,
             type: type,
-            badge: badge
+            category: category,
+            type: type,
+            badge: badge,
+            price: price
         };
     }).filter(product => product.category !== 'noise'); // Filtrar productos de categoría "noise"
 }
@@ -547,10 +632,12 @@ function getCategoryDisplayName(category) {
         'heroinas': 'Heroínas',
         'memes': 'Memes',
         'colombia': 'Colombia',
-        'manga': 'Manga',
+        'manga': 'Anime - Manga',
+        'anime-manga': 'Anime - Manga',
         'pets': 'Pets',
         'music': 'Music',
         'urban': 'Urban',
+        'gym': 'Gym 💪',
         'roblox': 'Roblox',
         'gorras': 'Gorras',
         'noise': 'Noise',
@@ -623,6 +710,7 @@ let tshirtQuotes = [];
 let productCategories = [];
 let productTypes = [];
 let productBadges = [];
+let productPrices = [];
 
 try {
     products = generateProducts();
@@ -631,11 +719,10 @@ try {
     // Arrays para compatibilidad con código existente
     tshirtImages = products.map(p => p.image);
     tshirtQuotes = products.map(p => p.title);
-    tshirtImages = products.map(p => p.image);
-    tshirtQuotes = products.map(p => p.title);
     productCategories = products.map(p => p.category);
     productTypes = products.map(p => p.type);
     productBadges = products.map(p => p.badge);
+    productPrices = products.map(p => p.price);
 
     console.log(`✅ Arrays creados: ${tshirtImages.length} imágenes, ${tshirtQuotes.length} títulos`);
 } catch (error) {
@@ -643,11 +730,12 @@ try {
     products = [];
     tshirtImages = [];
     tshirtQuotes = [];
-    tshirtQuotes = [];
     productCategories = [];
     productTypes = [];
     productBadges = [];
+    productPrices = [];
 }
+
 
 // Exportar para uso global
 if (typeof window !== 'undefined') {
@@ -658,6 +746,7 @@ if (typeof window !== 'undefined') {
     window.productCategories = productCategories;
     window.productTypes = productTypes;
     window.productBadges = productBadges;
+    window.productPrices = productPrices;
 
     // Función para regenerar productos (útil si se agregan nuevos)
     window.regenerateProducts = function () {
@@ -665,10 +754,10 @@ if (typeof window !== 'undefined') {
         window.products = newProducts;
         window.tshirtImages = newProducts.map(p => p.image);
         window.tshirtQuotes = newProducts.map(p => p.title);
-        window.tshirtQuotes = newProducts.map(p => p.title);
         window.productCategories = newProducts.map(p => p.category);
         window.productTypes = newProducts.map(p => p.type);
         window.productBadges = newProducts.map(p => p.badge);
+        window.productPrices = newProducts.map(p => p.price);
 
         // Actualizar filtros automáticamente
         updateFilters();

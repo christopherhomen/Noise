@@ -917,7 +917,7 @@ footer::after {
     left: 30px;
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(255, 81, 0, 0.9) 0%, rgba(255, 140, 0, 0.6) 100%);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     display: none;
@@ -949,7 +949,7 @@ footer::after {
 .scroll-top-btn:hover {
     transform: scale(1.15) translateY(-5px);
     box-shadow: 0 15px 50px rgba(255, 255, 255, 0.2);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+    background: linear-gradient(135deg, #FF4500 0%, #FF8C00 100%);
     border-color: rgba(255, 255, 255, 0.4);
 }
 
@@ -1604,6 +1604,50 @@ footer::after {
     letter-spacing: 0.1em;
 }
 
+.modal-category {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 50px;
+    color: #00ffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: 0.5s;
+}
+
+.modal-category:hover {
+    color: #fff;
+    border-color: #00ffff;
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.modal-category:hover::before {
+    transform: translateX(100%);
+}
+
 .modal-info .modal-price {
     font-size: 1.5rem;
     color: var(--text-gray);
@@ -1736,39 +1780,53 @@ footer::after {
     flex-wrap: wrap;
 }
 
-.modal-action-btn {
+/* New Modal Action Buttons */
+.add-to-cart-btn,
+.buy-whatsapp-btn {
     flex: 1;
     min-width: 200px;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
     border: none;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
 }
 
-.modal-action-btn.primary {
-    background: var(--accent-white);
-    color: var(--primary-black);
-}
-
-.modal-action-btn.primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-}
-
-.modal-action-btn.secondary {
+.add-to-cart-btn {
     background: transparent;
     color: var(--accent-white);
     border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.modal-action-btn.secondary:hover {
+.add-to-cart-btn:hover {
     border-color: var(--accent-white);
     background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.buy-whatsapp-btn {
+    background: var(--whatsapp-green);
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+}
+
+.buy-whatsapp-btn:hover {
+    background: #20b852;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+}
+
+.add-to-cart-btn i,
+.buy-whatsapp-btn i {
+    font-size: 1.2rem;
 }
 
 /* ============================================
