@@ -205,7 +205,14 @@ const PRODUCT_PATHS = [
     // BUZOS - HOODIES
     'assets/img/Buzos - Hoodies/ACDC - con capota.JPEG',
     'assets/img/Buzos - Hoodies/ACDC - sin capota.JPEG',
-    'assets/img/Buzos - Hoodies/beam me up -  con capota.JPEG'
+    'assets/img/Buzos - Hoodies/beam me up -  con capota.JPEG',
+    'assets/img/Buzos - Hoodies/Appa.JPG',
+    'assets/img/Buzos - Hoodies/Charizard.JPG',
+    'assets/img/Buzos - Hoodies/Cubone.JPG',
+    'assets/img/Buzos - Hoodies/Eevee.JPG',
+    'assets/img/Buzos - Hoodies/Gengar.JPG',
+    'assets/img/Buzos - Hoodies/Piplup.JPG',
+    'assets/img/Buzos - Hoodies/Umbreon.JPG'
 ];
 
 // ============================================
@@ -351,7 +358,15 @@ const KEYWORDS = {
     'ironwilled': { title: 'Iron Willed', desc: 'Voluntad de hierro. Nada te detiene.' },
     'noted': { title: 'Noted', desc: 'Tomado en cuenta. Mensaje recibido.' },
     'te espero': { title: 'Te Espero', desc: 'El mensaje sutil que deja huella.' },
-    'wolves': { title: 'Wolves Gym', desc: 'Lidera la manada. Entrena fuerte.' }
+    'wolves': { title: 'Wolves Gym', desc: 'Lidera la manada. Entrena fuerte.' },
+
+    // Buzos nuevos (Pokémon y Avatar)
+    'appa': { title: 'Appa - Yip Yip!', desc: 'El bisonte volador más leal. Tu compañero de viaje ideal.' },
+    'charizard': { title: 'Charizard Fire', desc: 'La llama que nunca se apaga. Poder y evolución definitiva.' },
+    'cubone': { title: 'Cubone Story', desc: 'Pequeño guerrero solitario. Historia y valor en cada detalle.' },
+    'eevee': { title: 'Eevee Evolution', desc: 'Posibilidades infinitas. ¿En qué te convertirás hoy?' },
+    'piplup': { title: 'Piplup Attitude', desc: 'Pequeño pero con carácter de líder. Orgullo en cada paso.' },
+    'umbreon': { title: 'Umbreon Night', desc: 'Brilla bajo la luz de la luna. Misterio y elegancia oscura.' }
 };
 
 const DESCRIPTIONS = {
@@ -608,13 +623,13 @@ function determinePrice(filename, type) {
     const normalized = filename.toLowerCase();
 
     // Precios Hoodies
+    // Precios Hoodies
     if (type === 'hoodies') {
         if (normalized.includes('sin capota')) {
             return '$70.000';
         }
-        if (normalized.includes('con capota')) {
-            return '$80.000';
-        }
+        // Por defecto o con capota
+        return '$80.000';
     }
 
     // Precios Gorras
