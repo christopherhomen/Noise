@@ -69,11 +69,19 @@ if (favorites.length > 0 && typeof favorites[0] === 'number') {
     localStorage.setItem('noiseFavorites', JSON.stringify(favorites));
 }
 
-const MAX_RANDOM_CAMISETAS = 15;
-// productRandomOrder y productDisplayLimit se definen más abajo antes de generateRandomProductOrder
+
 const CATEGORY_NOTICES = {
     pets: 'Categoría especial: personaliza tu camiseta con la foto de tu peludito y rinde homenaje con estilo.'
 };
+
+// ============================================
+// ESTADO GLOBAL
+// ============================================
+let currentTypeFilter = 'camisetas';
+let currentCategoryFilter = 'all';
+let productRandomOrder = [];
+const MAX_RANDOM_CAMISETAS = 15;
+let productDisplayLimit = MAX_RANDOM_CAMISETAS;
 
 // ============================================
 // FUNCIONES DE PRODUCTOS
@@ -645,9 +653,9 @@ window.buyFavorites = buyFavorites;
 // ============================================
 // SISTEMA DE FILTROS
 // ============================================
-// Variables globales para el orden aleatorio y paginación
-let productRandomOrder = [];
-let productDisplayLimit = MAX_RANDOM_CAMISETAS; // Se mantiene la constante como valor inicial
+// Variables globales movidas al inicio del archivo
+// let productRandomOrder = [];
+// let productDisplayLimit = MAX_RANDOM_CAMISETAS;
 
 function generateRandomProductOrder(forceReset = true) {
     const productList = getProducts();
@@ -716,8 +724,9 @@ function updateCategoryNotice() {
 // ============================================
 // SISTEMA DE FILTROS
 // ============================================
-let currentTypeFilter = 'camisetas';
-let currentCategoryFilter = 'all';
+// Variables de filtro movidas al inicio del archivo
+// let currentTypeFilter = 'camisetas';
+// let currentCategoryFilter = 'all';
 
 function initFilters() {
     // 1. Filtros Principales (Tipo)
@@ -815,6 +824,14 @@ function applyFilters(resetRandom = false) {
         productRandomOrder
             .slice(0, Math.min(productDisplayLimit, productRandomOrder.length))
             .forEach(idx => allowedRandomIndexes.add(String(idx)));
+
+        // Fallback: si por alguna razón la lista aleatoria está vacía y hay productos, mostrar los primeros
+        if (allowedRandomIndexes.size === 0 && productRandomOrder.length === 0) {
+            console.warn('⚠️ Lista aleatoria vacía, aplicando fallback...');
+            const allCards = Array.from(cards).filter(c => c.dataset.type === currentTypeFilter);
+            allCards.slice(0, Math.min(MAX_RANDOM_CAMISETAS, allCards.length))
+                .forEach(c => allowedRandomIndexes.add(c.dataset.index));
+        }
     }
 
     let visibleCount = 0;
