@@ -659,15 +659,59 @@ window.buyFavorites = buyFavorites;
 
 function generateRandomProductOrder(forceReset = true) {
     const productList = getProducts();
-    productRandomOrder = productList
-        .map((product, index) => ({ index, type: product.type }))
-        .filter(item => currentTypeFilter === 'all' || item.type === currentTypeFilter) // Filtrar por el tipo actual o incluir todo
-        .map(item => item.index);
 
-    // Shuffle (Fisher-Yates)
-    for (let i = productRandomOrder.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [productRandomOrder[i], productRandomOrder[j]] = [productRandomOrder[j], productRandomOrder[i]];
+    if (currentTypeFilter === 'all') {
+        // Estrategia de mezcla balanceada (Round Robin) para asegurar variedad
+        const itemsByType = {};
+
+        // 1. Agrupar índices por tipo
+        productList.forEach((product, index) => {
+            if (!itemsByType[product.type]) itemsByType[product.type] = [];
+            itemsByType[product.type].push(index);
+        });
+
+        // 2. Barajar cada grupo independientemente
+        Object.keys(itemsByType).forEach(type => {
+            const group = itemsByType[type];
+            for (let i = group.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [group[i], group[j]] = [group[j], group[i]];
+            }
+        });
+
+        // 3. Intercalar tipos para asegurar que no salgan solo camisetas al principio
+        productRandomOrder = [];
+        let activeTypes = Object.keys(itemsByType);
+
+        // Mezclar el orden de los tipos para que no siempre empiece por el mismo
+        for (let i = activeTypes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [activeTypes[i], activeTypes[j]] = [activeTypes[j], activeTypes[i]];
+        }
+
+        while (activeTypes.length > 0) {
+            // En cada ronda, tomamos uno de cada tipo disponible
+            for (let i = 0; i < activeTypes.length; i++) {
+                const type = activeTypes[i];
+                if (itemsByType[type].length > 0) {
+                    productRandomOrder.push(itemsByType[type].pop());
+                }
+            }
+            // Actualizar lista de tipos que aún tienen productos
+            activeTypes = activeTypes.filter(type => itemsByType[type].length > 0);
+        }
+
+    } else {
+        // Comportamiento normal para filtros específicos (solo barajar)
+        productRandomOrder = productList
+            .map((product, index) => ({ index, type: product.type }))
+            .filter(item => item.type === currentTypeFilter)
+            .map(item => item.index);
+
+        for (let i = productRandomOrder.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [productRandomOrder[i], productRandomOrder[j]] = [productRandomOrder[j], productRandomOrder[i]];
+        }
     }
 
     const total = productRandomOrder.length;
