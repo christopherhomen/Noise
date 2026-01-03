@@ -793,15 +793,23 @@ function initFilters() {
             currentTypeFilter = btn.dataset.type;
             currentCategoryFilter = 'all'; // Reset subfilter when changing type
 
-            // Mostrar subfiltros siempre
+            console.log(`🔘 Filtro cambiado a: ${currentTypeFilter}`);
+
+            // Mostrar/Ocultar subfiltros y resetear su estado
             const subFiltersContainer = document.getElementById('subFiltersContainer');
-            if (subFiltersContainer) {
+            const subButtons = document.querySelectorAll('.sub-filters .filter-btn');
+
+            // Siempre quitar active de todos los subfiltros al cambiar de tipo principal
+            subButtons.forEach(b => b.classList.remove('active'));
+
+            // Activar "Todas" si existe
+            const allBtn = document.querySelector('.sub-filters .filter-btn[data-filter="all"]');
+            if (allBtn) allBtn.classList.add('active');
+
+            if (currentTypeFilter === 'camisetas') {
                 subFiltersContainer.classList.add('visible');
-                // Resetear UI de subfiltros
-                const subButtons = document.querySelectorAll('.sub-filters .filter-btn');
-                subButtons.forEach(b => b.classList.remove('active'));
-                const allBtn = document.querySelector('.sub-filters .filter-btn[data-filter="all"]');
-                if (allBtn) allBtn.classList.add('active');
+            } else {
+                subFiltersContainer.classList.remove('visible');
             }
 
             applyFilters(true); // Pasar true para reiniciar el orden aleatorio al cambiar de tipo
@@ -830,10 +838,12 @@ function initFilters() {
         });
     });
 
-    // Inicializar estado: mostrar subfiltros siempre
+    // Inicializar estado: mostrar subfiltros si estamos en camisetas
     const subFiltersContainer = document.getElementById('subFiltersContainer');
-    if (subFiltersContainer) {
+    if (currentTypeFilter === 'camisetas' && subFiltersContainer) {
         subFiltersContainer.classList.add('visible');
+    } else if (subFiltersContainer) {
+        subFiltersContainer.classList.remove('visible');
     }
 }
 
