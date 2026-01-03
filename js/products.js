@@ -161,7 +161,7 @@ const PRODUCT_PATHS = [
     'assets/img/Gorras/Dagger.JPG',
     'assets/img/Gorras/New York Yankees.JPG',
     'assets/img/Gorras/U.S.A.JPG',
-    'assets/img/Gorras/beaar.JPG',
+    'assets/img/Gorras/bear.JPG',
     'assets/img/Gorras/challenge.JPG',
     'assets/img/Gorras/colors.JPG',
     'assets/img/Gorras/creative.JPG',
