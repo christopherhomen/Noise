@@ -70,8 +70,7 @@ if (favorites.length > 0 && typeof favorites[0] === 'number') {
 }
 
 const MAX_RANDOM_CAMISETAS = 15;
-let camisetasRandomOrder = [];
-let camisetasDisplayLimit = MAX_RANDOM_CAMISETAS;
+// productRandomOrder y productDisplayLimit se definen más abajo antes de generateRandomProductOrder
 const CATEGORY_NOTICES = {
     pets: 'Categoría especial: personaliza tu camiseta con la foto de tu peludito y rinde homenaje con estilo.'
 };
@@ -646,23 +645,28 @@ window.buyFavorites = buyFavorites;
 // ============================================
 // SISTEMA DE FILTROS
 // ============================================
-function generateRandomCamisetasOrder(forceReset = true) {
+// Variables globales para el orden aleatorio y paginación
+let productRandomOrder = [];
+let productDisplayLimit = MAX_RANDOM_CAMISETAS; // Se mantiene la constante como valor inicial
+
+function generateRandomProductOrder(forceReset = true) {
     const productList = getProducts();
-    camisetasRandomOrder = productList
+    productRandomOrder = productList
         .map((product, index) => ({ index, type: product.type }))
-        .filter(item => item.type === 'camisetas')
+        .filter(item => item.type === currentTypeFilter) // Filtrar por el tipo actual
         .map(item => item.index);
 
-    for (let i = camisetasRandomOrder.length - 1; i > 0; i--) {
+    // Shuffle (Fisher-Yates)
+    for (let i = productRandomOrder.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [camisetasRandomOrder[i], camisetasRandomOrder[j]] = [camisetasRandomOrder[j], camisetasRandomOrder[i]];
+        [productRandomOrder[i], productRandomOrder[j]] = [productRandomOrder[j], productRandomOrder[i]];
     }
 
-    const total = camisetasRandomOrder.length;
+    const total = productRandomOrder.length;
     if (forceReset) {
-        camisetasDisplayLimit = Math.min(MAX_RANDOM_CAMISETAS, total);
+        productDisplayLimit = Math.min(MAX_RANDOM_CAMISETAS, total);
     } else {
-        camisetasDisplayLimit = Math.min(camisetasDisplayLimit, total);
+        productDisplayLimit = Math.min(productDisplayLimit, total);
     }
 }
 
@@ -671,7 +675,7 @@ function initLoadMoreButton() {
     if (!loadMoreBtn) return;
 
     loadMoreBtn.addEventListener('click', () => {
-        camisetasDisplayLimit = camisetasRandomOrder.length;
+        productDisplayLimit = productRandomOrder.length; // Mostrar todos
         applyFilters();
     });
 }
@@ -680,9 +684,9 @@ function updateLoadMoreButtonState() {
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     if (!loadMoreBtn) return;
 
-    const shouldShow = currentTypeFilter === 'camisetas'
-        && currentCategoryFilter === 'all'
-        && camisetasRandomOrder.length > camisetasDisplayLimit;
+    // Mostrar botón si estamos viendo "todas" las categorías del tipo actual y hay más productos por mostrar
+    const shouldShow = currentCategoryFilter === 'all'
+        && productRandomOrder.length > productDisplayLimit;
 
     if (shouldShow) {
         loadMoreBtn.style.display = 'inline-flex';
@@ -748,7 +752,7 @@ function initFilters() {
                 subFiltersContainer.classList.remove('visible');
             }
 
-            applyFilters();
+            applyFilters(true); // Pasar true para reiniciar el orden aleatorio al cambiar de tipo
         });
     });
 
@@ -784,28 +788,32 @@ function initFilters() {
 // Hacer función global para que products.js pueda usarla
 window.initFilters = initFilters;
 
-function applyFilters() {
+function applyFilters(resetRandom = false) {
     const cards = document.querySelectorAll('.tshirt-card');
     const grid = document.getElementById('productGrid');
-    const isAllCamisetas = currentTypeFilter === 'camisetas' && currentCategoryFilter === 'all';
+
+    // Si estamos en "Todas" dentro de cualquier tipo, usamos lógica aleatoria
+    const isAllCategories = currentCategoryFilter === 'all';
     const allowedRandomIndexes = new Set();
 
-    if (isAllCamisetas) {
-        if (camisetasRandomOrder.length === 0) {
-            generateRandomCamisetasOrder();
+    if (isAllCategories) {
+        // Si se solicita reiniciar o si la lista está vacía (primera carga)
+        if (resetRandom || productRandomOrder.length === 0) {
+            generateRandomProductOrder(true);
         } else {
-            camisetasDisplayLimit = Math.min(camisetasDisplayLimit, camisetasRandomOrder.length);
+            // Asegurarse de que el límite no exceda el total actual
+            productDisplayLimit = Math.min(productDisplayLimit, productRandomOrder.length);
         }
 
-        camisetasRandomOrder.forEach((productIndex, orderPosition) => {
+        productRandomOrder.forEach((productIndex, orderPosition) => {
             const card = grid?.querySelector(`.tshirt-card[data-index="${productIndex}"]`);
             if (card) {
                 card.style.order = orderPosition;
             }
         });
 
-        camisetasRandomOrder
-            .slice(0, Math.min(camisetasDisplayLimit, camisetasRandomOrder.length))
+        productRandomOrder
+            .slice(0, Math.min(productDisplayLimit, productRandomOrder.length))
             .forEach(idx => allowedRandomIndexes.add(String(idx)));
     }
 
@@ -814,10 +822,14 @@ function applyFilters() {
     cards.forEach(card => {
         const typeMatch = card.dataset.type === currentTypeFilter;
         const categoryMatch = currentCategoryFilter === 'all' || card.dataset.category === currentCategoryFilter;
-        let shouldDisplay = typeMatch && (currentTypeFilter !== 'camisetas' || categoryMatch);
+        let shouldDisplay = typeMatch;
 
-        if (isAllCamisetas) {
+        if (isAllCategories) {
+            // Mostrar solo si coincide el tipo Y está dentro del límite aleatorio permitido
             shouldDisplay = typeMatch && allowedRandomIndexes.has(card.dataset.index);
+        } else {
+            // Si hay filtro de categoría específico, mostrar si coincide tipo y categoría
+            shouldDisplay = typeMatch && categoryMatch;
         }
 
         if (shouldDisplay) {
