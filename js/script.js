@@ -1822,6 +1822,7 @@ function init() {
         initMobileMenu();
 
         // Inicializar nuevas funcionalidades
+        if (window.updateFilters) window.updateFilters();
         initFilters();
         initLoadMoreButton();
         initSearch();
