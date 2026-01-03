@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noise | Bio</title>
+    <meta name="description" content="Enlaces oficiales de Noise. Ropa urbana con actitud.">
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="logo_white.PNG" as="image" fetchpriority="high">
+
+    <!-- Fonts (Optimized) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Variables */
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent-glow: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            /* Premium Breathing Background */
+            background-image:
+                radial-gradient(circle at 50% 0%, #1a1a1a 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+            background-size: 120% 120%;
+            animation: bgBreath 15s ease-in-out infinite alternate;
+            overflow-x: hidden;
+            will-change: background-position;
+        }
+
+        @keyframes bgBreath {
+            0% {
+                background-position: 50% 0%;
+            }
+
+            100% {
+                background-position: 50% 20%;
+            }
+        }
+
+        /* Background Noise Texture */
+        .bg-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            will-change: transform;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+            will-change: transform, opacity;
+        }
+
+        .profile-img-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+            animation: float 6s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .profile-glow {
+            position: absolute;
+            inset: -15px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse 3s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        /* Premium Typography */
+        p.tagline {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-top: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Links */
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            width: 100%;
+        }
+
+        .link-item {
+            display: block;
+            /* Premium Glass Gradient */
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            /* Advanced Border Lighting */
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+
+            padding: 1.2rem 1.5rem;
+            border-radius: 18px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            animation: slideUp 0.6s ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        /* Shine Effect Animation */
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+
+        .link-item:hover::before {
+            left: 100%;
+        }
+
+        /* Staggered Animation Delays */
+        .link-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .link-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .link-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .link-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .link-item:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: var(--brand-color, rgba(255, 255, 255, 0.3));
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 20px var(--brand-color-glow, rgba(255, 255, 255, 0.05));
+        }
+
+        .link-item:active {
+            transform: scale(0.98);
+        }
+
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.3s ease, filter 0.3s ease;
+        }
+
+        .link-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        .link-item:hover .link-icon {
+            color: var(--brand-color);
+            filter: drop-shadow(0 0 8px var(--brand-color));
+        }
+
+        .link-text {
+            flex-grow: 1;
+            font-weight: 500;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .link-arrow {
+            opacity: 0.2;
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .link-arrow svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        .link-item:hover .link-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+            color: var(--brand-color);
+        }
+
+        /* Brand Colors & Neon Effects */
+        .link-website {
+            --brand-color: #ffffff;
+            --brand-color-glow: rgba(255, 255, 255, 0.1);
+        }
+
+        .link-whatsapp {
+            --brand-color: #25D366;
+            --brand-color-glow: rgba(37, 211, 102, 0.15);
+        }
+
+        .link-instagram {
+            --brand-color: #E1306C;
+            --brand-color-glow: rgba(225, 48, 108, 0.15);
+        }
+
+        .link-tiktok {
+            --brand-color: #00f2ea;
+            --brand-color-glow: rgba(0, 242, 234, 0.15);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            opacity: 0.4;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: fadeIn 1s ease-out 0.8s backwards;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.08);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-noise"></div>
+
+    <div class="container">
+        <header class="profile-header">
+            <div class="profile-img-container">
+                <div class="profile-glow"></div>
+                <!-- Added width/height for CLS optimization and fetchpriority -->
+                <img src="logo_white.PNG" alt="Noise Logo" class="profile-img" width="120" height="120"
+                    fetchpriority="high">
+            </div>
+
+            <p class="tagline">Ropa urbana con actitud. Sin etiquetas.</p>
+        </header>
+
+        <div class="links-list">
+            <a href="https://noise-six.vercel.app/" class="link-item link-website" target="_blank" rel="noopener">
+                <div class="link-icon">
+                    <!-- Globe Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path
+                            d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64h185.4c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6c30-74.1 93.6-130.9 172-151.6c-25.5 34.2-45.2 87.7-55.3 151.6zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6h178.6c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z" />
+                    </svg>
+                </div>
+                <span class="link-text">Sitio Web Oficial</span>
+                <div class="link-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path
+                            d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                    </svg>
+                </div>
+            </a>
+
+            <a href="https://wa.me/573224039667" class="link-item link-whatsapp" target="_blank" rel="noopener">
+                <div class="link-icon">
+                    <!-- WhatsApp Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path
+                            d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                    </svg>
+                </div>
+                <span class="link-text">WhatsApp</span>
+                <div class="link-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path
+                            d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                    </svg>
+                </div>
+            </a>
+
+            <a href="https://instagram.com/noiseclcl" class="link-item link-instagram" target="_blank" rel="noopener">
+                <div class="link-icon">
+                    <!-- Instagram Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path
+                            d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                    </svg>
+                </div>
+                <span class="link-text">Instagram</span>
+                <div class="link-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path
+                            d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                    </svg>
+                </div>
+            </a>
+
+            <a href="https://tiktok.com/@noiseclcl" class="link-item link-tiktok" target="_blank" rel="noopener">
+                <div class="link-icon">
+                    <!-- TikTok Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path
+                            d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z" />
+                    </svg>
+                </div>
+                <span class="link-text">TikTok</span>
+                <div class="link-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path
+                            d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                    </svg>
+                </div>
+            </a>
+        </div>
+
+        <footer class="footer">
+            <p>© 2025 Noise. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>

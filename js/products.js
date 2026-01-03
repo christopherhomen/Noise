@@ -36,6 +36,16 @@ const PRODUCT_PATHS = [
     'assets/img/Camisetas/Diciembre/peces en el rio.JPG',
     'assets/img/Camisetas/Diciembre/yo afan no tengo Vecna sufre.JPG',
 
+    // CAMISETAS - Essentials
+    'assets/img/Camisetas/Essentials/Essential Azul.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Blanca.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Café.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Gris.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Marfil.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Negro.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Verde Hoja.JPEG',
+    'assets/img/Camisetas/Essentials/Essential Verde Seco.JPEG',
+
     // CAMISETAS - Empoderamiento
     'assets/img/Camisetas/Empoderamiento/future inclusive.JPG',
     'assets/img/Camisetas/Empoderamiento/more pride.JPG',
@@ -344,6 +354,7 @@ function extractCategory(path) {
         'Universos': 'universos',
         'Anime': 'anime',
         'Empoderamiento': 'empoderamiento',
+        'Essentials': 'essentials',
         'Gym': 'gym',
         'Heroínas': 'heroinas',
         'Heroinas': 'heroinas',
@@ -523,6 +534,7 @@ function generateDescription(filename, path, title) {
         'tote-bags': 'Lleva tu estilo contigo. El diseño en cada viaje.',
         'hoodies': '240 gramos, antipiling.',
         'gym': 'Modo bestia activado. La motivación que necesitas para entrenar.',
+        'essentials': 'Prendas básicas y versátiles premium. El fondo de armario perfecto con la calidad Noise.',
         'diciembre': 'La mejor época del año. Parranda, natilla y buñuelos.'
     };
 
@@ -638,6 +650,7 @@ function getCategoryDisplayName(category) {
         'music': 'Music',
         'urban': 'Urban',
         'gym': 'Gym 💪',
+        'essentials': 'Essentials ✨',
         'roblox': 'Roblox',
         'gorras': 'Gorras',
         'noise': 'Noise',
