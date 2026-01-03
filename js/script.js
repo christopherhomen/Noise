@@ -1095,6 +1095,13 @@ function openQuickView(index) {
     const description = product.description;
     const imagePath = product.image;
     const category = product.category;
+    const productType = product.type || 'camisetas';
+
+    // Obtener nombre bonito para mostrar
+    let categoryDisplayName = category;
+    if (window.getCategoryDisplayName) {
+        categoryDisplayName = window.getCategoryDisplayName(category);
+    }
 
     // Determinar si es un producto que no requiere tallas (como tote bags y gorras)
     const noSizes = category === 'tote-bags' || category === 'gorras';
@@ -1226,7 +1233,7 @@ function openQuickView(index) {
         </div>
         <div class="modal-info">
             <h2>${title}</h2>
-            <p class="modal-category" onclick="filterByCategory('${category}')" title="Ver todos los productos de ${category}">${category}</p>
+            <p class="modal-category" onclick="filterByCategory('${category}', '${productType}')" title="Ver todos los productos de ${category}">${categoryDisplayName}</p>
             <p class="modal-desc">${description}</p>
             
             ${sizesHTML}
@@ -1456,7 +1463,7 @@ function buyFromModal(title) {
 window.addToCartFromModal = addToCartFromModal;
 window.buyFromModal = buyFromModal;
 
-function filterByCategory(category) {
+function filterByCategory(category, type = null) {
     closeQuickView();
 
     // Scroll to filters
@@ -1473,15 +1480,19 @@ function filterByCategory(category) {
     }
 
     // Determine type
-    let targetType = 'camisetas';
-    if (category === 'gorras') targetType = 'gorras';
-    else if (category === 'tote-bags') targetType = 'tote-bags';
-    else if (category === 'hoodies') targetType = 'hoodies';
+    // Use passed type if available, otherwise heuristic fallback
+    let targetType = type;
+    if (!targetType) {
+        targetType = 'camisetas';
+        if (category === 'gorras') targetType = 'gorras';
+        else if (category === 'tote-bags') targetType = 'tote-bags';
+        else if (category === 'hoodies') targetType = 'hoodies';
+    }
 
     // Click Main Filter (Type)
     const mainBtns = document.querySelectorAll('.main-filter-btn');
     mainBtns.forEach(btn => {
-        if (btn.dataset.filter === targetType) {
+        if (btn.dataset.type === targetType) {
             btn.click();
         }
     });
