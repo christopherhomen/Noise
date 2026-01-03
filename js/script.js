@@ -227,6 +227,47 @@ function createTshirtCard(imagePath, index, title, category, badge, type, priceS
     const overlayContent = document.createElement('div');
     overlayContent.className = 'tshirt-info';
 
+    // Etiqueta de categoría clickeable
+    if (productCategory) {
+        const categoryTag = document.createElement('span');
+        categoryTag.className = `tshirt-category-tag ${productType === 'camisetas' ? 'type-camisetas' : 'type-other'}`;
+
+        // Obtener nombre bonito para la categoría
+        let displayName = productCategory;
+        if (window.getCategoryDisplayName) {
+            displayName = window.getCategoryDisplayName(productCategory);
+        } else {
+            displayName = productCategory.charAt(0).toUpperCase() + productCategory.slice(1);
+        }
+
+        if (productType === 'gorras') displayName = 'GORRAS';
+        if (productType === 'hoodies') displayName = 'HOODIES';
+        if (productType === 'tote-bags') displayName = 'TOTE BAGS';
+
+        categoryTag.textContent = displayName;
+
+        categoryTag.onclick = (e) => {
+            e.stopPropagation(); // Evitar abrir el modal
+
+            // Lógica de navegación al hacer click en la etiqueta
+            if (productType === 'camisetas') {
+                // Si es camiseta, ir a Camisetas -> Categoría específica
+                const mainBtn = document.querySelector(`.main-filter-btn[data-type="camisetas"]`);
+                if (mainBtn) mainBtn.click();
+
+                setTimeout(() => {
+                    const subBtn = document.querySelector(`.sub-filters .filter-btn[data-filter="${productCategory}"]`);
+                    if (subBtn) subBtn.click();
+                }, 50);
+            } else {
+                // Si es otro tipo, ir al tipo principal
+                const mainBtn = document.querySelector(`.main-filter-btn[data-type="${productType}"]`);
+                if (mainBtn) mainBtn.click();
+            }
+        };
+        overlayContent.appendChild(categoryTag);
+    }
+
     const titleEl = document.createElement('h3');
     titleEl.className = 'tshirt-title';
     titleEl.textContent = productTitle;
