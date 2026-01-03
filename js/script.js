@@ -793,17 +793,15 @@ function initFilters() {
             currentTypeFilter = btn.dataset.type;
             currentCategoryFilter = 'all'; // Reset subfilter when changing type
 
-            // Mostrar/Ocultar subfiltros
+            // Mostrar subfiltros siempre
             const subFiltersContainer = document.getElementById('subFiltersContainer');
-            if (currentTypeFilter === 'camisetas') {
+            if (subFiltersContainer) {
                 subFiltersContainer.classList.add('visible');
                 // Resetear UI de subfiltros
                 const subButtons = document.querySelectorAll('.sub-filters .filter-btn');
                 subButtons.forEach(b => b.classList.remove('active'));
                 const allBtn = document.querySelector('.sub-filters .filter-btn[data-filter="all"]');
                 if (allBtn) allBtn.classList.add('active');
-            } else {
-                subFiltersContainer.classList.remove('visible');
             }
 
             applyFilters(true); // Pasar true para reiniciar el orden aleatorio al cambiar de tipo
@@ -832,12 +830,10 @@ function initFilters() {
         });
     });
 
-    // Inicializar estado: mostrar subfiltros si estamos en camisetas
+    // Inicializar estado: mostrar subfiltros siempre
     const subFiltersContainer = document.getElementById('subFiltersContainer');
-    if (currentTypeFilter === 'camisetas' && subFiltersContainer) {
+    if (subFiltersContainer) {
         subFiltersContainer.classList.add('visible');
-    } else if (subFiltersContainer) {
-        subFiltersContainer.classList.remove('visible');
     }
 }
 

@@ -369,6 +369,48 @@ const KEYWORDS = {
     'umbreon': { title: 'Umbreon Night', desc: 'Brilla bajo la luz de la luna. Misterio y elegancia oscura.' }
 };
 
+// Mapeo de palabras clave a categorías para productos que no están en carpetas específicas
+const KEYWORD_TO_CATEGORY = {
+    // Universos
+    'stranger': 'universos', 'vecna': 'universos', 'once': 'universos', 'chicos': 'universos',
+    'house': 'universos', 'dragons': 'universos', 'thrones': 'universos', 'team': 'universos',
+
+    // Anime & Manga
+    'goku': 'anime-manga', 'sailor': 'anime-manga', 'sakura': 'anime-manga', 'digimon': 'anime-manga',
+    'pokemon': 'anime-manga', 'naruto': 'anime-manga', 'one piece': 'anime-manga', 'luffy': 'anime-manga',
+    'seiya': 'anime-manga', 'roblox': 'anime-manga', 'patamon': 'anime-manga', 'gengar': 'anime-manga',
+    'majin': 'anime-manga', 'appa': 'anime-manga', 'charizard': 'anime-manga', 'cubone': 'anime-manga',
+    'eevee': 'anime-manga', 'piplup': 'anime-manga', 'umbreon': 'anime-manga', 'angelica': 'anime-manga',
+    'rugrats': 'anime-manga', 'cartoons': 'anime-manga', 'bulbasaur': 'anime-manga',
+
+    // Music
+    'acdc': 'music', 'shakira': 'music', 'karol': 'music', 'bad bunny': 'music', 'beele': 'music',
+    'selena': 'music', 'britney': 'music', 'bts': 'music', 'blackpink': 'music', 'feid': 'music',
+    'mago': 'music', 'billie': 'music',
+
+    // Memes
+    'calamardo': 'memes', 'homero': 'memes', 'perrito': 'memes', 'chatgpt': 'memes',
+    'cabello': 'memes', 'adulto': 'memes', 'monstruo': 'memes', 'chocorramo': 'memes',
+    'empanada': 'memes', 'dormi': 'memes', 'parchese': 'memes', 'ojo': 'memes',
+
+    // Heroinas & Historical
+    'pola': 'heroinas', 'marie': 'heroinas', 'frida': 'heroinas', 'cleopatra': 'heroinas',
+    'marilyn': 'heroinas', 'latina': 'heroinas',
+
+    // Pets
+    'andy': 'pets', 'kyra': 'pets', 'odin': 'pets', 'poncho': 'pets', 'patacon': 'pets',
+    'luna': 'pets', 'vincet': 'pets', 'paw': 'pets', 'gatito': 'pets',
+
+    // Gym
+    'gym': 'gym', 'train': 'gym', 'fit': 'gym', 'strong': 'gym', 'wolves': 'gym',
+    'antio': 'gym', 'courage': 'gym', 'spiderman': 'gym', 'workouts': 'gym', 'reborn': 'gym',
+
+    // Urban & Gorras specific
+    'tokyo': 'urban', '77h': 'urban', 'dagger': 'urban', 'yankees': 'urban', 'usa': 'urban',
+    'colors': 'urban', 'creative': 'urban', 'ironwilled': 'urban', 'noted': 'urban',
+    'te espero': 'urban', 'challenge': 'urban', 'bear': 'urban', 'elijo': 'urban', 'existencial': 'urban'
+};
+
 const DESCRIPTIONS = {
     'premium': 'Edición premium. El diseño exclusivo que define tu estilo.',
     'version': 'Nueva versión. La evolución del diseño.',
@@ -418,7 +460,26 @@ function extractCategory(path) {
         'House Of Dragons': 'universos' // Subcarpeta dentro de Universos
     };
 
-    // Si la carpeta está en el mapa, usar ese valor
+    // Si la carpeta está en el mapa y NO es una de las genéricas que queremos recategorizar, usar ese valor
+    // Las carpetas genéricas son Gorras, Buzos, Tote bags que queremos filtrar por tema
+    const genericFolders = ['Gorras', 'Buzos - Hoodies', 'Tote bags'];
+
+    if (categoryMap[categoryFolder] && !genericFolders.includes(categoryFolder)) {
+        return categoryMap[categoryFolder];
+    }
+
+    // Intentar deducir la categoría basada en el nombre del archivo y palabras clave
+    // Esto permite que gorras, buzos y tote bags tengan categorías temáticas como 'anime', 'music', etc.
+    const filenameLower = path.split('/').pop().toLowerCase();
+
+    // Buscar coincidencia en el mapa de palabras clave
+    for (const [keyword, category] of Object.entries(KEYWORD_TO_CATEGORY)) {
+        if (filenameLower.includes(keyword)) {
+            return category;
+        }
+    }
+
+    // Si aún no tenemos categoría y la carpeta estaba en el mapa (es genérica), retornamos esa
     if (categoryMap[categoryFolder]) {
         return categoryMap[categoryFolder];
     }
@@ -733,10 +794,14 @@ function updateFilters() {
     // Limpiar filtros existentes
     subFiltersContainer.innerHTML = '';
 
-    // Obtener categorías únicas de camisetas (excluyendo noise y tote-bags)
-    const tshirtCategories = [...new Set(
+    // Obtener categorías únicas de TODOS los productos (excluyendo noise)
+    // Esto permite mostrar filtros de anime, musica, etc. aunque sean gorras o buzos
+    const allCategories = [...new Set(
         products
-            .filter(p => p.type === 'camisetas' && p.category !== 'noise')
+            .filter(p => p.category !== 'noise' &&
+                p.category !== 'gorras' && // Excluir categorías que son iguales al tipo (si quedan algunas)
+                p.category !== 'hoodies' &&
+                p.category !== 'tote-bags')
             .map(p => p.category)
     )].sort();
 
@@ -748,7 +813,7 @@ function updateFilters() {
     subFiltersContainer.appendChild(allButton);
 
     // Botones de categorías
-    tshirtCategories.forEach(category => {
+    allCategories.forEach(category => {
         const button = document.createElement('button');
         button.className = 'filter-btn';
         button.setAttribute('data-filter', category);
