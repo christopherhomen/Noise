@@ -77,7 +77,7 @@ const CATEGORY_NOTICES = {
 // ============================================
 // ESTADO GLOBAL
 // ============================================
-let currentTypeFilter = 'camisetas';
+let currentTypeFilter = 'all';
 let currentCategoryFilter = 'all';
 let productRandomOrder = [];
 const MAX_RANDOM_CAMISETAS = 15;
@@ -661,7 +661,7 @@ function generateRandomProductOrder(forceReset = true) {
     const productList = getProducts();
     productRandomOrder = productList
         .map((product, index) => ({ index, type: product.type }))
-        .filter(item => item.type === currentTypeFilter) // Filtrar por el tipo actual
+        .filter(item => currentTypeFilter === 'all' || item.type === currentTypeFilter) // Filtrar por el tipo actual o incluir todo
         .map(item => item.index);
 
     // Shuffle (Fisher-Yates)
@@ -693,7 +693,8 @@ function updateLoadMoreButtonState() {
     if (!loadMoreBtn) return;
 
     // Mostrar botón si estamos viendo "todas" las categorías del tipo actual y hay más productos por mostrar
-    const shouldShow = currentCategoryFilter === 'all'
+    // O si estamos viendo "Todo" (mezclado)
+    const shouldShow = (currentCategoryFilter === 'all' || currentTypeFilter === 'all')
         && productRandomOrder.length > productDisplayLimit;
 
     if (shouldShow) {
@@ -791,6 +792,8 @@ function initFilters() {
     const subFiltersContainer = document.getElementById('subFiltersContainer');
     if (currentTypeFilter === 'camisetas' && subFiltersContainer) {
         subFiltersContainer.classList.add('visible');
+    } else if (subFiltersContainer) {
+        subFiltersContainer.classList.remove('visible');
     }
 }
 
@@ -801,11 +804,13 @@ function applyFilters(resetRandom = false) {
     const cards = document.querySelectorAll('.tshirt-card');
     const grid = document.getElementById('productGrid');
 
-    // Si estamos en "Todas" dentro de cualquier tipo, usamos lógica aleatoria
+    // Si estamos en "Todas" dentro de cualquier tipo, O en "Todo" (mix global), usamos lógica aleatoria
     const isAllCategories = currentCategoryFilter === 'all';
+    const isGlobalMix = currentTypeFilter === 'all';
+    const useRandomLogic = isAllCategories || isGlobalMix;
     const allowedRandomIndexes = new Set();
 
-    if (isAllCategories) {
+    if (useRandomLogic) {
         // Si se solicita reiniciar o si la lista está vacía (primera carga)
         if (resetRandom || productRandomOrder.length === 0) {
             generateRandomProductOrder(true);
@@ -828,7 +833,7 @@ function applyFilters(resetRandom = false) {
         // Fallback: si por alguna razón la lista aleatoria está vacía y hay productos, mostrar los primeros
         if (allowedRandomIndexes.size === 0 && productRandomOrder.length === 0) {
             console.warn('⚠️ Lista aleatoria vacía, aplicando fallback...');
-            const allCards = Array.from(cards).filter(c => c.dataset.type === currentTypeFilter);
+            const allCards = Array.from(cards).filter(c => currentTypeFilter === 'all' || c.dataset.type === currentTypeFilter);
             allCards.slice(0, Math.min(MAX_RANDOM_CAMISETAS, allCards.length))
                 .forEach(c => allowedRandomIndexes.add(c.dataset.index));
         }
@@ -837,11 +842,11 @@ function applyFilters(resetRandom = false) {
     let visibleCount = 0;
 
     cards.forEach(card => {
-        const typeMatch = card.dataset.type === currentTypeFilter;
+        const typeMatch = currentTypeFilter === 'all' || card.dataset.type === currentTypeFilter;
         const categoryMatch = currentCategoryFilter === 'all' || card.dataset.category === currentCategoryFilter;
         let shouldDisplay = typeMatch;
 
-        if (isAllCategories) {
+        if (useRandomLogic) {
             // Mostrar solo si coincide el tipo Y está dentro del límite aleatorio permitido
             shouldDisplay = typeMatch && allowedRandomIndexes.has(card.dataset.index);
         } else {
