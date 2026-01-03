@@ -105,7 +105,7 @@ function loadTshirts() {
     console.log(`📦 Cargando ${currentImages.length} productos...`);
 
     try {
-        generateRandomCamisetasOrder();
+        generateRandomProductOrder();
         let cardsCreated = 0;
         currentImages.forEach((imagePath, index) => {
             try {
