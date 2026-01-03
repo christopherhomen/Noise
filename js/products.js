@@ -157,6 +157,18 @@ const PRODUCT_PATHS = [
     'assets/img/Gorras/elijo violencia.JPG',
     'assets/img/Gorras/existencial crisis.JPG',
     'assets/img/Gorras/sailor moon.JPG',
+    'assets/img/Gorras/77h form.JPG',
+    'assets/img/Gorras/Dagger.JPG',
+    'assets/img/Gorras/New York Yankees.JPG',
+    'assets/img/Gorras/U.S.A.JPG',
+    'assets/img/Gorras/beaar.JPG',
+    'assets/img/Gorras/challenge.JPG',
+    'assets/img/Gorras/colors.JPG',
+    'assets/img/Gorras/creative.JPG',
+    'assets/img/Gorras/ironwilled.JPG',
+    'assets/img/Gorras/noted.JPG',
+    'assets/img/Gorras/te espero.JPG',
+    'assets/img/Gorras/wolves gym.JPG',
 
     // NOISE (oculto)
     'assets/img/Noise/Noise_1.jpg',
@@ -325,7 +337,21 @@ const KEYWORDS = {
     'patacon': { title: 'Patacón Dog', desc: 'El perrito con nombre de snack que todos aman.' },
     'luna': { title: 'Luna - Luz Peluda', desc: 'Reflejos plateados y ojitos que hipnotizan.' },
     'vincet': { title: 'Vincent Dog - Arte Canino', desc: 'Bigotes nobles inspirados en Van Gogh.' },
-    'paw': { title: 'Dogs Paw - Huella Eterna', desc: 'Un imprint que simboliza fidelidad infinita.' }
+    'paw': { title: 'Dogs Paw - Huella Eterna', desc: 'Un imprint que simboliza fidelidad infinita.' },
+
+    // Gorras nuevas
+    '77h': { title: '77th Form', desc: 'Estilo urbano con detalles precisos. La forma del estilo.' },
+    'dagger': { title: 'Dagger', desc: 'Afilado y directo. Un diseño que corta el aire.' },
+    'yankees': { title: 'New York Yankees Classic', desc: 'El clásico de Nueva York. Insuperable.' },
+    'usa': { title: 'U.S.A. Style', desc: 'Vibra americana vintage.' },
+    'beaar': { title: 'Bear Vibes', desc: 'Espíritu salvaje y cozy a la vez.' },
+    'challenge': { title: 'Challenge Accepted', desc: 'Para los que no temen a los retos.' },
+    'colors': { title: 'Colors Spectrum', desc: 'Un toque de color para resaltar tu outfit.' },
+    'creative': { title: 'Creative Mind', desc: 'Para las mentes que nunca paran de crear.' },
+    'ironwilled': { title: 'Iron Willed', desc: 'Voluntad de hierro. Nada te detiene.' },
+    'noted': { title: 'Noted', desc: 'Tomado en cuenta. Mensaje recibido.' },
+    'te espero': { title: 'Te Espero', desc: 'El mensaje sutil que deja huella.' },
+    'wolves': { title: 'Wolves Gym', desc: 'Lidera la manada. Entrena fuerte.' }
 };
 
 const DESCRIPTIONS = {
@@ -577,15 +603,25 @@ function determineBadge(filename, path, index) {
  * Determina el precio del producto
  */
 function determinePrice(filename, type) {
-    if (type !== 'hoodies') return null;
+    if (type !== 'hoodies' && type !== 'gorras') return null;
 
     const normalized = filename.toLowerCase();
-    if (normalized.includes('sin capota')) {
-        return '$70.000';
+
+    // Precios Hoodies
+    if (type === 'hoodies') {
+        if (normalized.includes('sin capota')) {
+            return '$70.000';
+        }
+        if (normalized.includes('con capota')) {
+            return '$80.000';
+        }
     }
-    if (normalized.includes('con capota')) {
-        return '$80.000';
+
+    // Precios Gorras
+    if (type === 'gorras') {
+        return '$35.000';
     }
+
     return null;
 }
 
@@ -612,12 +648,10 @@ function generateProducts() {
             description: description,
             category: category,
             type: type,
-            category: category,
-            type: type,
             badge: badge,
             price: price
         };
-    }).filter(product => product.category !== 'noise'); // Filtrar productos de categoría "noise"
+    }).filter(product => product.category !== 'noise' && product.category !== 'diciembre'); // Filtrar productos de categoría "noise" y "diciembre"
 }
 
 // ============================================
