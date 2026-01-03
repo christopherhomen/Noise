@@ -946,7 +946,20 @@ function applyFilters(resetRandom = false) {
         }
 
         if (shouldDisplay) {
-            card.style.display = '';
+            // Cancelar timeout de ocultamiento previo si existe
+            if (card.hideTimeout) {
+                clearTimeout(card.hideTimeout);
+                card.hideTimeout = null;
+            }
+
+            // Si estaba oculto (display: none), quitarlo inmediatamente
+            if (card.style.display === 'none') {
+                card.style.display = '';
+            }
+
+            // Forzar reflow para asegurar que la transición ocurra
+            void card.offsetWidth;
+
             setTimeout(() => {
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0)';
@@ -955,8 +968,13 @@ function applyFilters(resetRandom = false) {
         } else {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
+
+            // Guardar timeout para poder cancelarlo si se reactiva rápido
+            if (card.hideTimeout) clearTimeout(card.hideTimeout);
+
+            card.hideTimeout = setTimeout(() => {
                 card.style.display = 'none';
+                card.hideTimeout = null;
             }, 300);
         }
     });
